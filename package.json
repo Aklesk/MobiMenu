@@ -1,0 +1,38 @@
+{
+  "name": "mobimenu",
+  "version": "1.0.0",
+  "description": "An attempt at re-writing the Mobi2Go admin interface menu generator with react and a slightly more modern tech stack.",
+  "main": "index.jsx",
+  "scripts": {
+    "start": "NODE_ENV=development ./node_modules/.bin/hjs-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wolf Hatch",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.9.1",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-react-hmre": "^1.1.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "css-loader": "^0.23.1",
+    "es6-promise": "^3.2.1",
+    "file-loader": "^0.9.0",
+    "hjs-webpack": "^8.3.0",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "postcss-loader": "^0.9.1",
+    "react-addons-update": "^15.2.0",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.1"
+  },
+  "dependencies": {
+    "font-awesome": "^4.6.3",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-router": "^2.4.1",
+    "shortid": "^2.2.6"
+  }
+}
