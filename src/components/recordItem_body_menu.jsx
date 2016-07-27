@@ -4,38 +4,30 @@ import ShortID from 'shortid';
 
 // This is a single entry of a product, which will appear under a category header. This is exclusively used
 // by the CategoryGroup element, and has no other purpose.
-class CategoryItem extends React.Component {
-    constructor() {super()}
-    render() {
-        return(
-            <div className="recordProduct">
-                {this.props.product.intName}
-            </div>
-        )
-    }
+const CategoryItem = function(props) {
+    return(
+        <div className="recordProduct">
+            {props.product.intName}
+        </div>
+    )
 }
 
 
 // This is a category, which acts as a header for, and contains, products.
-class CategoryGroup extends React.Component {
-    constructor() {super()}
-    getProductRecords() {
-        return this.props.products.map((prod) => {
-            return <CategoryItem product={this.props.recordDict[prod]} key={ShortID.generate()}/>
-            }
-        )
-    }
-    render() {
-        return(
-            <div className="recordCategoryGroup">
-                <div className="recordCategoryHeader">
-                    {this.props.category.intName}
-                </div>
-                {this.getProductRecords()}
+const CategoryGroup = function(props) {
+    const items = props.products.map(prod =>
+            <CategoryItem product={props.recordDict[prod]} key={ShortID.generate()}/>
+    )
+    return(
+        <div className="recordCategoryGroup">
+            <div className="recordCategoryHeader">
+                {props.category.intName}
             </div>
-        )
-    }
+            {items}
+        </div>
+    )
 }
+
 
 class RecordItemBodyMenu extends React.Component {
     constructor() {super()}
