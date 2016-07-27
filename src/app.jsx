@@ -33,8 +33,12 @@ class App extends React.Component {
         super()
 
         // First pack all records into a master dictionary for fast and easy lookup later. We'll maintain this as we go.
-        let recordDict = {}
-        Object.keys(DataObj).forEach(key => DataObj[key].forEach(rec => recordDict[rec.guid] = rec ))
+        const recordDict = {}
+        for (const key in DataObj) {
+            DataObj[key].forEach(
+                rec => recordDict[rec.guid] = rec
+            )
+        }
 
         this.state = {
             dataObj: DataObj,
