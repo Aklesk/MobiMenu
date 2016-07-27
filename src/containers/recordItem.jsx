@@ -8,13 +8,10 @@ import RecordItem_Body_Category from '../components/recordItem_body_category.jsx
 import RecordItem_Body_Menu from '../components/recordItem_body_menu.jsx'
 import RecordItem_Body_Product from '../components/recordItem_body_product.jsx'
 
-// We're using componentWillUpdate and componentWillMount to get the record data out of the database to try to
-// minimize the number of lookup calls.
-
+// This is a single record entry.
+// Note that modifiers and modifier groups are not implemented as of yet, so there is no need to check for them.
 class RecordItem extends React.Component {
-    constructor(props) {
-        super(props)
-    }
+    constructor(props) {super(props)}
     render() {
         const record = this.context.recordDict[this.props.params.record]
         return (
