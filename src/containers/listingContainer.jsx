@@ -1,10 +1,12 @@
-import React from 'react';
-import '../styles/listingContainer.less';
-import ShortID from 'shortid';
+import React from 'react'
+import '../styles/listingContainer.less'
+import ShortID from 'shortid'
+
+// This is where the list of tabs are stored.
 import { mainTabs } from '../interfaceConstants.js'
 
 // This is a single listing for the menu container
-import MenuListItem from '../components/menuListItem.jsx';
+import MenuListItem from '../components/menuListItem.jsx'
 
 class ListingContainer extends React.Component {
     constructor() {super()}
