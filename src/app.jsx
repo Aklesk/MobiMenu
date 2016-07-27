@@ -24,6 +24,8 @@ import ListingContainer from './containers/listingContainer.jsx'
 // This is the holder for records when being edited.
 import RecordItem from './containers/recordItem.jsx'
 
+document.body.className = "m2g-console"
+
 // This is the main app wrapper that holds everything else.
 class App extends React.Component {
     constructor() {
