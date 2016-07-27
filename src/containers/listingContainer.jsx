@@ -9,11 +9,9 @@ import MenuListItem from '../components/menuListItem.jsx';
 class ListingContainer extends React.Component {
     constructor() {super()}
     render() {
-        const menuRecords = this.context.dataObj[this.props.params.section].length > 0
-            ? this.context.dataObj[this.props.params.section].map((rec, i) => {
-                return <MenuListItem section={this.props.params.section} rec={rec} key={ShortID.generate()} />
-                })
-            : <div>No data. Please add a record.</div>
+        const recs = this.context.dataObj[this.props.params.section].map((rec, i) =>
+            <MenuListItem section={this.props.params.section} rec={rec} key={ShortID.generate()} />
+            )
         return (
             <div id="listingContainer" className="grid_12">
                 <table className="nostyle">
@@ -25,7 +23,13 @@ class ListingContainer extends React.Component {
                                         {mainTabs[this.props.params.section].label}
                                     </h1>
                                     <div className="leftContent">
-                                        {menuRecords}
+                                        {
+                                            recs.length > 0
+                                            ?
+                                                recs
+                                            :
+                                                <div>No data. Please add a record.</div>
+                                        }
                                     </div>
                                 </div>
                             </td>
