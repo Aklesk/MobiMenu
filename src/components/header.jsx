@@ -6,7 +6,6 @@ const logo02 = require('../img/logo_02.svg')
 class Header extends React.Component {
     constructor() {
         super()
-        document.body.className = "m2g-console"
     }
     render() {
         return (
