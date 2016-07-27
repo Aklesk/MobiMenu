@@ -5,19 +5,7 @@ import React from 'react';
 
 class RecordItemHeader extends React.Component {
     constructor() {super()}
-    isEditing() {
-        if (this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "header") {
-            return (
-                <input type="text" defaultValue={this.props.record.intName} />
-            )
-        }
-        else {
-            return (
-                <div className="headerText" onClick={this.onClick.bind(this, this.props.record.guid, "header")}>{this.props.record.intName}</div>
-            )
-        }
-    }
-    onClick = function(rec, elem) {
+    onClick = (rec, elem) => {
         this.context.changeEditState(rec, elem)
     }
     render() {
@@ -29,7 +17,16 @@ class RecordItemHeader extends React.Component {
                         <tr>
                             <td>
                                 <div className="leftPart">
-                                    {this.isEditing()}
+                                    {
+                                        this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "header"
+                                        ?
+                                        <input type="text" defaultValue={this.props.record.intName} />
+                                        :
+                                        <div className="headerText"
+                                             onClick={this.onClick.bind(this, this.props.record.guid, "header")}>
+                                            {this.props.record.intName}
+                                        </div>
+                                    }
                                 </div>
                             </td>
                             <td>
