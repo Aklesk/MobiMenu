@@ -30,7 +30,7 @@ class ListingContainer extends React.Component {
                                             ?
                                                 recs
                                             :
-                                                <div>No data. Please add a record.</div>
+                                            `No data. Please add a ${mainTabs[this.props.params.section].singular.toLowerCase()}.`
                                         }
                                     </div>
                                 </div>
