@@ -4,9 +4,9 @@ import { Router, Route, Redirect, browserHistory } from 'react-router'
 import './styles/app.less'
 import './styles/nav.less'
 import 'font-awesome/css/font-awesome.css'
-import update from 'react-addons-update';
+import update from 'react-addons-update'
 
-// We need some base data for this example - let's load it in now.
+// We need some base data for this example. This acts as a sort of pre-loaded resetting database.
 import DataObj from './exampleData.js'
 
 // This is the header at the top of the page.
@@ -24,6 +24,7 @@ import ListingContainer from './containers/listingContainer.jsx'
 // This is the holder for records when being edited.
 import RecordItem from './containers/recordItem.jsx'
 
+// This is needed for proper styling due to the way that this project was imported from an active site.
 document.body.className = "m2g-console"
 
 // This is the main app wrapper that holds everything else.
@@ -33,11 +34,11 @@ class App extends React.Component {
 
         // First pack all records into a master dictionary for fast and easy lookup later. We'll maintain this as we go.
         let recordDict = {}
-        Object.keys(DataObj).forEach( (key) => {
-            DataObj[key].forEach( (rec) => {
+        Object.keys(DataObj).forEach( (key) =>
+            DataObj[key].forEach( (rec) =>
                 recordDict[rec.guid] = rec
-            })
-        })
+            )
+        )
         this.state = {
             dataObj: DataObj,
             recordDict: recordDict,
@@ -83,4 +84,6 @@ ReactDOM.render((
             </Route>
         </Route>
     </Router>
-), document.querySelector('#root'))
+),
+    document.querySelector('#root')
+)
