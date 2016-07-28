@@ -46,7 +46,8 @@ class App extends React.Component {
             editing: {rec: "", elem: ""}
         }
     }
-    changeEditState = (rec, elem) => {
+    changeEditState = (rec, elem, event) => {
+        event.stopPropagation()
         this.setState({editing: {rec, elem}})
     }
     getChildContext() {return {
@@ -55,9 +56,14 @@ class App extends React.Component {
         changeEditState: this.changeEditState,
         editing: this.state.editing
     }}
+    onClick = (event) => {
+        this.setState({editing: {rec: "", elem: ""}})
+    }
     render() {
         return (
-            <div>
+            <div
+                onClick={this.onClick}
+            >
                 <HeaderBox />
                 {this.props.children}
                 <FooterArea />

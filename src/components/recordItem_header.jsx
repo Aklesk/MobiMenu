@@ -5,8 +5,8 @@ import React from 'react';
 
 class RecordItemHeader extends React.Component {
     constructor() {super()}
-    onClick = (rec, elem) => {
-        this.context.changeEditState(rec, elem)
+    onClick = (rec, elem, event) => {
+        this.context.changeEditState(rec, elem, event)
     }
     render() {
         return (
@@ -20,9 +20,13 @@ class RecordItemHeader extends React.Component {
                                     {
                                         this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "header"
                                         ?
-                                        <input type="text" defaultValue={this.props.record.intName} />
+                                        <input type="text"
+                                               style={{width: "330px"}}
+                                               defaultValue={this.props.record.intName}
+                                               onClick={(e) => e.stopPropagation()}
+                                        />
                                         :
-                                        <div className="headerText"
+                                        <div className="headerText editable"
                                              onClick={this.onClick.bind(this, this.props.record.guid, "header")}>
                                             {this.props.record.intName}
                                         </div>
