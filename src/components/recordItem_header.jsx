@@ -4,7 +4,9 @@ import React from 'react';
 // minimize the number of database calls.
 
 class RecordItemHeader extends React.Component {
-    constructor() {super()}
+    constructor() {
+        super()
+    }
     onClick = (rec, elem, event) => {
         this.context.changeEditState(rec, elem, event)
     }
@@ -16,25 +18,28 @@ class RecordItemHeader extends React.Component {
                         <tbody>
                         <tr>
                             <td>
-                                <div className="leftPart">
-                                    {
-                                        this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "header"
-                                        ?
+                                {
+                                    this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "header"
+                                    ?
+                                    <div className="leftPart">
                                         <input type="text"
-                                               style={{width: "330px"}}
+                                               style={{width: "326px"}}
                                                defaultValue={this.props.record.intName}
                                                onClick={(e) => e.stopPropagation()}
                                         />
-                                        :
-                                        <div className="headerText editable"
-                                             onClick={this.onClick.bind(this, this.props.record.guid, "header")}>
+                                    </div>
+                                    :
+                                    <div className="leftPart editable"
+                                             onClick={this.onClick.bind(this, this.props.record.guid, "header")}
+                                        >
+                                        <div className="headerText">
                                             {this.props.record.intName}
                                         </div>
-                                    }
-                                </div>
+                                    </div>
+                                }
                             </td>
                             <td>
-                                <div>
+                                <div className="rightPart">
                                     <a className="toDelete">
                                         Delete Record
                                     </a>
