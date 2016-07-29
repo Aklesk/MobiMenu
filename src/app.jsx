@@ -40,25 +40,53 @@ class App extends React.Component {
             )
         }
 
+        // We're not dealing with asynchronus loading, or indeed any loading - just load the whole database into state
+        // dataObj exists to provide a relational database structure (it has a list of all category objects, for
+        // instance), while recordDict is very much non-relational; it's just a dictionary of *all* record items
+        // keyed to record guid.
         this.state = {
             dataObj: DataObj,
             recordDict: recordDict,
-            editing: {rec: "", elem: ""}
+            editing: {rec: "", elem: "", saveFunc: null}
         }
     }
-    changeEditState = (rec, elem, event) => {
-        event.stopPropagation()
-        this.setState({editing: {rec, elem}})
+
+    // This takes a full record (that has a GUID) as an input and updates state with it. In a more full version
+    // of this code, it might also send an update to a server, but at the moment it just updates state.
+    updateRecord = (rec) => {
+        let newRec = update(this.state.recordDict, {
+            [rec.guid]: {$set: rec}
+        })
+        this.setState({
+            recordDict: newRec
+        })
     }
+
+    // When the app enters into edit mode for an element, this is the function that is called. Propagation is stopped
+    // to prevent edit mode immediately ending from the click event.
+    changeEditState = (rec, elem, saveFunc, event) => {
+        event.stopPropagation()
+        this.setState({editing: {rec, elem, saveFunc}})
+    }
+
+    // Context is used to push relevant state and functions to the app as a whole.
     getChildContext() {return {
         dataObj: this.state.dataObj,
         recordDict: this.state.recordDict,
         changeEditState: this.changeEditState,
         editing: this.state.editing
     }}
+
+    // This is run on every click anywhere in the app that is not explicitly prevented from doing anything. This
+    // ends edit mode, and also is used to save records. For simplicity, each component with an edit mode bundles
+    // in a function which will return a complete updated record, which is what saveFunc is.
     onClick = (event) => {
-        this.setState({editing: {rec: "", elem: ""}})
+        if (this.state.editing.saveFunc != null) {
+            this.updateRecord(this.state.editing.saveFunc())
+        }
+        this.setState({editing: {rec: "", elem: "", saveFunc: null}})
     }
+
     render() {
         return (
             <div

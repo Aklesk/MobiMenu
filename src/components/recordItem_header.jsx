@@ -8,7 +8,12 @@ class RecordItemHeader extends React.Component {
         super()
     }
     onClick = (rec, elem, event) => {
-        this.context.changeEditState(rec, elem, event)
+        const saveFunc = () => {
+            const rec = this.props.record
+            rec.intName = document.getElementById("intNameEdit").value
+            return rec
+        }
+        this.context.changeEditState(rec, elem, saveFunc, event)
     }
     render() {
         return (
@@ -22,7 +27,8 @@ class RecordItemHeader extends React.Component {
                                     this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "header"
                                     ?
                                     <div className="leftPart">
-                                        <input type="text"
+                                        <input id="intNameEdit"
+                                               type="text"
                                                style={{width: "326px"}}
                                                defaultValue={this.props.record.intName}
                                                onClick={(e) => e.stopPropagation()}
