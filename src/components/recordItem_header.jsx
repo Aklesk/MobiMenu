@@ -38,8 +38,17 @@ class RecordItemHeader extends React.Component {
                                     <div className="leftPart editable"
                                              onClick={this.onClick.bind(this, this.props.record.guid, "header")}
                                         >
+                                        <div className="labelText">
+                                            Internal Name:
+                                        </div>
                                         <div className="headerText">
-                                            {this.props.record.intName}
+                                            {
+                                                this.props.record.intName.length > 0
+                                                ?
+                                                this.props.record.intName
+                                                :
+                                                <span className="filler">-- Internal Name --</span>
+                                            }
                                         </div>
                                     </div>
                                 }

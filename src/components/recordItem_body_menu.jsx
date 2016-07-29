@@ -1,5 +1,6 @@
-import React from 'react';
-import ShortID from 'shortid';
+import React from 'react'
+import ShortID from 'shortid'
+import defaults from 'lodash.defaults'
 
 
 // This is a single entry of a product, which will appear under a category header. This is exclusively used
@@ -56,17 +57,38 @@ class RecordItemBodyMenu extends React.Component {
         return (
             <div>
                 <div className="recordHours">
-                    <div>HOURS ACTIVE:</div>
-                    <div>DAYS ACTIVE:</div>
+                    <div className="labelText">Hours Active:</div>
+                    <div className="labelText">Days Active:</div>
                 </div>
 
                 <hr />
 
                 <div className="recordBody">
+
+                    <div className="labelText">
+                        Public Name:
+                    </div>
                     <div className="recordName">
                         {this.props.record.name}
                     </div>
+                    <div className="labelText">
+                        Menu Description:
+                    </div>
+                    <div className="recordDesc">
+                        {
+                            this.props.record.desc.length > 0
+                            ?
+                            this.props.record.desc
+                            :
+                            <span className="filler">No Description</span>
+                        }
+                    </div>
 
+                    <div className="spacer"/>
+
+                    <div className="labelText">
+                        Menu Contents:
+                    </div>
                     {this.listItems()}
 
                 </div>

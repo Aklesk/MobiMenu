@@ -10,7 +10,15 @@ class MenuListItem extends React.Component {
             : "lineItem"
         return (
             <Link to={`/menu/${this.props.section}/${this.props.rec.guid}`} className={isActive}>
-                <div className="lineText">{this.props.rec.intName}</div>
+                <div className="lineText">
+                    {
+                        this.props.rec.intName.length > 0
+                        ?
+                        this.props.rec.intName
+                        :
+                        <span>&nbsp;</span>
+                    }
+                </div>
                 <div className="lineDivider"></div>
             </Link>
         )
