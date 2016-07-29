@@ -7,7 +7,10 @@ import 'font-awesome/css/font-awesome.css'
 import update from 'react-addons-update'
 
 // We need some base data for this example. This acts as a sort of pre-loaded resetting database.
-import DataObj from './exampleData.js'
+import { exampleData } from './db.js'
+import { menu } from './db.js'
+import { category } from './db.js'
+import { product } from './db.js'
 
 // This is the header at the top of the page.
 import HeaderBox from './components/header.jsx'
@@ -31,6 +34,9 @@ document.body.className = "m2g-console"
 class App extends React.Component {
     constructor() {
         super()
+
+        // Create a new database using the example data (for demo purposes)
+        const DataObj = exampleData()
 
         // First pack all records into a master dictionary for fast and easy lookup later. We'll maintain this as we go.
         const recordDict = {}
