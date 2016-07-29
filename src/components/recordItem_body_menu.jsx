@@ -1,6 +1,7 @@
 import React from 'react'
 import ShortID from 'shortid'
 import defaults from 'lodash.defaults'
+import Textarea from './textarea.jsx'
 
 
 // This is a single entry of a product, which will appear under a category header. This is exclusively used
@@ -53,6 +54,16 @@ class RecordItemBodyMenu extends React.Component {
             )
         })
     }
+    onClick = (rec, elem, event) => {
+        const saveFunc = () => {
+            const rec = this.props.record
+            if(elem == "recordDescEdit") {
+                rec.desc = document.getElementById(elem).value
+            }
+            return rec
+        }
+        this.context.changeEditState(rec, elem, saveFunc, event)
+    }
     render() {
         return (
             <div>
@@ -71,16 +82,31 @@ class RecordItemBodyMenu extends React.Component {
                     <div className="recordName">
                         {this.props.record.name}
                     </div>
-                    <div className="labelText">
-                        Menu Description:
-                    </div>
                     <div className="recordDesc">
                         {
-                            this.props.record.desc.length > 0
+                            this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "recordDescEdit"
                             ?
-                            this.props.record.desc
+                            <Textarea
+                                elem="recordDescEdit"
+                                width="400px"
+                                defaultVal={this.props.record.desc}
+                            />
                             :
-                            <span className="filler">No Description</span>
+                            <div
+                                className="editable"
+                                onClick={this.onClick.bind(this, this.props.record.guid, "recordDescEdit")}
+                            >
+                                <div className="labelText">
+                                    Menu Description:
+                                </div>
+                                {
+                                    this.props.record.desc.length > 0
+                                    ?
+                                    this.props.record.desc
+                                    :
+                                    <span className="filler">No Description</span>
+                                }
+                            </div>
                         }
                     </div>
 
@@ -95,6 +121,11 @@ class RecordItemBodyMenu extends React.Component {
             </div>
         )
     }
+}
+
+RecordItemBodyMenu.contextTypes = {
+    editing: React.PropTypes.object,
+    changeEditState: React.PropTypes.func
 }
 
 export default RecordItemBodyMenu
