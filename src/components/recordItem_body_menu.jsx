@@ -1,6 +1,7 @@
 import React from 'react'
 import ShortID from 'shortid'
 import defaults from 'lodash.defaults'
+import Input from './input.jsx'
 import Textarea from './textarea.jsx'
 
 
@@ -60,6 +61,9 @@ class RecordItemBodyMenu extends React.Component {
             if(elem == "recordDescEdit") {
                 rec.desc = document.getElementById(elem).value
             }
+            if(elem == "recordNameEdit") {
+                rec.name = document.getElementById(elem).value
+            }
             return rec
         }
         this.context.changeEditState(rec, elem, saveFunc, event)
@@ -76,13 +80,47 @@ class RecordItemBodyMenu extends React.Component {
 
                 <div className="recordBody">
 
-                    <div className="labelText">
-                        Public Name:
-                    </div>
+
+
+
+
+
                     <div className="recordName">
-                        {this.props.record.name}
+                        {
+                            this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "recordNameEdit"
+                                ?
+                                <Input
+                                    elem="recordNameEdit"
+                                    width="400px"
+                                    defaultVal={this.props.record.name}
+                                />
+                                :
+                                <div
+                                    className="editable"
+                                    onClick={this.onClick.bind(this, this.props.record.guid, "recordNameEdit")}
+                                >
+                                    <div className="labelText">
+                                        Public Name:
+                                    </div>
+                                    <div className="recordNameText">
+                                    {
+                                        this.props.record.name.length > 0
+                                        ?
+                                        this.props.record.name
+                                        :
+                                        <span className="filler">-- PUBLIC NAME --</span>
+                                    }
+                                    </div>
+                                </div>
+                        }
                     </div>
-                    <div className="recordDesc">
+
+
+
+
+
+
+                     <div className="recordDesc">
                         {
                             this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "recordDescEdit"
                             ?
@@ -109,6 +147,11 @@ class RecordItemBodyMenu extends React.Component {
                             </div>
                         }
                     </div>
+
+
+
+
+
 
                     <div className="spacer"/>
 
