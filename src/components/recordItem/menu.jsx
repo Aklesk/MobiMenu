@@ -1,8 +1,9 @@
 import React from 'react'
 import ShortID from 'shortid'
 import defaults from 'lodash.defaults'
-import Input from './input.jsx'
-import Textarea from './textarea.jsx'
+
+import RecordName from './editComponents/recordName.jsx'
+import RecordDesc from './editComponents/recordDesc.jsx'
 
 
 // This is a single entry of a product, which will appear under a category header. This is exclusively used
@@ -80,78 +81,9 @@ class RecordItemBodyMenu extends React.Component {
 
                 <div className="recordBody">
 
+                    <RecordName record={this.props.record} />
 
-
-
-
-
-                    <div className="recordName">
-                        {
-                            this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "recordNameEdit"
-                                ?
-                                <Input
-                                    elem="recordNameEdit"
-                                    width="400px"
-                                    defaultVal={this.props.record.name}
-                                />
-                                :
-                                <div
-                                    className="editable"
-                                    onClick={this.onClick.bind(this, this.props.record.guid, "recordNameEdit")}
-                                >
-                                    <div className="labelText">
-                                        Public Name:
-                                    </div>
-                                    <div className="recordNameText">
-                                    {
-                                        this.props.record.name.length > 0
-                                        ?
-                                        this.props.record.name
-                                        :
-                                        <span className="filler">-- PUBLIC NAME --</span>
-                                    }
-                                    </div>
-                                </div>
-                        }
-                    </div>
-
-
-
-
-
-
-                     <div className="recordDesc">
-                        {
-                            this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "recordDescEdit"
-                            ?
-                            <Textarea
-                                elem="recordDescEdit"
-                                width="400px"
-                                defaultVal={this.props.record.desc}
-                            />
-                            :
-                            <div
-                                className="editable"
-                                onClick={this.onClick.bind(this, this.props.record.guid, "recordDescEdit")}
-                            >
-                                <div className="labelText">
-                                    Menu Description:
-                                </div>
-                                {
-                                    this.props.record.desc.length > 0
-                                    ?
-                                    this.props.record.desc
-                                    :
-                                    <span className="filler">No Description</span>
-                                }
-                            </div>
-                        }
-                    </div>
-
-
-
-
-
+                    <RecordDesc record={this.props.record} />
 
                     <div className="spacer"/>
 

@@ -1,5 +1,4 @@
-import React from 'react';
-import Input from './input.jsx'
+import React from 'react'
 
 // We're using componentWillUpdate and componentWillMount to get the record data out of the database to try to
 // minimize the number of database calls.
@@ -7,6 +6,11 @@ import Input from './input.jsx'
 class RecordItemHeader extends React.Component {
     constructor() {
         super()
+    }
+    componentDidUpdate() {
+        if (document.getElementById("intNameEdit") != null) {
+            document.getElementById("intNameEdit").focus()
+        }
     }
     onClick = (rec, elem, event) => {
         const saveFunc = () => {
@@ -28,9 +32,11 @@ class RecordItemHeader extends React.Component {
                                     this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "intNameEdit"
                                     ?
                                     <div className="leftPart">
-                                        <Input elem="intNameEdit"
-                                               width="326px"
-                                               defaultVal={this.props.record.intName}
+                                        <input id="intNameEdit"
+                                               type="text"
+                                               style={{width: "326px"}}
+                                               defaultValue={this.props.record.intName}
+                                               onClick={(e) => e.stopPropagation()}
                                         />
                                     </div>
                                     :
