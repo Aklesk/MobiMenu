@@ -47,7 +47,7 @@ class RecordItemBodyProduct extends React.Component {
                     </div>
                 </div>
             </div>
-        );
+        )
     }
 }
 

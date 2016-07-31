@@ -21,7 +21,7 @@ class RecordName extends React.Component {
         return(
             <div className="recordDesc">
                 {
-                    this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "recordDescEdit"
+                    this.context.editing.elem == "recordDescEdit"
                         ?
                         <input id="recordDescEdit"
                                type="text"

@@ -30,7 +30,9 @@ class ListingContainer extends React.Component {
                                             ?
                                                 recs
                                             :
-                                            `No data. Please add a ${mainTabs[this.props.params.section].singular.toLowerCase()}.`
+                                            <div className="noRecords">
+                                                {`No data. Please add a ${mainTabs[this.props.params.section].singular.toLowerCase()}.`}
+                                            </div>
                                         }
                                     </div>
                                 </div>
@@ -41,7 +43,19 @@ class ListingContainer extends React.Component {
                                         &nbsp;
                                     </h1>
                                     <div className="rightContent">
-                                        {this.props.children}
+                                        {
+                                            this.props.params.record == undefined
+                                            ?
+                                            <div className="record">
+                                                <div className="recordHeader">
+                                                    <div className="placeholderHeader">
+                                                        {`⬅ Please select a ${mainTabs[this.props.params.section].singular.toLowerCase()}.`}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            :
+                                            this.props.children
+                                        }
                                     </div>
                                 </div>
                             </td>

@@ -1,5 +1,6 @@
 @mobiGreen: #2eaa49;
 @mobiHover: #cbead2;
+@placeholder: lightgrey;
 
 #listingContainer {
   display: block;
@@ -20,6 +21,11 @@
   .leftListing {
     height: 100%;
     width: 100%;
+    .active {
+      background-color: @mobiGreen;
+      color: white;
+      cursor: default;
+    }
     .leftContent {
       border: 2px solid black;
       min-height: 300px;
@@ -44,11 +50,14 @@
           width: 100%;
         }
       }
-      .active {
-        background-color: @mobiGreen;
-        color: white;
-        cursor: default;
-      }
+    }
+    .noRecords {
+      color: @placeholder;
+      display: block;
+      font-size: 1.5em;
+      font-weight: 500;
+      margin: 20px 0;
+      text-align: center;
     }
   }
   .rightListing {
@@ -60,7 +69,7 @@
       min-height: 300px;
       .record {
         .filler {
-          color: lightgrey;
+          color: @placeholder;
         }
         hr {
           margin: 3px 3px;
@@ -107,6 +116,14 @@
         }
         .recordHeader {
           margin: 5px 5px 0 5px;
+
+          .placeholderHeader {
+            color: @placeholder;
+            display: block;
+            font-size: 1.5em;
+            font-weight: 500;
+            margin: 20px 5px;
+          }
           table.nostyle {
             margin: 0;
             td {

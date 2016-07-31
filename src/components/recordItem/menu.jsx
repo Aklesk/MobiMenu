@@ -1,61 +1,11 @@
 import React from 'react'
-import ShortID from 'shortid'
-import defaults from 'lodash.defaults'
 
 import RecordName from './editComponents/recordName.jsx'
 import RecordDesc from './editComponents/recordDesc.jsx'
-
-
-// This is a single entry of a product, which will appear under a category header. This is exclusively used
-// by the CategoryGroup element, and has no other purpose.
-const CategoryItem = function(props) {
-    return(
-        <div className="recordProduct">
-            {props.product.intName}
-        </div>
-    )
-}
-
-
-// This is a category, which acts as a header for, and contains, products.
-const CategoryGroup = function(props) {
-    const items = props.products.map(prod =>
-            <CategoryItem product={props.recordDict[prod]} key={ShortID.generate()}/>
-    )
-    return(
-        <div className="recordCategoryGroup">
-            <div className="recordCategoryHeader">
-                {props.category.intName}
-            </div>
-            {items}
-        </div>
-    )
-}
-
+import MenuContents from './editComponents/menuContents.jsx'
 
 class RecordItemBodyMenu extends React.Component {
     constructor() {super()}
-    getCategories() {
-        const categories = {}
-        this.props.record.products.map((guid) => {
-            let category = this.props.recordDict[guid].category
-            if (categories[category] == undefined) {categories[category] = []}
-            categories[category].push(guid)
-        })
-        return categories
-    }
-    listItems() {
-        const categories = this.getCategories()
-        return Object.keys(categories).map((key) => {
-            return (
-                <CategoryGroup recordDict={this.props.recordDict}
-                               products={categories[key]}
-                               category={this.props.recordDict[key]}
-                               key={ShortID.generate()}
-                />
-            )
-        })
-    }
     onClick = (rec, elem, event) => {
         const saveFunc = () => {
             const rec = this.props.record
@@ -87,10 +37,7 @@ class RecordItemBodyMenu extends React.Component {
 
                     <div className="spacer"/>
 
-                    <div className="labelText">
-                        Menu Contents:
-                    </div>
-                    {this.listItems()}
+                    <MenuContents record={this.props.record} recordDict={this.props.recordDict}/>
 
                 </div>
             </div>
