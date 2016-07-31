@@ -1,22 +1,17 @@
 import React from 'react'
 import ShortID from 'shortid'
-
-// This is a single entry of a product, which will appear under a category header. This is exclusively used
-// by the CategoryGroup element, and has no other purpose.
-const CategoryItem = function(props) {
-    return(
-        <div className="recordProduct">
-            {props.product.intName}
-        </div>
-    )
-}
-
+import _ from 'lodash'
 
 // This is a category, which acts as a header for, and contains, products.
 const CategoryGroup = function(props) {
-    const items = props.products.map(prod =>
-        <CategoryItem product={props.recordDict[prod]} key={ShortID.generate()}/>
-    )
+    const items = props.products.map((prod) => {
+        const product = props.recordDict[prod]
+        return(
+            <div className="recordProduct" key={ShortID.generate()}>
+                {product.intName}
+            </div>
+        )
+    })
     return(
         <div className="recordCategoryGroup">
             <div className="recordCategoryHeader">
@@ -31,21 +26,13 @@ class RecordName extends React.Component {
     constructor() {
         super()
     }
-    getCategories() {
-        const categories = {}
-        this.props.record.products.map((guid) => {
-            let category = this.props.recordDict[guid].category
-            if (categories[category] == undefined) {categories[category] = []}
-            categories[category].push(guid)
-        })
-        return categories
-    }
     listItems() {
-        const categories = this.getCategories()
-        return Object.keys(categories).map((key) => {
+        const categories = _.uniq(this.props.record.products.map(r => this.props.recordDict[this.props.recordDict[r].category].guid))
+        return categories.map((key) => {
+            const products = this.props.record.products.filter(p => this.props.recordDict[p].category == key)
             return (
                 <CategoryGroup recordDict={this.props.recordDict}
-                               products={categories[key]}
+                               products={products}
                                category={this.props.recordDict[key]}
                                key={ShortID.generate()}
                 />
