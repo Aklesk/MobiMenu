@@ -5,16 +5,17 @@ import '../styles/listingContainer.less'
 class MenuListItem extends React.Component {
     constructor() {super()}
     render() {
-        let isActive = window.location.href.split('/')[window.location.href.split('/').length - 1] == this.props.rec.guid
+        const { section, rec } = this.props
+        let isActive = window.location.href.split('/')[window.location.href.split('/').length - 1] == rec.guid
             ? "lineItem active"
             : "lineItem"
         return (
-            <Link to={`/menu/${this.props.section}/${this.props.rec.guid}`} className={isActive}>
+            <Link to={`/menu/${section}/${rec.guid}`} className={isActive}>
                 <div className="lineText">
                     {
-                        this.props.rec.intName.length > 0
+                        rec.intName.length > 0
                         ?
-                        this.props.rec.intName
+                        rec.intName
                         :
                         <span>&nbsp;</span>
                     }

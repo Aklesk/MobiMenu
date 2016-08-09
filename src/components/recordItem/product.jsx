@@ -16,26 +16,27 @@ class RecordItemBodyProduct extends React.Component {
             }
             return rec
         }
-        this.context.changeEditState(rec, elem, saveFunc, event)
+        this.context.editing(rec, elem, saveFunc, event)
     }
     render() {
-        const category = this.props.recordDict[this.props.record.category]
+        const { record, recordDict } = this.props
+        const category = recordDict[record.category]
         return (
             <div>
                 <div className="recordBody">
 
-                    <RecordName record={this.props.record} />
+                    <RecordName record={record} />
 
                     <div className="labelText">
                         Price:
                     </div>
                     <div className="recordPrice">
-                        {this.props.record.price}
+                        {record.price}
                     </div>
 
                     <div className="spacer" />
 
-                    <RecordDesc record={this.props.record} />
+                    <RecordDesc record={record} />
 
                     <div className="spacer" />
 
@@ -52,8 +53,7 @@ class RecordItemBodyProduct extends React.Component {
 }
 
 RecordItemBodyProduct.contextTypes = {
-    editing: React.PropTypes.object,
-    changeEditState: React.PropTypes.func
+    editing: React.PropTypes.func
 }
 
 export default RecordItemBodyProduct

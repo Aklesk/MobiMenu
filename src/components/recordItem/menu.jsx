@@ -17,9 +17,10 @@ class RecordItemBodyMenu extends React.Component {
             }
             return rec
         }
-        this.context.changeEditState(rec, elem, saveFunc, event)
+        this.context.editing(rec, elem, saveFunc, event)
     }
     render() {
+        const { record, recordDict } = this.props
         return (
             <div>
                 <div className="recordHours">
@@ -31,13 +32,13 @@ class RecordItemBodyMenu extends React.Component {
 
                 <div className="recordBody">
 
-                    <RecordName record={this.props.record} />
+                    <RecordName record={record} />
 
-                    <RecordDesc record={this.props.record} />
+                    <RecordDesc record={record} />
 
                     <div className="spacer"/>
 
-                    <MenuContents record={this.props.record} recordDict={this.props.recordDict}/>
+                    <MenuContents record={record} recordDict={recordDict}/>
 
                 </div>
             </div>
@@ -46,8 +47,7 @@ class RecordItemBodyMenu extends React.Component {
 }
 
 RecordItemBodyMenu.contextTypes = {
-    editing: React.PropTypes.object,
-    changeEditState: React.PropTypes.func
+    editing: React.PropTypes.func
 }
 
 export default RecordItemBodyMenu

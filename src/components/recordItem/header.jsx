@@ -18,9 +18,10 @@ class RecordItemHeader extends React.Component {
             rec.intName = document.getElementById(elem).value
             return rec
         }
-        this.context.changeEditState(rec, elem, saveFunc, event)
+        this.context.editing(rec, elem, saveFunc, event)
     }
     render() {
+        const { record } = this.props
         return (
             <div>
                 <div className="recordHeader">
@@ -29,28 +30,28 @@ class RecordItemHeader extends React.Component {
                         <tr>
                             <td>
                                 {
-                                    this.context.editing.rec == this.props.record.guid && this.context.editing.elem == "intNameEdit"
+                                    this.context.editing().elem == "intNameEdit"
                                     ?
                                     <div className="leftPart">
                                         <input id="intNameEdit"
                                                type="text"
                                                style={{width: "326px"}}
-                                               defaultValue={this.props.record.intName}
+                                               defaultValue={record.intName}
                                                onClick={(e) => e.stopPropagation()}
                                         />
                                     </div>
                                     :
                                     <div className="leftPart editable"
-                                             onClick={this.onClick.bind(this, this.props.record.guid, "intNameEdit")}
+                                             onClick={this.onClick.bind(this, record.guid, "intNameEdit")}
                                         >
                                         <div className="labelText">
                                             Internal Name:
                                         </div>
                                         <div className="headerText">
                                             {
-                                                this.props.record.intName.length > 0
+                                                record.intName.length > 0
                                                 ?
-                                                this.props.record.intName
+                                                record.intName
                                                 :
                                                 <span className="filler">-- Internal Name --</span>
                                             }
@@ -76,8 +77,7 @@ class RecordItemHeader extends React.Component {
 }
 
 RecordItemHeader.contextTypes = {
-    editing: React.PropTypes.object,
-    changeEditState: React.PropTypes.func
+    editing: React.PropTypes.func
 }
 
 export default RecordItemHeader

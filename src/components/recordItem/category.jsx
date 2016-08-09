@@ -16,16 +16,17 @@ class RecordItemBodyCategory extends React.Component {
             }
             return rec
         }
-        this.context.changeEditState(rec, elem, saveFunc, event)
+        this.context.editing(rec, elem, saveFunc, event)
     }
     render() {
+        const { record } = this.props
         return (
             <div>
                 <div className="recordBody">
 
-                    <RecordName record={this.props.record} />
+                    <RecordName record={record} />
 
-                    <RecordDesc record={this.props.record} />
+                    <RecordDesc record={record} />
 
                 </div>
             </div>
@@ -34,8 +35,7 @@ class RecordItemBodyCategory extends React.Component {
 }
 
 RecordItemBodyCategory.contextTypes = {
-    editing: React.PropTypes.object,
-    changeEditState: React.PropTypes.func
+    editing: React.PropTypes.func
 }
 
 export default RecordItemBodyCategory

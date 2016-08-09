@@ -15,33 +15,34 @@ class RecordName extends React.Component {
             rec.name = document.getElementById(elem).value
             return rec
         }
-        this.context.changeEditState(rec, elem, saveFunc, event)
+        this.context.editing(rec, elem, saveFunc, event)
     }
     render() {
+        const { record } = this.props
         return(
             <div className="recordName">
                 {
-                    this.context.editing.elem == "recordNameEdit"
+                    this.context.editing().elem == "recordNameEdit"
                         ?
                         <input id="recordNameEdit"
                                type="text"
                                style={{width: "400px"}}
-                               defaultValue={this.props.record.name}
+                               defaultValue={record.name}
                                onClick={(e) => e.stopPropagation()}
                         />
                         :
                         <div
                             className="editable"
-                            onClick={this.onClick.bind(this, this.props.record.guid, "recordNameEdit")}
+                            onClick={this.onClick.bind(this, record.guid, "recordNameEdit")}
                         >
                             <div className="labelText">
                                 Public Name:
                             </div>
                             <div className="recordNameText">
                                 {
-                                    this.props.record.name.length > 0
+                                    record.name.length > 0
                                         ?
-                                        this.props.record.name
+                                        record.name
                                         :
                                         <span className="filler">-- PUBLIC NAME --</span>
                                 }
@@ -54,8 +55,7 @@ class RecordName extends React.Component {
 }
 
 RecordName.contextTypes = {
-    editing: React.PropTypes.object,
-    changeEditState: React.PropTypes.func
+    editing: React.PropTypes.func
 }
 
 export default RecordName

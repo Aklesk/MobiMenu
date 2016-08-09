@@ -5,6 +5,8 @@ import './styles/app.less'
 import './styles/nav.less'
 import 'font-awesome/css/font-awesome.css'
 import update from 'react-addons-update'
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContext } from 'react-dnd'
 
 // We need some base data for this example. This acts as a sort of pre-loaded resetting database.
 import { exampleData } from './db.js'
@@ -52,9 +54,39 @@ class App extends React.Component {
         // keyed to record guid.
         this.state = {
             dataObj: DataObj,
-            recordDict: recordDict,
-            editing: {rec: "", elem: "", saveFunc: null}
+            editing: {rec: "", elem: "", saveFunc: null},
+            recordDict: recordDict
         }
+    }
+
+    // This is how components interact with editing. If called with no arguments, this returns the record currently
+    // being edited. If called with arguments it changes editing.
+    editing = (rec, elem, saveFunc, event) => {
+        if (rec == undefined) {
+            return this.state.editing
+        }
+        else {
+            event.stopPropagation()
+            this.setState({editing: {rec, elem, saveFunc}})
+        }
+    }
+
+    // Context is used to push relevant state and functions to the app as a whole.
+    getChildContext() {return {
+        dataObj: this.state.dataObj,
+        editing: this.editing,
+        recordDict: this.state.recordDict,
+        updateList: this.updateList
+    }}
+
+    // This is run on every click anywhere in the app that is not explicitly prevented from doing anything. This
+    // ends edit mode, and also is used to save records. For simplicity, each component with an edit mode bundles
+    // in a function which will return a complete updated record, which is what saveFunc is.
+    onClick = (event) => {
+        if (this.editing().saveFunc != null) {
+            this.updateRecord(this.state.editing.saveFunc())
+        }
+        this.setState({editing: {rec: "", elem: "", saveFunc: null}})
     }
 
     // This takes a full record (that has a GUID) as an input and updates state with it. In a more full version
@@ -68,29 +100,15 @@ class App extends React.Component {
         })
     }
 
-    // When the app enters into edit mode for an element, this is the function that is called. Propagation is stopped
-    // to prevent edit mode immediately ending from the click event.
-    changeEditState = (rec, elem, saveFunc, event) => {
-        event.stopPropagation()
-        this.setState({editing: {rec, elem, saveFunc}})
-    }
-
-    // Context is used to push relevant state and functions to the app as a whole.
-    getChildContext() {return {
-        dataObj: this.state.dataObj,
-        recordDict: this.state.recordDict,
-        changeEditState: this.changeEditState,
-        editing: this.state.editing
-    }}
-
-    // This is run on every click anywhere in the app that is not explicitly prevented from doing anything. This
-    // ends edit mode, and also is used to save records. For simplicity, each component with an edit mode bundles
-    // in a function which will return a complete updated record, which is what saveFunc is.
-    onClick = (event) => {
-        if (this.state.editing.saveFunc != null) {
-            this.updateRecord(this.state.editing.saveFunc())
-        }
-        this.setState({editing: {rec: "", elem: "", saveFunc: null}})
+    // This is used when re-ordering records during a click and drag operation. It's functionally the same as
+    // updateRecord, but if we were doing this with a proper database, it would not result in a save event.
+    updateList = (rec) => {
+        let newRec = update(this.state.recordDict, {
+            [rec.guid]: {$set: rec}
+        })
+        this.setState({
+            recordDict: newRec
+        })
     }
 
     render() {
@@ -108,16 +126,16 @@ class App extends React.Component {
 
 App.childContextTypes = {
     dataObj: React.PropTypes.object,
+    editing: React.PropTypes.func,
     recordDict: React.PropTypes.object,
-    changeEditState: React.PropTypes.func,
-    editing: React.PropTypes.object
+    updateList: React.PropTypes.func
 }
 
 ReactDOM.render((
     <Router history={browserHistory}>
         <Redirect from="/" to="/menu/" />
         <Redirect from="/menu/" to="/menu/menus/" />
-        <Route path="/menu/" component={App}>
+        <Route path="/menu/" component={DragDropContext(HTML5Backend)(App)}>
             <Route component={MainBody}>
                 <Route path="/menu/:section" component={ListingContainer}>
                     <Route path="/menu/:section/:record" component={RecordItem}/>

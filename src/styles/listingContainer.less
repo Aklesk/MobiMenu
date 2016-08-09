@@ -68,6 +68,14 @@
       border: 2px solid black;
       min-height: 300px;
       .record {
+        .editBlock {
+          border: 1px solid #e4e4e4;
+          background: #fafafa;
+          box-shadow: none;
+          border-radius: 3px;
+          padding: 9px;
+          font-weight: 500;
+        }
         .filler {
           color: @placeholder;
         }
@@ -83,6 +91,9 @@
         }
         .recordBody {
           margin: 12px 8px;
+          .placeholder {
+            opacity: 0.5;
+          }
           .recordCategoryGroup {
             margin-bottom: 20px;
             .recordCategoryHeader {

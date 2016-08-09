@@ -28,7 +28,7 @@ class ListingContainer extends React.Component {
                                         {
                                             recs.length > 0
                                             ?
-                                                recs
+                                            recs
                                             :
                                             <div className="noRecords">
                                                 {`No data. Please add a ${mainTabs[this.props.params.section].singular.toLowerCase()}.`}

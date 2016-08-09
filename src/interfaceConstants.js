@@ -5,8 +5,13 @@ export const mainTabs = {
     "modifierGroups": {label: "Modifier Groups", singular: "Modifier Group"},
     "modifiers": {label: "Modifiers", singular: "Modifier"}
 }
+
 export const exportOptions = [
     "Go to Menu Importer",
     "Export products to csv",
     "Export modifiers to csv"
 ]
+
+export const dragTypes = {
+    categoryListing: 'categoryListing'
+}
