@@ -13,5 +13,6 @@ export const exportOptions = [
 ]
 
 export const dragTypes = {
-    categoryListing: 'categoryListing'
+    categoryListing: 'categoryListing',
+    categoryProduct: 'categoryProduct'
 }
