@@ -64,8 +64,8 @@ class ListingContainer extends React.Component {
                                                     :
                                                     <div className="record">
                                                         <div className="recordHeader">
-                                                            <div className="placeholderHeader">
-                                                                {`404 error: ${mainTabs[params.section].singular} not found.`}
+                                                            <div className="notFoundHeader">
+                                                                {`404: ${mainTabs[params.section].singular.toUpperCase()} NOT FOUND`}
                                                             </div>
                                                         </div>
                                                     </div>
