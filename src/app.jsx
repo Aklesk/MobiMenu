@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, Redirect, browserHistory } from 'react-router'
 import './styles/app.less'
-import './styles/nav.less'
 import 'font-awesome/css/font-awesome.css'
 import update from 'react-addons-update'
 import HTML5Backend from 'react-dnd-html5-backend'
@@ -48,14 +47,15 @@ class App extends React.Component {
             )
         }
 
-        // We're not dealing with asynchronus loading, or indeed any loading - just load the whole database into state
+        // We're not dealing with asynchronus loading, or indeed any loading - so we can load the whole database into state.
         // dataObj exists to provide a relational database structure (it has a list of all category objects, for
         // instance), while recordDict is very much non-relational; it's just a dictionary of *all* record items
         // keyed to record guid.
         this.state = {
             dataObj: DataObj,
             editing: {rec: "", elem: "", saveFunc: null},
-            recordDict: recordDict
+            recordDict: recordDict,
+            overlay: {message: "", okayFunc: null}
         }
     }
 
@@ -89,6 +89,16 @@ class App extends React.Component {
         this.setState({editing: {rec: "", elem: "", saveFunc: null}})
     }
 
+    // This is a method for displaying a full-page overlay, mostly used for confirmation "are you sore?" messages.
+    overlay = (message, okayFunc) => {
+        if (message == undefined || okayFunc == undefined) {
+            this.setState({overlay: {message: "", okayFunc: null}})
+        }
+        else {
+            this.setState({overlay: {message, okayFunc}})
+        }
+    }
+
     // This takes a full record (that has a GUID) as an input and updates state with it. In a more full version
     // of this code, it might also send an update to a server, but at the moment it just updates state.
     updateRecord = (rec) => {
@@ -116,6 +126,16 @@ class App extends React.Component {
             <div
                 onClick={this.onClick}
             >
+                {
+                    this.state.overlay.message == ""
+                    ?
+                    <div>
+                        <div className="overlay"/>
+                        <div className="message">I'm an overlay message!</div>
+                    </div>
+                    :
+                    <div/>
+                }
                 <HeaderBox />
                 {this.props.children}
                 <FooterArea />
