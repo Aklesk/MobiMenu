@@ -16,7 +16,7 @@ class RecordItem extends React.Component {
         const record = this.context.recordDict[this.props.params.record]
         return (
             <div className="record">
-                <RecordItem_Header record={record} />
+                <RecordItem_Header record={record} section={this.props.params.section} />
                 {this.props.params.section == "menus" ? <Menu recordDict={this.context.recordDict} record={record} /> : <div />}
                 {this.props.params.section == "categories" ? <Category recordDict={this.context.recordDict} record={record} /> : <div />}
                 {this.props.params.section == "products" ? <Product recordDict={this.context.recordDict} record={record} /> : <div />}

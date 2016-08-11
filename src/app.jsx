@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Router, Route, Redirect, browserHistory } from 'react-router'
 import './styles/app.less'
 import 'font-awesome/css/font-awesome.css'
+import _ from 'lodash'
 import update from 'react-addons-update'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
@@ -55,8 +56,40 @@ class App extends React.Component {
             dataObj: DataObj,
             editing: {rec: "", elem: "", saveFunc: null},
             recordDict: recordDict,
-            overlay: {message: "", okayFunc: null}
+            overlay: {header: "", message: "", okayFunc: null}
         }
+    }
+
+    // This completely deletes the record with the specified GUID.
+    // Eventually this will be part of a versioning system and will simply set a deleted flag, but right now it deletes.
+    deleteRecord = (guid) => {
+
+        // Because we're reassigning a key to undefined, rather than changing an object, it must be updated
+        // in both recordDict and the dataObj that gives us our section lists.
+        // This data is needed to update dataObj
+        let recordType = ""
+        let index = null
+        for (const key in this.state.dataObj) {
+            const i = this.state.dataObj[key].findIndex((rec) => {
+                if(rec.guid == guid){return true}
+            })
+            if (i != -1) {
+                recordType = key
+                index = i
+            }
+        }
+
+
+        let newRec1 = update(this.state.dataObj, {
+            [recordType]: {$splice: [[index, 1]]}
+        })
+        let newRec2 = update(this.state.recordDict, {
+            [guid]: {$set: undefined}
+        })
+        this.setState({
+            dataObj: newRec1,
+            recordDict: newRec2
+        })
     }
 
     // This is how components interact with editing. If called with no arguments, this returns the record currently
@@ -74,7 +107,9 @@ class App extends React.Component {
     // Context is used to push relevant state and functions to the app as a whole.
     getChildContext() {return {
         dataObj: this.state.dataObj,
+        deleteRecord: this.deleteRecord,
         editing: this.editing,
+        overlay: this.overlay,
         recordDict: this.state.recordDict,
         updateList: this.updateList
     }}
@@ -89,14 +124,9 @@ class App extends React.Component {
         this.setState({editing: {rec: "", elem: "", saveFunc: null}})
     }
 
-    // This is a method for displaying a full-page overlay, mostly used for confirmation "are you sore?" messages.
-    overlay = (message, okayFunc) => {
-        if (message == undefined || okayFunc == undefined) {
-            this.setState({overlay: {message: "", okayFunc: null}})
-        }
-        else {
-            this.setState({overlay: {message, okayFunc}})
-        }
+    // This is a method for displaying a full-page overlay, mostly used for confirmation "are you sure?" messages.
+    overlay = (header, message, okayFunc) => {
+        this.setState({overlay: {header, message, okayFunc}})
     }
 
     // This takes a full record (that has a GUID) as an input and updates state with it. In a more full version
@@ -127,11 +157,28 @@ class App extends React.Component {
                 onClick={this.onClick}
             >
                 {
-                    this.state.overlay.message == ""
+                    this.state.overlay.message != ""
                     ?
                     <div>
                         <div className="overlay"/>
-                        <div className="message">I'm an overlay message!</div>
+                        <div className="message">
+                            <h1 className="messageHeader">
+                                {this.state.overlay.header}
+                            </h1>
+                            <div className="messageText">
+                                {this.state.overlay.message}
+                            </div>
+                            <div className="options">
+                                <div className="okay">
+                                    <button onClick={this.state.overlay.okayFunc}>Okay</button>
+                                </div>
+                                <div className="cancel">
+                                    <button onClick={this.overlay.bind(this, "", "", null)}>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     :
                     <div/>
@@ -146,7 +193,9 @@ class App extends React.Component {
 
 App.childContextTypes = {
     dataObj: React.PropTypes.object,
+    deleteRecord: React.PropTypes.func,
     editing: React.PropTypes.func,
+    overlay: React.PropTypes.func,
     recordDict: React.PropTypes.object,
     updateList: React.PropTypes.func
 }

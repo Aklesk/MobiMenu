@@ -1,4 +1,5 @@
 import React from 'react'
+import { browserHistory } from 'react-router'
 
 // We're using componentWillUpdate and componentWillMount to get the record data out of the database to try to
 // minimize the number of database calls.
@@ -11,6 +12,18 @@ class RecordItemHeader extends React.Component {
         if (document.getElementById("intNameEdit") != null) {
             document.getElementById("intNameEdit").focus()
         }
+    }
+    deleteRecord() {
+        const okayFunc = () => {
+            this.context.deleteRecord(this.props.record.guid)
+            this.context.overlay("", "", null)
+            browserHistory.push(`/menu/${this.props.section}`)
+        }
+        this.context.overlay(
+            "Are you sure?",
+            "Deleting this record is permanent and cannot be undone.",
+            okayFunc
+        )
     }
     onClick = (rec, elem, event) => {
         const saveFunc = () => {
@@ -61,7 +74,7 @@ class RecordItemHeader extends React.Component {
                             </td>
                             <td>
                                 <div className="rightPart">
-                                    <a className="toDelete">
+                                    <a className="toDelete" onClick={this.deleteRecord.bind(this)}>
                                         Delete Record
                                     </a>
                                 </div>
@@ -77,7 +90,9 @@ class RecordItemHeader extends React.Component {
 }
 
 RecordItemHeader.contextTypes = {
-    editing: React.PropTypes.func
+    deleteRecord: React.PropTypes.func,
+    editing: React.PropTypes.func,
+    overlay: React.PropTypes.func
 }
 
 export default RecordItemHeader

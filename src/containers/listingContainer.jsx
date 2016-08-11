@@ -11,8 +11,10 @@ import MenuListItem from '../components/menuListItem.jsx'
 class ListingContainer extends React.Component {
     constructor() {super()}
     render() {
-        const recs = this.context.dataObj[this.props.params.section].map((rec, i) =>
-            <MenuListItem section={this.props.params.section} rec={rec} key={ShortID.generate()} />
+        const { children, params } = this.props
+        const { dataObj, recordDict } = this.context
+        const recs = dataObj[params.section].map((rec, i) =>
+            <MenuListItem section={params.section} rec={rec} key={ShortID.generate()} />
             )
         return (
             <div id="listingContainer" className="grid_12">
@@ -22,7 +24,7 @@ class ListingContainer extends React.Component {
                             <td>
                                 <div className="leftListing">
                                     <h1>
-                                        {mainTabs[this.props.params.section].label}
+                                        {mainTabs[params.section].label}
                                     </h1>
                                     <div className="leftContent">
                                         {
@@ -31,7 +33,7 @@ class ListingContainer extends React.Component {
                                             recs
                                             :
                                             <div className="noRecords">
-                                                {`No data. Please add a ${mainTabs[this.props.params.section].singular.toLowerCase()}.`}
+                                                {`No data. Please add a ${mainTabs[params.section].singular.toLowerCase()}.`}
                                             </div>
                                         }
                                     </div>
@@ -44,17 +46,31 @@ class ListingContainer extends React.Component {
                                     </h1>
                                     <div className="rightContent">
                                         {
-                                            this.props.params.record == undefined
+                                            params.record == undefined
                                             ?
                                             <div className="record">
                                                 <div className="recordHeader">
                                                     <div className="placeholderHeader">
-                                                        {`⬅ Please select a ${mainTabs[this.props.params.section].singular.toLowerCase()}.`}
+                                                        {`⬅ Please select a ${mainTabs[params.section].singular.toLowerCase()}.`}
                                                     </div>
                                                 </div>
                                             </div>
                                             :
-                                            this.props.children
+                                            <div>
+                                                {
+                                                    recordDict[params.record] != undefined
+                                                    ?
+                                                    children
+                                                    :
+                                                    <div className="record">
+                                                        <div className="recordHeader">
+                                                            <div className="placeholderHeader">
+                                                                {`404 error: ${mainTabs[params.section].singular} not found.`}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
                                         }
                                     </div>
                                 </div>
@@ -68,7 +84,8 @@ class ListingContainer extends React.Component {
 }
 
 ListingContainer.contextTypes = {
-    dataObj: React.PropTypes.object
+    dataObj: React.PropTypes.object,
+    recordDict: React.PropTypes.object
 }
 
 export default ListingContainer
