@@ -6,7 +6,7 @@ import ExportOptions from '../components/exportOptions.jsx'
 // This renders main tabs at the top area
 import MainTabs from '../components/mainTabs.jsx'
 
-// This is a container that holds the main body. Its contents change based on the URL (due to the router)
+// This is a container that holds the main body. Its contents change based on the URL (due to the router in app.jsx)
 export default function(props) {
     return (
         <div className="main">

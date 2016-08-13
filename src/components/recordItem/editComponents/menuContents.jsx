@@ -13,7 +13,7 @@ class CategoryGroup extends React.Component {
         const { category, record, recordDict } = this.props
 
         // To start, get the list of categories in displayed order as GUIDs
-        const categories = _.uniq(record.products.map(r => recordDict[recordDict[r].category].guid))
+        const categories = _.uniq(record.products.map((r) => {return(recordDict[r].category)}))
 
         // Now convert the list of categories to an ordered list of records to be saved
         const newList = []
@@ -21,7 +21,7 @@ class CategoryGroup extends React.Component {
             const products = record.products.filter(p => recordDict[p].category == k)
 
             // When we get to this category, re-order it before pushing it.
-            if(k == category.guid) {
+            if(k == category) {
                 products.splice(dest, 0, products.splice(source, 1)[0])
             }
 
@@ -42,11 +42,23 @@ class CategoryGroup extends React.Component {
                             ?
                             <div className="draggable">
                                 <span className="filler">⇕ </span>
-                                <span>{category.intName}</span>
+                                {
+                                    recordDict[category] != undefined
+                                    ?
+                                    <span>{recordDict[category].intName}</span>
+                                    :
+                                    <span className="filler">-- No Category --</span>
+                                }
                             </div>
                             :
                             <div>
-                                {category.intName}
+                                {
+                                    recordDict[category] != undefined
+                                    ?
+                                    <span>{recordDict[category].intName}</span>
+                                    :
+                                    <span className="filler">-- No Category --</span>
+                                }
                             </div>
                     }
                 </div>
@@ -55,7 +67,7 @@ class CategoryGroup extends React.Component {
                         ?
                         products.map((prod, i) => {
                             return (
-                                <DraggableProduct category={category.guid}
+                                <DraggableProduct category={category}
                                                   editing={editing}
                                                   index={i}
                                                   id={`${recordDict[prod].guid}product${i}`}
@@ -68,7 +80,7 @@ class CategoryGroup extends React.Component {
                         :
                         products.map((prod, i) => {
                             return (
-                                <Product category={category.guid}
+                                <Product category={category}
                                          connectDragSource={a => a}
                                          connectDropTarget={a => a}
                                          editing={editing}
@@ -104,7 +116,7 @@ function Product(props, context) {
             {
                 editing().elem == "menuContentsEdit"
                     ?
-                    <div>
+                    <div className="draggable">
                         <span className="filler">⇕ </span>
                         <span>{record.intName}</span>
                     </div>
@@ -234,7 +246,7 @@ class menuContents extends React.Component {
         const { record, recordDict } = this.props
 
         // To start, get the list of categories in displayed order as GUIDs
-        const categories = _.uniq(record.products.map(r => recordDict[recordDict[r].category].guid))
+        const categories = _.uniq(record.products.map((r) => {return(recordDict[r].category)}))
 
         // Now re-order the categories list as per the source and dest
         categories.splice(dest, 0, categories.splice(source, 1)[0])
@@ -252,7 +264,7 @@ class menuContents extends React.Component {
     }
     render() {
         const { record, recordDict } = this.props
-        const categories = _.uniq(record.products.map(r => recordDict[recordDict[r].category].guid))
+        const categories = _.uniq(record.products.map((r) => {return(recordDict[r].category)}))
         return(
             <div className="menuContents">
                 {
@@ -266,12 +278,12 @@ class menuContents extends React.Component {
                                     {
                                         categories.map((key, i) => {
                                             return (
-                                                <DraggableCategoryGroup category={recordDict[key]}
+                                                <DraggableCategoryGroup category={key}
                                                                         editing={this.context.editing}
                                                                         index={i}
                                                                         id={`${record.guid}category${i}`}
                                                                         key={key}
-                                                                        products={record.products.filter(p => recordDict[p].category == key)}
+                                                                        products={record.products.filter(p => recordDict[p] && recordDict[p].category == key)}
                                                                         record={record}
                                                                         recordDict={recordDict}
                                                                         updateList={this.updateList}
@@ -299,12 +311,12 @@ class menuContents extends React.Component {
                                     {
                                         categories.map((key) => {
                                             return (
-                                                <CategoryGroup category={recordDict[key]}
+                                                <CategoryGroup category={key}
                                                                connectDragSource={a => a}
                                                                connectDropTarget={a => a}
                                                                editing={this.context.editing}
                                                                key={key}
-                                                               products={record.products.filter(p => recordDict[p].category == key)}
+                                                               products={record.products.filter(p => recordDict[p] && recordDict[p].category == key)}
                                                                record={record}
                                                                recordDict={recordDict}
                                                                updateList={this.updateList}

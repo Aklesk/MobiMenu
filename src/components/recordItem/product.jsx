@@ -44,7 +44,13 @@ class RecordItemBodyProduct extends React.Component {
                         Product Category:
                     </div>
                     <div className="recordCategory">
-                        {category.name}
+                        {
+                            category != undefined
+                            ?
+                            category.name
+                            :
+                            <span className="filler"> -- No Category -- </span>
+                        }
                     </div>
                 </div>
             </div>

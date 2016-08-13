@@ -8,15 +8,19 @@ class RecordItemHeader extends React.Component {
     constructor() {
         super()
     }
+    componentDidMount() {
+        if (document.getElementById("intNameEdit") != null) {
+            document.getElementById("intNameEdit").focus()
+        }
+    }
     componentDidUpdate() {
         if (document.getElementById("intNameEdit") != null) {
             document.getElementById("intNameEdit").focus()
         }
     }
-    deleteRecord() {
+    deleteRecord(event) {
         const okayFunc = () => {
             this.context.deleteRecord(this.props.record.guid)
-            this.context.overlay("", "", null)
             browserHistory.push(`/menu/${this.props.section}`)
         }
         this.context.overlay(

@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/listingContainer.less'
+import '../styles/recordView.less'
 import ShortID from 'shortid'
 
 // This is where the list of tabs are stored.
@@ -8,24 +8,35 @@ import { mainTabs } from '../interfaceConstants.js'
 // This is a single listing for the menu container
 import MenuListItem from '../components/menuListItem.jsx'
 
-class ListingContainer extends React.Component {
+class RecordView extends React.Component {
     constructor() {super()}
+    newRecord = () => {
+        return
+    }
     render() {
         const { children, params } = this.props
         const { dataObj, recordDict } = this.context
+        const { label, singular } = mainTabs[params.section]
         const recs = dataObj[params.section].map((rec, i) =>
             <MenuListItem section={params.section} rec={rec} key={ShortID.generate()} />
             )
         return (
-            <div id="listingContainer" className="grid_12">
+            <div id="recordView" className="grid_12">
                 <table className="nostyle">
                     <tbody>
                         <tr>
                             <td>
                                 <div className="leftListing">
-                                    <h1>
-                                        {mainTabs[params.section].label}
-                                    </h1>
+                                    <div>
+                                        <h1>
+                                            {label}
+                                        </h1>
+                                        <button className="addNewButton"
+                                                onClick={this.context.addRecord.bind(this, singular.toLowerCase())}
+                                        >
+                                            {`New ${singular}`}
+                                        </button>
+                                    </div>
                                     <div className="leftContent">
                                         {
                                             recs.length > 0
@@ -33,7 +44,7 @@ class ListingContainer extends React.Component {
                                             recs
                                             :
                                             <div className="noRecords">
-                                                {`No data. Please add a ${mainTabs[params.section].singular.toLowerCase()}.`}
+                                                {`No data. Please add a ${singular.toLowerCase()}.`}
                                             </div>
                                         }
                                     </div>
@@ -51,7 +62,7 @@ class ListingContainer extends React.Component {
                                             <div className="record">
                                                 <div className="recordHeader">
                                                     <div className="placeholderHeader">
-                                                        {`⬅ Please select a ${mainTabs[params.section].singular.toLowerCase()}.`}
+                                                        {`⬅ Please select a ${singular.toLowerCase()}.`}
                                                     </div>
                                                 </div>
                                             </div>
@@ -65,7 +76,7 @@ class ListingContainer extends React.Component {
                                                     <div className="record">
                                                         <div className="recordHeader">
                                                             <div className="notFoundHeader">
-                                                                {`404: ${mainTabs[params.section].singular.toUpperCase()} NOT FOUND`}
+                                                                {`404: ${singular.toUpperCase()} NOT FOUND`}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -83,9 +94,10 @@ class ListingContainer extends React.Component {
     }
 }
 
-ListingContainer.contextTypes = {
+RecordView.contextTypes = {
+    addRecord: React.PropTypes.func,
     dataObj: React.PropTypes.object,
     recordDict: React.PropTypes.object
 }
 
-export default ListingContainer
+export default RecordView

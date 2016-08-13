@@ -8,26 +8,26 @@ import update from 'react-addons-update'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
+// We occasionally need to figure out what's going on with categories and such
+import { mainTabs } from './interfaceConstants.js'
+
 // We need some base data for this example. This acts as a sort of pre-loaded resetting database.
-import { exampleData } from './db.js'
-import { menu } from './db.js'
-import { category } from './db.js'
-import { product } from './db.js'
+import { exampleData, menu, category, product } from './db.js'
 
 // This is the header at the top of the page.
 import HeaderBox from './components/header.jsx'
 
 // This renders the main body of the page, where most of the action takes place
-import MainBody from './containers/mainBody.jsx'
+import MainBody from './components/mainBody.jsx'
 
 // This renders the footer at the bottom of the page.
 import FooterArea from './components/footer.jsx'
 
 // This renders the Listing Container, a wrapper for the editing that the user does
-import ListingContainer from './containers/listingContainer.jsx'
+import RecordView from './components/recordView.jsx'
 
 // This is the holder for records when being edited.
-import RecordItem from './containers/recordItem.jsx'
+import RecordItem from './components/recordItem.jsx'
 
 // This is needed for proper styling due to the way that this project was imported from an active site.
 document.body.className = "m2g-console"
@@ -60,6 +60,56 @@ class App extends React.Component {
         }
     }
 
+    // This will add a new record of the specified type. Accepts arguments as a lowercase string.
+    addRecord = (recType, event) => {
+
+        // dataObj must be updated, which requires us to convert the recType (a singular lowercase
+        // string) to the dataObj category key (a plural lowercase string). We can just parse the tab
+        // definition in interfaceConstants to achieve this, though in a bit of a messy way.
+        let rec = {}
+        const key = Object.keys(mainTabs).map((k) => {
+            return [k, mainTabs[k].singular.toLowerCase()]
+        }).find((tuple) => {
+            return (tuple[1] == recType)
+        })[0]
+
+        // Still no way to refer to the local scope without a namespace, so just use if statements for now.
+        if (recType == "menu") {rec = menu()}
+        if (recType == "category") {rec = category()}
+        if (recType == "product") {rec = product()}
+
+        if (recType == "modifier" || recType == "modifier group") {
+            this.overlay(
+                "Not Implemented",
+                "Modifiers and Modifier Groups are outside scope of this tech demo site.",
+                () => {
+                    this.overlay("", "", null)
+                }
+            )
+            return
+        }
+
+        const dataObj = update(this.state.dataObj, {
+            [key]: {$push: [rec]}
+        })
+        const recordDict = update(this.state.recordDict, {
+            [rec.guid]: {$set: rec}
+        })
+        this.setState({ dataObj, recordDict })
+
+        // For convenience, drop the user into automatically viewing the record and editing the header.
+        browserHistory.push(`/menu/${key}/${rec.guid}`)
+        this.editing(
+            rec.guid,
+            "intNameEdit",
+            () => {
+                rec.intName = document.getElementById("intNameEdit").value
+                return rec
+            },
+            event
+        )
+    }
+
     // This completely deletes the record with the specified GUID.
     // Eventually this will be part of a versioning system and will simply set a deleted flag, but right now it deletes.
     deleteRecord = (guid) => {
@@ -80,32 +130,30 @@ class App extends React.Component {
         }
 
 
-        let newRec1 = update(this.state.dataObj, {
+        let dataObj = update(this.state.dataObj, {
             [recordType]: {$splice: [[index, 1]]}
         })
-        let newRec2 = update(this.state.recordDict, {
+        let recordDict = update(this.state.recordDict, {
             [guid]: {$set: undefined}
         })
-        this.setState({
-            dataObj: newRec1,
-            recordDict: newRec2
-        })
+        this.setState({ dataObj, recordDict })
     }
 
     // This is how components interact with editing. If called with no arguments, this returns the record currently
     // being edited. If called with arguments it changes editing.
     editing = (rec, elem, saveFunc, event) => {
+        if(event != undefined){event.stopPropagation()}
         if (rec == undefined) {
             return this.state.editing
         }
         else {
-            event.stopPropagation()
             this.setState({editing: {rec, elem, saveFunc}})
         }
     }
 
     // Context is used to push relevant state and functions to the app as a whole.
     getChildContext() {return {
+        addRecord: this.addRecord,
         dataObj: this.state.dataObj,
         deleteRecord: this.deleteRecord,
         editing: this.editing,
@@ -113,6 +161,12 @@ class App extends React.Component {
         recordDict: this.state.recordDict,
         updateList: this.updateList
     }}
+
+    okayFunc = (event) => {
+        event.stopPropagation()
+        this.state.overlay.okayFunc(event)
+        this.overlay("", "", null)
+    }
 
     // This is run on every click anywhere in the app that is not explicitly prevented from doing anything. This
     // ends edit mode, and also is used to save records. For simplicity, each component with an edit mode bundles
@@ -160,7 +214,7 @@ class App extends React.Component {
                     this.state.overlay.message != ""
                     ?
                     <div>
-                        <div className="overlay"/>
+                        <div className="overlay" onClick={this.overlay.bind(this, "", "", null)} />
                         <div className="message">
                             <h1 className="messageHeader">
                                 {this.state.overlay.header}
@@ -169,14 +223,12 @@ class App extends React.Component {
                                 {this.state.overlay.message}
                             </div>
                             <div className="options">
-                                <div className="okay">
-                                    <button onClick={this.state.overlay.okayFunc}>Okay</button>
-                                </div>
-                                <div className="cancel">
-                                    <button onClick={this.overlay.bind(this, "", "", null)}>
-                                        Cancel
-                                    </button>
-                                </div>
+                                <button id="okay" onClick={this.okayFunc}>
+                                    Okay
+                                </button>
+                                <button id="cancel" onClick={this.overlay.bind(this, "", "", null)}>
+                                    Cancel
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -192,6 +244,7 @@ class App extends React.Component {
 }
 
 App.childContextTypes = {
+    addRecord: React.PropTypes.func,
     dataObj: React.PropTypes.object,
     deleteRecord: React.PropTypes.func,
     editing: React.PropTypes.func,
@@ -206,7 +259,7 @@ ReactDOM.render((
         <Redirect from="/menu/" to="/menu/menus/" />
         <Route path="/menu/" component={DragDropContext(HTML5Backend)(App)}>
             <Route component={MainBody}>
-                <Route path="/menu/:section" component={ListingContainer}>
+                <Route path="/menu/:section" component={RecordView}>
                     <Route path="/menu/:section/:record" component={RecordItem}/>
                 </Route>
             </Route>
