@@ -4,9 +4,17 @@ import _ from 'lodash'
 import { DragSource, DropTarget } from 'react-dnd'
 import { dragTypes } from '../../../interfaceConstants'
 
+
+
+
+
+
+
+
 // =======================================================================
 // This is a category react component, which acts as a header for, and contains, products.
-// This category react component is only used here, by the menuContents component.
+// This category react component is only used here, by the menuContents component at the end of this file.
+// It is also wrapped by the React-DnD functionality described in the code block labelled as handling dragging.
 // =======================================================================
 class CategoryGroup extends React.Component {
     updateList = (source, dest) => {
@@ -112,9 +120,16 @@ CategoryGroup.contextTypes = {
 }
 
 
+
+
+
+
+
+
 // =======================================================================
 // This is a product react component, which acts as a component for products.
-// This category react component is only used here, by the menuContents component.
+// This category react component is only used here, by the menuContents component at the end of this file.
+// It is also wrapped by the React-DnD functionality described in the code block labelled as handling dragging.
 // =======================================================================
 function Product(props, context) {
     const { connectDragSource, connectDropTarget, editing, isDragging, product, record } = props
@@ -150,8 +165,14 @@ Product.contextTypes = {
 
 
 
+
+
+
+
+
 // =======================================================================
-// This allows a category group to be draggable
+// This section contains data and functions needed for dragging to occur with React-DnD.
+// The wrappers for the draggable react components in this section are defined in this block as well.
 // =======================================================================
 const drag = {
     beginDrag(props) {
@@ -243,8 +264,16 @@ const DraggableProduct =
     )
 
 
+
+
+
+
+
+
 // =======================================================================
-// This is the actual menu contents react component
+// This is the actual menu contents react component, which is the only exportable from this file.
+// Everything above this point is purely support for this react component; none of the above is used,
+// or can be used, elsewhere.
 // =======================================================================
 class menuContents extends React.Component {
     constructor() {
@@ -253,6 +282,10 @@ class menuContents extends React.Component {
         this.state = {
             dragging: ""
         }
+    }
+    addProduct = (event) => {
+        event.stopPropagation()
+        return
     }
     onClick = (rec, elem, event) => {
         const saveFunc = () => {
@@ -317,6 +350,13 @@ class menuContents extends React.Component {
                                             )
                                         })
                                     }
+                                    <div style={{textAlign: "right"}}>
+                                        <button style={{display: "inline-block"}}
+                                                onClick={this.addProduct}
+                                        >
+                                            Add New
+                                        </button>
+                                    </div>
                                 </div>
                                 :
                                 <span className="filler">No Contents</span>
