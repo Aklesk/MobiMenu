@@ -6,8 +6,8 @@ class Question extends React.Component {
     render() {
         return (
             <div>
-                <div className="overlay" onClick={this.props.cancelFunc.bind(this, "", "", "", null)} />
-                <div className="message">
+                <div className="overlay" onClick={this.props.cancelFunc} />
+                <div className="message messageStandard">
                     <h1 className="messageHeader">
                         {this.props.header}
                     </h1>
@@ -15,10 +15,10 @@ class Question extends React.Component {
                         {this.props.message}
                     </div>
                     <div className="options">
-                        <button id="okay" onClick={this.props.okayFunc}>
+                        <button id="okay" onClick={this.props.okayFunc.bind(this, null)}>
                             Okay
                         </button>
-                        <button id="cancel" onClick={this.props.cancelFunc.bind(this, "", "", "", null)}>
+                        <button id="cancel" onClick={this.props.cancelFunc}>
                             Cancel
                         </button>
                     </div>

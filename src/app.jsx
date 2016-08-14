@@ -32,6 +32,7 @@ import RecordItem from './components/recordItem.jsx'
 // Overlay options
 import Question from './components/overlay/question.jsx'
 import Alert from './components/overlay/alert.jsx'
+import AddProduct from './components/overlay/addProduct.jsx'
 
 // This is needed for proper styling due to the way that this project was imported from an active site.
 document.body.className = "m2g-console"
@@ -167,10 +168,10 @@ class App extends React.Component {
         updateList: this.updateList
     }}
 
-    okayFunc = (event) => {
+    okayFunc = (data, event) => {
         event.stopPropagation()
-        this.state.overlay.okayFunc(event)
-        this.overlay("", "", null)
+        this.state.overlay.okayFunc(data, event)
+        this.overlay("", "", "", null)
     }
 
     // This is run on every click anywhere in the app that is not explicitly prevented from doing anything. This
@@ -222,7 +223,7 @@ class App extends React.Component {
                         {
                             this.state.overlay.type == "question"
                             ?
-                            <Question cancelFunc={this.overlay}
+                            <Question cancelFunc={(event) => this.overlay("", "", "", null, event)}
                                       header={this.state.overlay.header}
                                       message={this.state.overlay.message}
                                       okayFunc={this.okayFunc}
@@ -236,6 +237,17 @@ class App extends React.Component {
                             <Alert header={this.state.overlay.header}
                                    message={this.state.overlay.message}
                                    okayFunc={this.okayFunc}
+                            />
+                            :
+                            <div/>
+                        }
+                        {
+                            this.state.overlay.type == "addProduct"
+                            ?
+                            <AddProduct cancelFunc={(event) => this.overlay("", "", "", null, event)}
+                                        header={this.state.overlay.header}
+                                        message={this.state.overlay.message}
+                                        okayFunc={this.okayFunc}
                             />
                             :
                             <div/>

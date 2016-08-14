@@ -5,7 +5,7 @@
 @color_9: #555;
 @color_11: #b94a48;
 @color_18: #777;
-@color_19: #2eaa49;
+@mobiGreen: #2eaa49;
 @color_20: #1f8a43;
 @color_21: white;
 @color_22: #666;
@@ -230,28 +230,66 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   color: @color_9;
-  height: 170px;
   left: 50%;
-  margin-top: -100px;
-  margin-left: -150px;
   padding: 20px;
   position: fixed;
   text-align: center;
   top: 50%;
-  width: 300px;
   z-index: 101;
+  .messageData {
+    height: 300px;
+    margin: 10px;
+    overflow-y: scroll;
+    position: relative;
+  }
+  .messageTable {
+    width: 100%;
+    border-collapse:collapse;
+    td {
+      padding: 0;
+    }
+    tr:hover {
+      background-color: @mobiGreen;
+      color: white;
+      cursor: pointer;
+    }
+    div {
+      border-bottom: 2px solid @mobiGreen;
+      padding-bottom: 5px;
+    }
+    .leftColumn {
+      margin-left: 5px;
+      text-align: left;
+    }
+    .rightColumn {
+      margin-right: 5px;
+      text-align: right;
+    }
+  }
   .messageText {
     margin: 10px;
   }
   .options {
     position: absolute;
     bottom: 10px;
-    width: 300px;
+    width: 100%;
     #cancel, #okay {
       display: inline-block;
       margin: 15px 20px;
     }
   }
+}
+.messageStandard {
+  height: 170px;
+  margin-left: -150px;
+  margin-top: -85px;
+  width: 300px;
+}
+.messageLarge {
+  height: 420px;
+  margin-left: -300px;
+  margin-top: -210px;
+  width: 600px;
 }
 .row {
   margin-left: -20px;
@@ -548,7 +586,7 @@ input[type="text"] {
   background: #ececec;
   a {
     text-decoration: none;
-    color: @color_19;
+    color: @mobiGreen;
     &:hover {
       color: @color_20;
       text-decoration: underline;
@@ -575,7 +613,7 @@ input[type="text"] {
     font-size: 1.6em;
     padding: .3em 0 .3em;
     margin: 0.5em 0;
-    color: @color_19;
+    color: @mobiGreen;
     font-weight: 500;
     display: inline-block;
     i {
@@ -626,7 +664,7 @@ input[type="text"] {
     padding: 10px 12px 10px;
     text-shadow: none;
     background: transparent;
-    color: @color_19;
+    color: @mobiGreen;
     text-transform: uppercase;
     &:hover {
       color: @color_21;

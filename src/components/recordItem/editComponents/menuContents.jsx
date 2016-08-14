@@ -284,8 +284,25 @@ class menuContents extends React.Component {
         }
     }
     addProduct = (event) => {
+
+        // This is called when the user selects "Add New" during editing of the category groups, and allows new
+        // products to be added to the menu.
+
+        const { record, recordDict } = this.props
+        const { dataObj, updateList } = this.context
         event.stopPropagation()
-        return
+        const validProducts = dataObj.products.filter((rec) => {
+            return (record.products.find((id) => {return id == rec.guid}) == undefined)
+        })
+        this.context.overlay(
+            "Add Product",
+            validProducts,
+            "addProduct",
+            (guid) => {
+                record.products.push(guid)
+                updateList(record)
+            }
+        )
     }
     onClick = (rec, elem, event) => {
         const saveFunc = () => {
@@ -299,6 +316,7 @@ class menuContents extends React.Component {
         // This function is used to update the order of the category groups during a click-and-drag event.
 
         const { record, recordDict } = this.props
+        const { updateList } = this.context
 
         // To start, get the list of categories in displayed order as GUIDs
         const categories = _.compact(_.uniq(record.products.map((r) => {
@@ -317,10 +335,11 @@ class menuContents extends React.Component {
 
         // And finally, save it.
         record.products = newList
-        this.context.updateList(record)
+        updateList(record)
     }
     render() {
         const { record, recordDict } = this.props
+        const { editing } = this.context
         const categories = _.compact(_.uniq(record.products.map((r) => {
             if (recordDict[r] != undefined) {return (recordDict[r].category)}
         })))
@@ -328,73 +347,73 @@ class menuContents extends React.Component {
             <div className="menuContents">
                 {
                     this.context.editing().elem == "menuContentsEdit"
-                        ?
-                        <div className="editBlock">
-                            {
-                                record.products.length > 0
-                                ?
-                                <div>
-                                    {
-                                        categories.map((key, i) => {
-                                            return (
-                                                <DraggableCategoryGroup category={key}
-                                                                        editing={this.context.editing}
-                                                                        index={i}
-                                                                        id={`${record.guid}category${i}`}
-                                                                        key={key}
-                                                                        products={record.products.filter(p => recordDict[p] && recordDict[p].category == key)}
-                                                                        record={record}
-                                                                        recordDict={recordDict}
-                                                                        updateList={this.updateList}
-                                                />
-                                            )
-                                        })
-                                    }
-                                    <div style={{textAlign: "right"}}>
-                                        <button style={{display: "inline-block"}}
-                                                onClick={this.addProduct}
-                                        >
-                                            Add New
-                                        </button>
-                                    </div>
+                    ?
+                    <div className="editBlock">
+                        {
+                            record.products.length > 0
+                            ?
+                            <div>
+                                {
+                                    categories.map((key, i) => {
+                                        return (
+                                            <DraggableCategoryGroup category={key}
+                                                                    editing={editing}
+                                                                    index={i}
+                                                                    id={`${record.guid}category${i}`}
+                                                                    key={key}
+                                                                    products={record.products.filter(p => recordDict[p] && recordDict[p].category == key)}
+                                                                    record={record}
+                                                                    recordDict={recordDict}
+                                                                    updateList={this.updateList}
+                                            />
+                                        )
+                                    })
+                                }
+                                <div style={{textAlign: "right"}}>
+                                    <button style={{display: "inline-block"}}
+                                            onClick={this.addProduct}
+                                    >
+                                        Add New
+                                    </button>
                                 </div>
-                                :
-                                <span className="filler">No Contents</span>
-                            }
-                        </div>
-                        :
-                        <div
-                            className="editable"
-                            onClick={this.onClick.bind(this, record.guid, "menuContentsEdit")}
-                        >
-                            <div className="labelText">
-                                Menu Contents:
                             </div>
-                            {
-                                record.products.length > 0
-                                ?
-                                <div>
-                                    {
-                                        categories.map((key) => {
-                                            return (
-                                                <CategoryGroup category={key}
-                                                               connectDragSource={a => a}
-                                                               connectDropTarget={a => a}
-                                                               editing={this.context.editing}
-                                                               key={key}
-                                                               products={record.products.filter(p => recordDict[p] && recordDict[p].category == key)}
-                                                               record={record}
-                                                               recordDict={recordDict}
-                                                               updateList={this.updateList}
-                                                />
-                                            )
-                                        })
-                                    }
-                                </div>
-                                :
-                                <span className="filler">No Contents</span>
-                            }
+                            :
+                            <span className="filler">No Contents</span>
+                        }
+                    </div>
+                    :
+                    <div
+                        className="editable"
+                        onClick={this.onClick.bind(this, record.guid, "menuContentsEdit")}
+                    >
+                        <div className="labelText">
+                            Menu Contents:
                         </div>
+                        {
+                            record.products.length > 0
+                            ?
+                            <div>
+                                {
+                                    categories.map((key) => {
+                                        return (
+                                            <CategoryGroup category={key}
+                                                           connectDragSource={a => a}
+                                                           connectDropTarget={a => a}
+                                                           editing={editing}
+                                                           key={key}
+                                                           products={record.products.filter(p => recordDict[p] && recordDict[p].category == key)}
+                                                           record={record}
+                                                           recordDict={recordDict}
+                                                           updateList={this.updateList}
+                                            />
+                                        )
+                                    })
+                                }
+                            </div>
+                            :
+                            <span className="filler">No Contents</span>
+                        }
+                    </div>
                 }
             </div>
         )
@@ -402,8 +421,10 @@ class menuContents extends React.Component {
 }
 
 menuContents.contextTypes = {
+    dataObj: React.PropTypes.object,
     dragging: React.PropTypes.func,
     editing: React.PropTypes.func,
+    overlay: React.PropTypes.func,
     updateList: React.PropTypes.func
 }
 

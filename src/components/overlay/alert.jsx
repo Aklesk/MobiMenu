@@ -7,7 +7,7 @@ class Alert extends React.Component {
         return (
             <div>
                 <div className="overlay" onClick={this.props.okayFunc} />
-                <div className="message">
+                <div className="message messageStandard">
                     <h1 className="messageHeader">
                         {this.props.header}
                     </h1>
@@ -15,7 +15,7 @@ class Alert extends React.Component {
                         {this.props.message}
                     </div>
                     <div className="options">
-                        <button id="okay" onClick={this.props.okayFunc}>
+                        <button id="okay" onClick={this.props.okayFunc.bind(this, null)}>
                             Okay
                         </button>
                     </div>
