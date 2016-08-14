@@ -296,7 +296,7 @@ class menuContents extends React.Component {
     }
     updateList = (source, dest) => {
 
-        // This function is used to update the order of the lists during a click-and-drag event.
+        // This function is used to update the order of the category groups during a click-and-drag event.
 
         const { record, recordDict } = this.props
 

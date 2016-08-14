@@ -26,6 +26,7 @@ class RecordItemHeader extends React.Component {
         this.context.overlay(
             "Are you sure?",
             "Deleting this record is permanent and cannot be undone.",
+            "question",
             okayFunc
         )
     }

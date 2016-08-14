@@ -29,6 +29,10 @@ import RecordView from './components/recordView.jsx'
 // This is the holder for records when being edited.
 import RecordItem from './components/recordItem.jsx'
 
+// Overlay options
+import Question from './components/overlay/question.jsx'
+import Alert from './components/overlay/alert.jsx'
+
 // This is needed for proper styling due to the way that this project was imported from an active site.
 document.body.className = "m2g-console"
 
@@ -56,7 +60,7 @@ class App extends React.Component {
             dataObj: DataObj,
             editing: {rec: "", elem: "", saveFunc: null},
             recordDict: recordDict,
-            overlay: {header: "", message: "", okayFunc: null}
+            overlay: {header: "", message: "", type: "", okayFunc: null}
         }
     }
 
@@ -82,8 +86,9 @@ class App extends React.Component {
             this.overlay(
                 "Not Implemented",
                 "Modifiers and Modifier Groups are outside scope of this tech demo site.",
+                "alert",
                 () => {
-                    this.overlay("", "", null)
+                    this.overlay("", "", "", null)
                 }
             )
             return
@@ -179,8 +184,8 @@ class App extends React.Component {
     }
 
     // This is a method for displaying a full-page overlay, mostly used for confirmation "are you sure?" messages.
-    overlay = (header, message, okayFunc) => {
-        this.setState({overlay: {header, message, okayFunc}})
+    overlay = (header, message, type, okayFunc) => {
+        this.setState({overlay: {header, message, type, okayFunc}})
     }
 
     // This takes a full record (that has a GUID) as an input and updates state with it. In a more full version
@@ -214,23 +219,27 @@ class App extends React.Component {
                     this.state.overlay.message != ""
                     ?
                     <div>
-                        <div className="overlay" onClick={this.overlay.bind(this, "", "", null)} />
-                        <div className="message">
-                            <h1 className="messageHeader">
-                                {this.state.overlay.header}
-                            </h1>
-                            <div className="messageText">
-                                {this.state.overlay.message}
-                            </div>
-                            <div className="options">
-                                <button id="okay" onClick={this.okayFunc}>
-                                    Okay
-                                </button>
-                                <button id="cancel" onClick={this.overlay.bind(this, "", "", null)}>
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
+                        {
+                            this.state.overlay.type == "question"
+                            ?
+                            <Question cancelFunc={this.overlay}
+                                      header={this.state.overlay.header}
+                                      message={this.state.overlay.message}
+                                      okayFunc={this.okayFunc}
+                            />
+                            :
+                            <div/>
+                        }
+                        {
+                            this.state.overlay.type == "alert"
+                            ?
+                            <Alert header={this.state.overlay.header}
+                                   message={this.state.overlay.message}
+                                   okayFunc={this.okayFunc}
+                            />
+                            :
+                            <div/>
+                        }
                     </div>
                     :
                     <div/>
