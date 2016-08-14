@@ -369,17 +369,17 @@ class menuContents extends React.Component {
                                         )
                                     })
                                 }
-                                <div style={{textAlign: "right"}}>
-                                    <button style={{display: "inline-block"}}
-                                            onClick={this.addProduct}
-                                    >
-                                        Add New
-                                    </button>
-                                </div>
                             </div>
                             :
                             <span className="filler">No Contents</span>
                         }
+                        <div style={{textAlign: "right"}}>
+                            <button style={{display: "inline-block"}}
+                                    onClick={this.addProduct}
+                            >
+                                Add New
+                            </button>
+                        </div>
                     </div>
                     :
                     <div
