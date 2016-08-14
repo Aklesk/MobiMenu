@@ -10,6 +10,9 @@ import { dragTypes } from '../../../interfaceConstants'
 // =======================================================================
 class CategoryGroup extends React.Component {
     updateList = (source, dest) => {
+
+        // This function is used to update the order of the lists during a click-and-drag event.
+
         const { category, record, recordDict } = this.props
 
         // To start, get the list of categories in displayed order as GUIDs
@@ -35,7 +38,7 @@ class CategoryGroup extends React.Component {
         this.context.updateList(record)
     }
     render() {
-        const {category, connectDragSource, connectDropTarget, editing, isDragging, products, recordDict} = this.props
+        const {category, connectDragSource, connectDropTarget, editing, isDragging, products, record, recordDict} = this.props
         return connectDropTarget(connectDragSource(
             <div className={`recordCategoryGroup ${isDragging ? "dragsource" : ""}`}>
                 <div className="recordCategoryHeader">
@@ -74,7 +77,8 @@ class CategoryGroup extends React.Component {
                                                   index={i}
                                                   id={`${recordDict[prod].guid}product${i}`}
                                                   key={recordDict[prod].guid}
-                                                  record={recordDict[prod]}
+                                                  product={recordDict[prod]}
+                                                  record={record}
                                                   updateList={this.updateList}
                                 />
                             )
@@ -89,7 +93,8 @@ class CategoryGroup extends React.Component {
                                          index={i}
                                          id={`${recordDict[prod].guid}product${i}`}
                                          key={recordDict[prod].guid}
-                                         record={recordDict[prod]}
+                                         product={recordDict[prod]}
+                                         record={record}
                                          updateList={this.updateList}
                                 />
                             )
@@ -112,7 +117,12 @@ CategoryGroup.contextTypes = {
 // This category react component is only used here, by the menuContents component.
 // =======================================================================
 function Product(props, context) {
-    const { connectDragSource, connectDropTarget, editing, isDragging, record } = props
+    const { connectDragSource, connectDropTarget, editing, isDragging, product, record } = props
+    function removeProduct(event) {
+        event.stopPropagation()
+        record.products.splice(record.products.indexOf(product.guid), 1)
+        context.updateList(record)
+    }
     return connectDropTarget(connectDragSource(
         <div className={`recordProduct ${isDragging ? "dragsource" : ""}`}>
             {
@@ -120,15 +130,22 @@ function Product(props, context) {
                     ?
                     <div className="draggable">
                         <span className="filler">⇕ </span>
-                        <span>{record.intName}</span>
+                        <span>{product.intName}</span>
+                        <span className="fa fa-minus-square removeButton"
+                              onClick={removeProduct}
+                        />
                     </div>
                     :
                     <div>
-                        {record.intName}
+                        {product.intName}
                     </div>
             }
         </div>
     ))
+}
+
+Product.contextTypes = {
+    updateList: React.PropTypes.func
 }
 
 
@@ -245,6 +262,9 @@ class menuContents extends React.Component {
         this.context.editing(rec, elem, saveFunc, event)
     }
     updateList = (source, dest) => {
+
+        // This function is used to update the order of the lists during a click-and-drag event.
+
         const { record, recordDict } = this.props
 
         // To start, get the list of categories in displayed order as GUIDs
