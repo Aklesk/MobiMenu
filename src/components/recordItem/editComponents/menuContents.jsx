@@ -293,12 +293,12 @@ class menuContents extends React.Component {
         // products to be added to the menu.
 
         const { record, recordDict } = this.props
-        const { dataObj, updateList } = this.context
+        const { dataObj, overlay, updateList } = this.context
         event.stopPropagation()
         const validProducts = dataObj.products.filter((rec) => {
             return (record.products.find((id) => {return id == rec.guid}) == undefined)
         })
-        this.context.overlay(
+        overlay(
             "Add Product",
             validProducts,
             "addProduct",

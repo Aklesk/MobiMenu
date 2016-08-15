@@ -33,6 +33,7 @@ import RecordItem from './components/recordItem.jsx'
 import Question from './components/overlay/question.jsx'
 import Alert from './components/overlay/alert.jsx'
 import AddProduct from './components/overlay/addProduct.jsx'
+import AddCategory from './components/overlay/addCategory.jsx'
 
 // This is needed for proper styling due to the way that this project was imported from an active site.
 document.body.className = "m2g-console"
@@ -165,7 +166,8 @@ class App extends React.Component {
         editing: this.editing,
         overlay: this.overlay,
         recordDict: this.state.recordDict,
-        updateList: this.updateList
+        updateList: this.updateList,
+        updateRecord: this.updateRecord
     }}
 
     okayFunc = (data, event) => {
@@ -198,6 +200,8 @@ class App extends React.Component {
         this.setState({
             recordDict: newRec
         })
+        console.log("Record updated:")
+        console.log(rec)
     }
 
     // This is used when re-ordering records during a click and drag operation. It's functionally the same as
@@ -252,6 +256,17 @@ class App extends React.Component {
                             :
                             <div/>
                         }
+                        {
+                            this.state.overlay.type == "addCategory"
+                            ?
+                            <AddCategory cancelFunc={(event) => this.overlay("", "", "", null, event)}
+                                         header={this.state.overlay.header}
+                                         message={this.state.overlay.message}
+                                         okayFunc={this.okayFunc}
+                            />
+                            :
+                            <div/>
+                        }
                     </div>
                     :
                     <div/>
@@ -271,7 +286,8 @@ App.childContextTypes = {
     editing: React.PropTypes.func,
     overlay: React.PropTypes.func,
     recordDict: React.PropTypes.object,
-    updateList: React.PropTypes.func
+    updateList: React.PropTypes.func,
+    updateRecord: React.PropTypes.func
 }
 
 ReactDOM.render((

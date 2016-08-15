@@ -4,6 +4,8 @@ import RecordName from './editComponents/recordName.jsx'
 import RecordPrice from './editComponents/productPrice.jsx'
 import RecordDisplayPrice from './editComponents/productDisplayPrice.jsx'
 import RecordDesc from './editComponents/recordDesc.jsx'
+import RecordCategory from './editComponents/productCategory.jsx'
+import RecordPLU from './editComponents/productPLU.jsx'
 
 class RecordItemBodyProduct extends React.Component {
     constructor() {super()}
@@ -29,18 +31,13 @@ class RecordItemBodyProduct extends React.Component {
 
                     <div className="spacer" />
 
-                    <div className="labelText">
-                        Product Category:
-                    </div>
-                    <div className="recordCategory">
-                        {
-                            category != undefined
-                            ?
-                            category.name
-                            :
-                            <span className="filler"> -- No Category -- </span>
-                        }
-                    </div>
+                    <RecordCategory record={record} editing={editing} />
+
+                    <div className="spacer" />
+
+                    <RecordPLU record={record} editing={editing} />
+
+                    <div className="spacer" />
                 </div>
             </div>
         )
