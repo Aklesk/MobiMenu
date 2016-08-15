@@ -1,10 +1,10 @@
 import React from 'react'
 
 // These MUST BE UNIQUE
-const baseElement = "recordDesc"
-const editElement = "recordDescEdit"
+const baseElement = "ProductDisplayPrice"
+const editElement = "ProductDisplayPriceEdit"
 
-class RecordName extends React.Component {
+class ProductDisplayPrice extends React.Component {
     constructor() {
         super()
     }
@@ -17,7 +17,7 @@ class RecordName extends React.Component {
         const { editing, record } = this.props
         const saveFunc = () => {
             const rec = record
-            rec.desc = document.getElementById(elem).value
+            rec.disprice = document.getElementById(elem).value
             return rec
         }
         editing(rec, elem, saveFunc, event)
@@ -29,10 +29,11 @@ class RecordName extends React.Component {
                 {
                     editing().elem == editElement
                         ?
-                        <textarea id={editElement}
-                                  style={{width: "400px"}}
-                                  defaultValue={record.desc}
-                                  onClick={(e) => e.stopPropagation()}
+                        <input id={editElement}
+                               type="text"
+                               style={{width: "400px"}}
+                               defaultValue={record.disprice}
+                               onClick={(e) => e.stopPropagation()}
                         />
                         :
                         <div
@@ -40,14 +41,14 @@ class RecordName extends React.Component {
                             onClick={this.onClick.bind(this, record.guid, editElement)}
                         >
                             <div className="labelText">
-                                Menu Description:
+                                Display Price:
                             </div>
                             {
-                                record.desc.length > 0
-                                ?
-                                record.desc
-                                :
-                                <span className="filler">No Description</span>
+                                record.disprice.length > 0
+                                    ?
+                                    record.disprice
+                                    :
+                                    <span className="filler">No Display Price</span>
                             }
                         </div>
                 }
@@ -57,4 +58,4 @@ class RecordName extends React.Component {
 }
 
 
-export default RecordName
+export default ProductDisplayPrice
