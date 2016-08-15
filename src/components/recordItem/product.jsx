@@ -1,6 +1,7 @@
 import React from 'react'
 
 import RecordName from './editComponents/recordName.jsx'
+import RecordPrice from './editComponents/productPrice.jsx'
 import RecordDesc from './editComponents/recordDesc.jsx'
 
 class RecordItemBodyProduct extends React.Component {
@@ -15,12 +16,7 @@ class RecordItemBodyProduct extends React.Component {
 
                     <RecordName record={record} editing={editing} />
 
-                    <div className="labelText">
-                        Price:
-                    </div>
-                    <div className="recordPrice">
-                        {record.price}
-                    </div>
+                    <RecordPrice record={record} editing={editing} />
 
                     <div className="spacer" />
 
