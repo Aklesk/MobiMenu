@@ -16,11 +16,10 @@ class ProductPrice extends React.Component {
     onClick = (rec, elem, event) => {
         const { editing, record } = this.props
         const saveFunc = () => {
-            const rec = record
             let val = +document.getElementById(elem).value
             if (val == NaN) {val = 0}
-            rec.price = val
-            return rec
+            record.price = val
+            return record
         }
         editing(rec, elem, saveFunc, event)
     }

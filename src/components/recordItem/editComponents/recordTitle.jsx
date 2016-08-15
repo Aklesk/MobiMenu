@@ -25,9 +25,8 @@ class RecordTitle extends React.Component {
     onClick = (rec, elem, event) => {
         const { editing, record } = this.props
         const saveFunc = () => {
-            const rec = record
-            rec.intName = document.getElementById(elem).value
-            return rec
+            record.intName = document.getElementById(elem).value
+            return record
         }
         editing(rec, elem, saveFunc, event)
     }

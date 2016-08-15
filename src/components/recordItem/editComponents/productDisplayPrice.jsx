@@ -16,9 +16,8 @@ class ProductDisplayPrice extends React.Component {
     onClick = (rec, elem, event) => {
         const { editing, record } = this.props
         const saveFunc = () => {
-            const rec = record
-            rec.disprice = document.getElementById(elem).value
-            return rec
+            record.disprice = document.getElementById(elem).value
+            return record
         }
         editing(rec, elem, saveFunc, event)
     }
@@ -45,10 +44,10 @@ class ProductDisplayPrice extends React.Component {
                             </div>
                             {
                                 record.disprice.length > 0
-                                    ?
-                                    record.disprice
-                                    :
-                                    <span className="filler">No Display Price</span>
+                                ?
+                                record.disprice
+                                :
+                                <span className="filler">No Display Price</span>
                             }
                         </div>
                 }

@@ -16,9 +16,8 @@ class RecordPLU extends React.Component {
     onClick = (rec, elem, event) => {
         const { editing, record } = this.props
         const saveFunc = () => {
-            const rec = record
-            rec.plu = document.getElementById(elem).value
-            return rec
+            record.plu = document.getElementById(elem).value
+            return record
         }
         editing(rec, elem, saveFunc, event)
     }

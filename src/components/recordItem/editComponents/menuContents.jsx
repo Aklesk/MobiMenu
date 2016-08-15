@@ -310,11 +310,7 @@ class menuContents extends React.Component {
     }
     onClick = (rec, elem, event) => {
         const { editing, record } = this.props
-        const saveFunc = () => {
-            const rec = record
-            return rec
-        }
-        editing(rec, elem, saveFunc, event)
+        editing(rec, elem, () => {return record}, event)
     }
     updateList = (source, dest) => {
 

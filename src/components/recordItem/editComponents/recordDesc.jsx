@@ -16,9 +16,8 @@ class RecordName extends React.Component {
     onClick = (rec, elem, event) => {
         const { editing, record } = this.props
         const saveFunc = () => {
-            const rec = record
-            rec.desc = document.getElementById(elem).value
-            return rec
+            record.desc = document.getElementById(elem).value
+            return record
         }
         editing(rec, elem, saveFunc, event)
     }
@@ -45,7 +44,9 @@ class RecordName extends React.Component {
                             {
                                 record.desc.length > 0
                                 ?
-                                record.desc
+                                <div className="textBlock">
+                                    {record.desc}
+                                </div>
                                 :
                                 <span className="filler">No Description</span>
                             }
