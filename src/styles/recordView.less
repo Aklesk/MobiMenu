@@ -36,6 +36,7 @@
         font-weight: 500;
         line-height: 1.25em;
         padding-left: 10px;
+        position: relative;
         .lineText{
           padding: 5px 0;
           text-transform: uppercase;
@@ -48,6 +49,16 @@
         }
       }
       .active {
+        &:before {
+          background-color: @mobiGreen;
+          content: "";
+          display: block;
+          height: 2px;
+          position: absolute;
+          top: -2px;
+          left: 0px;
+          width: 10px;
+        }
         background-color: @mobiGreen;
         color: white;
         cursor: default;
