@@ -1,7 +1,7 @@
 import React from 'react';
 
 // The header doesn't change between categories, so we can leave it the same React component
-import RecordItem_Header from '../components/recordItem/header.jsx'
+import RecordItem_Header from '../components/recordItem/header_all.jsx'
 
 // The body of each record changes depending on the category, though.
 import Category from '../components/recordItem/category.jsx'
