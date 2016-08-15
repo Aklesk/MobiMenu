@@ -1,30 +1,35 @@
 import React from 'react'
 
+// These MUST BE UNIQUE
+const baseElement = "recordName"
+const editElement = "recordNameEdit"
+
 class RecordName extends React.Component {
     constructor() {
         super()
     }
     componentDidUpdate() {
-        if (document.getElementById("recordNameEdit") != null) {
-            document.getElementById("recordNameEdit").focus()
+        if (document.getElementById(editElement) != null) {
+            document.getElementById(editElement).focus()
         }
     }
     onClick = (rec, elem, event) => {
+        const { editing, record } = this.props
         const saveFunc = () => {
-            const rec = this.props.record
+            const rec = record
             rec.name = document.getElementById(elem).value
             return rec
         }
-        this.context.editing(rec, elem, saveFunc, event)
+        editing(rec, elem, saveFunc, event)
     }
     render() {
-        const { record } = this.props
+        const { editing, record } = this.props
         return(
-            <div className="recordName">
+            <div className={baseElement}>
                 {
-                    this.context.editing().elem == "recordNameEdit"
+                    editing().elem == editElement
                         ?
-                        <input id="recordNameEdit"
+                        <input id={editElement}
                                type="text"
                                style={{width: "400px"}}
                                defaultValue={record.name}
@@ -33,7 +38,7 @@ class RecordName extends React.Component {
                         :
                         <div
                             className="editable"
-                            onClick={this.onClick.bind(this, record.guid, "recordNameEdit")}
+                            onClick={this.onClick.bind(this, record.guid, editElement)}
                         >
                             <div className="labelText">
                                 Public Name:
@@ -52,10 +57,6 @@ class RecordName extends React.Component {
             </div>
         )
     }
-}
-
-RecordName.contextTypes = {
-    editing: React.PropTypes.func
 }
 
 export default RecordName

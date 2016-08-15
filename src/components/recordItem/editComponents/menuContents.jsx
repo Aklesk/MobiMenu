@@ -4,6 +4,10 @@ import _ from 'lodash'
 import { DragSource, DropTarget } from 'react-dnd'
 import { dragTypes } from '../../../interfaceConstants'
 
+// These MUST BE UNIQUE
+const baseElement = "menuContents"
+const editElement = "menuContentsEdit"
+
 
 
 
@@ -51,7 +55,7 @@ class CategoryGroup extends React.Component {
             <div className={`recordCategoryGroup ${isDragging ? "dragsource" : ""}`}>
                 <div className="recordCategoryHeader">
                     {
-                        editing().elem == "menuContentsEdit"
+                        editing().elem == editElement
                             ?
                             <div className="draggable">
                                 <span className="filler">⇕ </span>
@@ -76,7 +80,7 @@ class CategoryGroup extends React.Component {
                     }
                 </div>
                 {
-                    editing().elem == "menuContentsEdit"
+                    editing().elem == editElement
                         ?
                         products.map((prod, i) => {
                             return (
@@ -141,7 +145,7 @@ function Product(props, context) {
     return connectDropTarget(connectDragSource(
         <div className={`recordProduct ${isDragging ? "dragsource" : ""}`}>
             {
-                editing().elem == "menuContentsEdit"
+                editing().elem == editElement
                     ?
                     <div className="draggable">
                         <span className="filler">⇕ </span>
@@ -305,11 +309,12 @@ class menuContents extends React.Component {
         )
     }
     onClick = (rec, elem, event) => {
+        const { editing, record } = this.props
         const saveFunc = () => {
-            const rec = this.props.record
+            const rec = record
             return rec
         }
-        this.context.editing(rec, elem, saveFunc, event)
+        editing(rec, elem, saveFunc, event)
     }
     updateList = (source, dest) => {
 
@@ -338,15 +343,14 @@ class menuContents extends React.Component {
         updateList(record)
     }
     render() {
-        const { record, recordDict } = this.props
-        const { editing } = this.context
+        const { editing, record, recordDict } = this.props
         const categories = _.compact(_.uniq(record.products.map((r) => {
             if (recordDict[r] != undefined) {return (recordDict[r].category)}
         })))
         return(
-            <div className="menuContents">
+            <div className={baseElement}>
                 {
-                    this.context.editing().elem == "menuContentsEdit"
+                    editing().elem == editElement
                     ?
                     <div className="editBlock">
                         {
@@ -384,7 +388,7 @@ class menuContents extends React.Component {
                     :
                     <div
                         className="editable"
-                        onClick={this.onClick.bind(this, record.guid, "menuContentsEdit")}
+                        onClick={this.onClick.bind(this, record.guid, editElement)}
                     >
                         <div className="labelText">
                             Menu Contents:
@@ -423,7 +427,6 @@ class menuContents extends React.Component {
 menuContents.contextTypes = {
     dataObj: React.PropTypes.object,
     dragging: React.PropTypes.func,
-    editing: React.PropTypes.func,
     overlay: React.PropTypes.func,
     updateList: React.PropTypes.func
 }

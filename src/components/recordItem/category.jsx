@@ -6,27 +6,29 @@ import RecordDesc from './editComponents/recordDesc.jsx'
 class RecordItemBodyCategory extends React.Component {
     constructor() {super()}
     onClick = (rec, elem, event) => {
+        const { record } = this.props
+        const { editing } = this.context
         const saveFunc = () => {
-            const rec = this.props.record
             if(elem == "recordDescEdit") {
-                rec.desc = document.getElementById(elem).value
+                record.desc = document.getElementById(elem).value
             }
             if(elem == "recordNameEdit") {
-                rec.name = document.getElementById(elem).value
+                record.name = document.getElementById(elem).value
             }
-            return rec
+            return record
         }
-        this.context.editing(rec, elem, saveFunc, event)
+        editing(rec, elem, saveFunc, event)
     }
     render() {
         const { record } = this.props
+        const { editing } = this.context
         return (
             <div>
                 <div className="recordBody">
 
-                    <RecordName record={record} />
+                    <RecordName record={record} editing={editing} />
 
-                    <RecordDesc record={record} />
+                    <RecordDesc record={record} editing={editing} />
 
                 </div>
             </div>

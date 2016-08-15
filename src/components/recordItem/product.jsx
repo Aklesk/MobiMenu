@@ -20,12 +20,13 @@ class RecordItemBodyProduct extends React.Component {
     }
     render() {
         const { record, recordDict } = this.props
+        const { editing } = this.context
         const category = recordDict[record.category]
         return (
             <div>
                 <div className="recordBody">
 
-                    <RecordName record={record} />
+                    <RecordName record={record} editing={editing} />
 
                     <div className="labelText">
                         Price:
@@ -36,7 +37,7 @@ class RecordItemBodyProduct extends React.Component {
 
                     <div className="spacer" />
 
-                    <RecordDesc record={record} />
+                    <RecordDesc record={record} editing={editing} />
 
                     <div className="spacer" />
 

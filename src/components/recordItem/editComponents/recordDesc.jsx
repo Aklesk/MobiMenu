@@ -1,30 +1,35 @@
 import React from 'react'
 
+// These MUST BE UNIQUE
+const baseElement = "recordDesc"
+const editElement = "recordDescEdit"
+
 class RecordName extends React.Component {
     constructor() {
         super()
     }
     componentDidUpdate() {
-        if (document.getElementById("recordDescEdit") != null) {
-            document.getElementById("recordDescEdit").focus()
+        if (document.getElementById(editElement) != null) {
+            document.getElementById(editElement).focus()
         }
     }
     onClick = (rec, elem, event) => {
+        const { editing, record } = this.props
         const saveFunc = () => {
-            const rec = this.props.record
+            const rec = record
             rec.desc = document.getElementById(elem).value
             return rec
         }
-        this.context.editing(rec, elem, saveFunc, event)
+        editing(rec, elem, saveFunc, event)
     }
     render() {
-        const { record } = this.props
+        const { editing, record } = this.props
         return(
-            <div className="recordDesc">
+            <div className={baseElement}>
                 {
-                    this.context.editing().elem == "recordDescEdit"
+                    editing().elem == editElement
                         ?
-                        <input id="recordDescEdit"
+                        <input id={editElement}
                                type="text"
                                style={{width: "400px"}}
                                defaultValue={record.desc}
@@ -33,17 +38,17 @@ class RecordName extends React.Component {
                         :
                         <div
                             className="editable"
-                            onClick={this.onClick.bind(this, record.guid, "recordDescEdit")}
+                            onClick={this.onClick.bind(this, record.guid, editElement)}
                         >
                             <div className="labelText">
                                 Menu Description:
                             </div>
                             {
                                 record.desc.length > 0
-                                    ?
-                                    record.desc
-                                    :
-                                    <span className="filler">No Description</span>
+                                ?
+                                record.desc
+                                :
+                                <span className="filler">No Description</span>
                             }
                         </div>
                 }
@@ -52,8 +57,5 @@ class RecordName extends React.Component {
     }
 }
 
-RecordName.contextTypes = {
-    editing: React.PropTypes.func
-}
 
 export default RecordName
