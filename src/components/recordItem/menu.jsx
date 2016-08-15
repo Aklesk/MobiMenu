@@ -6,20 +6,6 @@ import MenuContents from './editComponents/menuContents.jsx'
 
 class RecordItemBodyMenu extends React.Component {
     constructor() {super()}
-    onClick = (rec, elem, event) => {
-        const { record } = this.props
-        const { editing } = this.context
-        const saveFunc = () => {
-            if(elem == "recordDescEdit") {
-                record.desc = document.getElementById(elem).value
-            }
-            if(elem == "recordNameEdit") {
-                record.name = document.getElementById(elem).value
-            }
-            return record
-        }
-        editing(rec, elem, saveFunc, event)
-    }
     render() {
         const { record, recordDict } = this.props
         const { editing } = this.context
