@@ -1,5 +1,6 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
+import { mainTabs } from '../../interfaceConstants.js'
 
 // We're using componentWillUpdate and componentWillMount to get the record data out of the database to try to
 // minimize the number of database calls.
@@ -19,13 +20,14 @@ class RecordItemHeader extends React.Component {
         }
     }
     deleteRecord(event) {
+        const { record, section } = this.props
         const okayFunc = () => {
-            this.context.deleteRecord(this.props.record.guid)
-            browserHistory.push(`/menu/${this.props.section}`)
+            this.context.deleteRecord(record.guid)
+            browserHistory.push(`/menu/${section}`)
         }
         this.context.overlay(
             "Are you sure?",
-            "Deleting this record is permanent and cannot be undone.",
+            `Deleting this ${mainTabs[section].singular.toLowerCase()} is permanent and cannot be undone.`,
             "question",
             okayFunc
         )
@@ -39,7 +41,7 @@ class RecordItemHeader extends React.Component {
         this.context.editing(rec, elem, saveFunc, event)
     }
     render() {
-        const { record } = this.props
+        const { record, section } = this.props
         return (
             <div>
                 <div className="recordHeader">
@@ -80,7 +82,7 @@ class RecordItemHeader extends React.Component {
                             <td>
                                 <div className="rightPart">
                                     <a className="toDelete" onClick={this.deleteRecord.bind(this)}>
-                                        Delete Record
+                                        {`Delete ${mainTabs[section].singular}`}
                                     </a>
                                 </div>
                             </td>
