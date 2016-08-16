@@ -4,10 +4,7 @@ import React from 'react'
 const baseElement = "ProductDisplayPrice"
 const editElement = "ProductDisplayPriceEdit"
 
-class ProductDisplayPrice extends React.Component {
-    constructor() {
-        super()
-    }
+export default class ProductDisplayPrice extends React.Component {
     componentDidUpdate() {
         if (document.getElementById(editElement) != null) {
             document.getElementById(editElement).focus()
@@ -55,6 +52,3 @@ class ProductDisplayPrice extends React.Component {
         )
     }
 }
-
-
-export default ProductDisplayPrice

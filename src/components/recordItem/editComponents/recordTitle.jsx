@@ -4,10 +4,7 @@ import React from 'react'
 const baseElement = "leftPart"
 const editElement = "intNameEdit"
 
-class RecordTitle extends React.Component {
-    constructor() {
-        super()
-    }
+export default class RecordTitle extends React.Component {
     componentDidMount() {
 
         // We need this as well because we want to edit this immediately after it is created in the case of
@@ -37,7 +34,7 @@ class RecordTitle extends React.Component {
                 {
                     editing().elem == editElement
                         ?
-                        <div className={baseElement}>
+                        <div className="leftPart">
                             <input id="intNameEdit"
                                    type="text"
                                    style={{width: "326px"}}
@@ -46,7 +43,7 @@ class RecordTitle extends React.Component {
                             />
                         </div>
                         :
-                        <div className={`${baseElement} editable`}
+                        <div className="leftPart editable"
                              onClick={this.onClick.bind(this, record.guid, "intNameEdit")}
                         >
                             <div className="labelText">
@@ -67,5 +64,3 @@ class RecordTitle extends React.Component {
         )
     }
 }
-
-export default RecordTitle

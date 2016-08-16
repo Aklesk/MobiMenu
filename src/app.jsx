@@ -169,6 +169,16 @@ class App extends React.Component {
         updateList: this.updateList,
         updateRecord: this.updateRecord
     }}
+    static childContextTypes = {
+        addRecord: React.PropTypes.func,
+        dataObj: React.PropTypes.object,
+        deleteRecord: React.PropTypes.func,
+        editing: React.PropTypes.func,
+        overlay: React.PropTypes.func,
+        recordDict: React.PropTypes.object,
+        updateList: React.PropTypes.func,
+        updateRecord: React.PropTypes.func
+    }
 
     okayFunc = (data, event) => {
         event.stopPropagation()
@@ -277,17 +287,6 @@ class App extends React.Component {
             </div>
         )
     }
-}
-
-App.childContextTypes = {
-    addRecord: React.PropTypes.func,
-    dataObj: React.PropTypes.object,
-    deleteRecord: React.PropTypes.func,
-    editing: React.PropTypes.func,
-    overlay: React.PropTypes.func,
-    recordDict: React.PropTypes.object,
-    updateList: React.PropTypes.func,
-    updateRecord: React.PropTypes.func
 }
 
 ReactDOM.render((

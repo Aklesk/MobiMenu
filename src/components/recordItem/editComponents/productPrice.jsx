@@ -1,13 +1,9 @@
 import React from 'react'
 
 // These MUST BE UNIQUE
-const baseElement = "ProductPrice"
 const editElement = "ProductPriceEdit"
 
-class ProductPrice extends React.Component {
-    constructor() {
-        super()
-    }
+export default class ProductPrice extends React.Component {
     componentDidUpdate() {
         if (document.getElementById(editElement) != null) {
             document.getElementById(editElement).focus()
@@ -26,7 +22,7 @@ class ProductPrice extends React.Component {
     render() {
         const { editing, record } = this.props
         return(
-            <div className={baseElement}>
+            <div className="ProductPrice">
                 {
                     editing().elem == editElement
                         ?
@@ -51,6 +47,3 @@ class ProductPrice extends React.Component {
         )
     }
 }
-
-
-export default ProductPrice

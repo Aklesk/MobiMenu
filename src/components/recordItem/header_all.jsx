@@ -4,9 +4,11 @@ import { mainTabs } from '../../interfaceConstants.js'
 
 import RecordTitle from './editComponents/recordTitle.jsx'
 
-class RecordItemHeader extends React.Component {
-    constructor() {
-        super()
+export default class RecordItemHeader extends React.Component {
+    static contextTypes = {
+        deleteRecord: React.PropTypes.func,
+        editing: React.PropTypes.func,
+        overlay: React.PropTypes.func
     }
     deleteRecord(event) {
         const { record, section } = this.props
@@ -49,11 +51,3 @@ class RecordItemHeader extends React.Component {
         )
     }
 }
-
-RecordItemHeader.contextTypes = {
-    deleteRecord: React.PropTypes.func,
-    editing: React.PropTypes.func,
-    overlay: React.PropTypes.func
-}
-
-export default RecordItemHeader

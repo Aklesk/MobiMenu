@@ -3,8 +3,10 @@ import React from 'react'
 import RecordName from './editComponents/recordName.jsx'
 import RecordDesc from './editComponents/recordDesc.jsx'
 
-class RecordItemBodyCategory extends React.Component {
-    constructor() {super()}
+export default class RecordItemBodyCategory extends React.Component {
+    static contextTypes = {
+        editing: React.PropTypes.func
+    }
     render() {
         const { record } = this.props
         const { editing } = this.context
@@ -21,9 +23,3 @@ class RecordItemBodyCategory extends React.Component {
         )
     }
 }
-
-RecordItemBodyCategory.contextTypes = {
-    editing: React.PropTypes.func
-}
-
-export default RecordItemBodyCategory

@@ -1,8 +1,11 @@
 import React from 'react'
 
-class ProductCategory extends React.Component {
-    constructor() {
-        super()
+export default class ProductCategory extends React.Component {
+    static contextTypes = {
+        dataObj: React.PropTypes.object,
+        overlay: React.PropTypes.func,
+        recordDict: React.PropTypes.object,
+        updateRecord: React.PropTypes.func
     }
     onClick = (event) => {
         const { editing, record } = this.props
@@ -50,12 +53,3 @@ class ProductCategory extends React.Component {
         )
     }
 }
-
-ProductCategory.contextTypes = {
-    dataObj: React.PropTypes.object,
-    overlay: React.PropTypes.func,
-    recordDict: React.PropTypes.object,
-    updateRecord: React.PropTypes.func
-}
-
-export default ProductCategory

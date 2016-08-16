@@ -7,8 +7,10 @@ import RecordDesc from './editComponents/recordDesc.jsx'
 import RecordCategory from './editComponents/productCategory.jsx'
 import RecordPLU from './editComponents/productPLU.jsx'
 
-class RecordItemBodyProduct extends React.Component {
-    constructor() {super()}
+export default class RecordItemBodyProduct extends React.Component {
+    static contextTypes = {
+        editing: React.PropTypes.func
+    }
     render() {
         const { record, recordDict } = this.props
         const { editing } = this.context
@@ -43,9 +45,3 @@ class RecordItemBodyProduct extends React.Component {
         )
     }
 }
-
-RecordItemBodyProduct.contextTypes = {
-    editing: React.PropTypes.func
-}
-
-export default RecordItemBodyProduct

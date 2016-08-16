@@ -8,10 +8,11 @@ import { mainTabs } from '../interfaceConstants.js'
 // This is a single listing for the menu container
 import MenuListItem from '../components/menuListItem.jsx'
 
-class RecordView extends React.Component {
-    constructor() {super()}
-    newRecord = () => {
-        return
+export default class RecordView extends React.Component {
+    static contextTypes = {
+        addRecord: React.PropTypes.func,
+        dataObj: React.PropTypes.object,
+        recordDict: React.PropTypes.object
     }
     render() {
         const { children, params } = this.props
@@ -93,11 +94,3 @@ class RecordView extends React.Component {
         )
     }
 }
-
-RecordView.contextTypes = {
-    addRecord: React.PropTypes.func,
-    dataObj: React.PropTypes.object,
-    recordDict: React.PropTypes.object
-}
-
-export default RecordView

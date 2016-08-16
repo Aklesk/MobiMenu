@@ -1,21 +1,21 @@
 import React from 'react';
 
 // This is the overlay template for a question
-class Alert extends React.Component {
-    constructor() {super()}
+export default class Alert extends React.Component {
     render() {
+        const { header, message, okayFunc } = this.props
         return (
             <div>
-                <div className="overlay" onClick={this.props.okayFunc} />
+                <div className="overlay" onClick={okayFunc} />
                 <div className="message messageStandard">
                     <h1 className="messageHeader">
-                        {this.props.header}
+                        {header}
                     </h1>
                     <div className="messageText">
-                        {this.props.message}
+                        {message}
                     </div>
                     <div className="options">
-                        <button id="okay" onClick={this.props.okayFunc.bind(this, null)}>
+                        <button id="okay" onClick={okayFunc.bind(this, null)}>
                             Okay
                         </button>
                     </div>
@@ -24,5 +24,3 @@ class Alert extends React.Component {
         )
     }
 }
-
-export default Alert

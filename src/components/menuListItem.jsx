@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-class MenuListItem extends React.Component {
-    constructor() {super()}
+export default class MenuListItem extends React.Component {
     render() {
         const { section, rec } = this.props
         return (
@@ -25,5 +24,3 @@ class MenuListItem extends React.Component {
         )
     }
 }
-
-export default MenuListItem

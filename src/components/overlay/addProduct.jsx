@@ -1,8 +1,10 @@
 import React from 'react';
 
 // This is the overlay template for a question
-class Question extends React.Component {
-    constructor() {super()}
+export default class AddProduct extends React.Component {
+    static contextTypes = {
+        recordDict: React.PropTypes.object
+    }
     render() {
         const { cancelFunc, header, message, okayFunc } = this.props
         const { recordDict } = this.context
@@ -59,9 +61,3 @@ class Question extends React.Component {
         )
     }
 }
-
-Question.contextTypes = {
-    recordDict: React.PropTypes.object
-}
-
-export default Question

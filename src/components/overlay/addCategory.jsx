@@ -1,8 +1,7 @@
 import React from 'react';
 
 // This is the overlay template for a question
-class Question extends React.Component {
-    constructor() {super()}
+export default class Question extends React.Component {
     render() {
         const { cancelFunc, header, message, okayFunc } = this.props
         return (
@@ -41,5 +40,3 @@ class Question extends React.Component {
         )
     }
 }
-
-export default Question

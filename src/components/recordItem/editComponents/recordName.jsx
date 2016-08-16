@@ -1,13 +1,9 @@
 import React from 'react'
 
 // These MUST BE UNIQUE
-const baseElement = "recordName"
 const editElement = "recordNameEdit"
 
-class RecordName extends React.Component {
-    constructor() {
-        super()
-    }
+export default class RecordName extends React.Component {
     componentDidUpdate() {
         if (document.getElementById(editElement) != null) {
             document.getElementById(editElement).focus()
@@ -24,7 +20,7 @@ class RecordName extends React.Component {
     render() {
         const { editing, record } = this.props
         return(
-            <div className={baseElement}>
+            <div className="recordName">
                 {
                     editing().elem == editElement
                         ?
@@ -57,5 +53,3 @@ class RecordName extends React.Component {
         )
     }
 }
-
-export default RecordName

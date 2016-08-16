@@ -4,8 +4,10 @@ import RecordName from './editComponents/recordName.jsx'
 import RecordDesc from './editComponents/recordDesc.jsx'
 import MenuContents from './editComponents/menuContents.jsx'
 
-class RecordItemBodyMenu extends React.Component {
-    constructor() {super()}
+export default class RecordItemBodyMenu extends React.Component {
+    static contextTypes = {
+        editing: React.PropTypes.func
+    }
     render() {
         const { record, recordDict } = this.props
         const { editing } = this.context
@@ -33,9 +35,3 @@ class RecordItemBodyMenu extends React.Component {
         )
     }
 }
-
-RecordItemBodyMenu.contextTypes = {
-    editing: React.PropTypes.func
-}
-
-export default RecordItemBodyMenu

@@ -10,8 +10,10 @@ import Product from '../components/recordItem/product.jsx'
 
 // This is a single record entry.
 // Note that modifiers and modifier groups are not implemented as of yet, so there is no need to check for them.
-class RecordItem extends React.Component {
-    constructor() {super()}
+export default class RecordItem extends React.Component {
+    static contextTypes = {
+        recordDict: React.PropTypes.object
+    }
     render() {
         const record = this.context.recordDict[this.props.params.record]
         return (
@@ -21,12 +23,6 @@ class RecordItem extends React.Component {
                 {this.props.params.section == "categories" ? <Category recordDict={this.context.recordDict} record={record} /> : <div />}
                 {this.props.params.section == "products" ? <Product recordDict={this.context.recordDict} record={record} /> : <div />}
             </div>
-        );
+        )
     }
 }
-
-RecordItem.contextTypes = {
-    recordDict: React.PropTypes.object
-}
-
-export default RecordItem
