@@ -252,10 +252,35 @@ body {
       background-color: @mobiGreen;
       color: white;
       cursor: pointer;
+      td {
+        div {
+          &:before {
+            background-color: @mobiGreen;
+            content: "";
+            display: block;
+            height: 2px;
+            position: absolute;
+            top: -2px;
+            left: -5px;
+            width: 10px;
+          }
+          &:after {
+            background-color: @mobiGreen;
+            content: "";
+            display: block;
+            height: 2px;
+            position: absolute;
+            top: -2px;
+            right: -5px;
+            width: 10px;
+          }
+        }
+      }
     }
     div {
       border-bottom: 2px solid @mobiGreen;
       padding-bottom: 5px;
+      position: relative;
     }
     .leftColumn {
       margin-left: 5px;
@@ -272,7 +297,6 @@ body {
   .options {
     position: absolute;
     bottom: 10px;
-    width: 100%;
     #cancel, #okay {
       display: inline-block;
       margin: 15px 20px;
@@ -284,12 +308,18 @@ body {
   margin-left: -150px;
   margin-top: -85px;
   width: 300px;
+  .options {
+    width: 300px;
+    }
 }
 .messageLarge {
   height: 420px;
   margin-left: -300px;
   margin-top: -210px;
   width: 600px;
+  .options {
+    width: 600px;
+  }
 }
 .row {
   margin-left: -20px;
@@ -329,7 +359,6 @@ body {
 }
 .navbar-static-top {
   .container {
-    width: 940px;
     width: 940px;
   }
   position: static;

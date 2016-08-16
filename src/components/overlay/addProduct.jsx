@@ -22,7 +22,13 @@ class Question extends React.Component {
                                             <tr key={`${product.guid}overlay`} onClick={okayFunc.bind(this, product.guid)}>
                                                 <td>
                                                     <div className="leftColumn">
-                                                        {product.intName}
+                                                        {
+                                                            product.intName.length > 0
+                                                            ?
+                                                            product.intName
+                                                            :
+                                                            <span className="filler">-- Unnamed Product --</span>
+                                                        }
                                                     </div>
                                                 </td>
                                                 <td>
