@@ -19,7 +19,7 @@ export default class Question extends React.Component {
                                         return (
                                             <tr key={`${category.guid}overlay`} onClick={okayFunc.bind(this, category.guid)}>
                                                 <td>
-                                                    <div className="leftColumn">
+                                                    <div className="singleColumn">
                                                         {category.intName}
                                                     </div>
                                                 </td>
