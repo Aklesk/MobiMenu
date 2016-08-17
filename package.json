@@ -5,7 +5,8 @@
   "main": "index.jsx",
   "scripts": {
     "start": "NODE_ENV=development ./node_modules/.bin/hjs-dev-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers js:babel-register --recursive",
+    "test:watch": "npm test -- --watch"
   },
   "author": "Wolf Hatch",
   "license": "ISC",
@@ -16,13 +17,18 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.11.6",
+    "chai": "^3.5.0",
     "css-loader": "^0.23.1",
+    "enzyme": "^2.4.1",
     "es6-promise": "^3.2.1",
     "file-loader": "^0.9.0",
     "hjs-webpack": "^8.3.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "mocha": "^3.0.2",
     "postcss-loader": "^0.9.1",
+    "react-addons-test-utils": "^15.3.0",
     "react-addons-update": "^15.2.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
