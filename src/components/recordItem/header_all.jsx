@@ -1,8 +1,8 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
-import { mainTabs } from '../../interfaceConstants.js'
+import { mainTabs } from 'interfaceConstants'
 
-import RecordTitle from './editComponents/recordTitle.jsx'
+import RecordTitle from './editComponents/recordTitle'
 
 export default class RecordItemHeader extends React.Component {
     static contextTypes = {

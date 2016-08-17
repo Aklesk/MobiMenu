@@ -1,7 +1,7 @@
 import React from 'react'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
-import { dragTypes } from '../../../../interfaceConstants'
+import { dragTypes } from 'interfaceConstants'
 
 const drag = {
     beginDrag(props) {

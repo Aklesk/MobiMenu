@@ -2,8 +2,8 @@ import React from 'react'
 import { findDOMNode } from 'react-dom'
 import _ from 'lodash'
 import { DragSource, DropTarget } from 'react-dnd'
-import { dragTypes } from '../../../../interfaceConstants'
-import { Product, DraggableProduct } from './product.jsx'
+import { dragTypes } from 'interfaceConstants'
+import { Product, DraggableProduct } from './product'
 
 // =======================================================================
 // This section contains data and functions needed for dragging to occur with React-DnD.

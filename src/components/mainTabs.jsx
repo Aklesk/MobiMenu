@@ -1,8 +1,8 @@
 import React from 'react';
 import ShortID from 'shortid';
 import { Link } from 'react-router';
-import { mainTabs } from '../interfaceConstants.js'
-import '../styles/mainTabs.less'
+import { mainTabs } from 'interfaceConstants'
+import 'styles/mainTabs.less'
 
 // These are the main tabs at the top of the active area that control editing section. They are dynamic,
 // but do not rely on state or pass information anywhere other than the browser URL

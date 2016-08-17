@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, Redirect, browserHistory } from 'react-router'
-import './styles/app.less'
+import 'styles/app.less'
 import 'font-awesome/css/font-awesome.css'
 import _ from 'lodash'
 import update from 'react-addons-update'
@@ -9,31 +9,31 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
 // We occasionally need to figure out what's going on with categories and such
-import { mainTabs } from './interfaceConstants.js'
+import { mainTabs } from 'interfaceConstants'
 
 // We need some base data for this example. This acts as a sort of pre-loaded resetting database.
-import { exampleData, menu, category, product } from './db.js'
+import { exampleData, menu, category, product } from 'db'
 
 // This is the header at the top of the page.
-import HeaderBox from './components/header.jsx'
+import HeaderBox from 'components/header'
 
 // This renders the main body of the page, where most of the action takes place
-import MainBody from './components/mainBody.jsx'
+import MainBody from 'components/mainBody'
 
 // This renders the footer at the bottom of the page.
-import FooterArea from './components/footer.jsx'
+import FooterArea from 'components/footer'
 
 // This renders the Listing Container, a wrapper for the editing that the user does
-import RecordView from './components/recordView.jsx'
+import RecordView from 'components/recordView'
 
 // This is the holder for records when being edited.
-import RecordItem from './components/recordItem.jsx'
+import RecordItem from 'components/recordItem'
 
 // Overlay options
-import Question from './components/overlay/question.jsx'
-import Alert from './components/overlay/alert.jsx'
-import AddProduct from './components/overlay/addProduct.jsx'
-import AddCategory from './components/overlay/addCategory.jsx'
+import Question from 'components/overlay/question'
+import Alert from 'components/overlay/alert'
+import AddProduct from 'components/overlay/addProduct'
+import AddCategory from 'components/overlay/addCategory'
 
 // This is needed for proper styling due to the way that this project was imported from an active site.
 document.body.className = "m2g-console"

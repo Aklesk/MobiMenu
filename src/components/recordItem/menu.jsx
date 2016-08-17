@@ -1,8 +1,8 @@
 import React from 'react'
 
-import RecordName from './editComponents/recordName.jsx'
-import RecordDesc from './editComponents/recordDesc.jsx'
-import MenuContents from './editComponents/menuContents.jsx'
+import RecordName from './editComponents/recordName'
+import RecordDesc from './editComponents/recordDesc'
+import MenuContents from './editComponents/menuContents'
 
 export default class RecordItemBodyMenu extends React.Component {
     static contextTypes = {

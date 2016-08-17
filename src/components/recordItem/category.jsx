@@ -1,7 +1,7 @@
 import React from 'react'
 
-import RecordName from './editComponents/recordName.jsx'
-import RecordDesc from './editComponents/recordDesc.jsx'
+import RecordName from './editComponents/recordName'
+import RecordDesc from './editComponents/recordDesc'
 
 export default class RecordItemBodyCategory extends React.Component {
     static contextTypes = {

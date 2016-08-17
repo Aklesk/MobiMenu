@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const fs      = require('fs');
 const path    = require('path'),
-    join    = path.join,
-    resolve = path.resolve;
+      join    = path.join,
+      resolve = path.resolve;
 
 const getConfig = require('hjs-webpack');
 
@@ -23,9 +23,11 @@ require('es6-promise').polyfill();
 var config = getConfig({
     isDev: isDev,
     in: join(__dirname, 'src/app.jsx'),
-    out: join(__dirname, 'dist'),
+    out: dest,
     clearBeforeBuild: true,
     port: 3001
 })
+
+config.resolve.root = [src, modules]
 
 module.exports = config;

@@ -1,10 +1,10 @@
 import React from 'react';
 
 // This renders the little group of export options just under the page header
-import ExportOptions from '../components/exportOptions.jsx'
+import ExportOptions from 'components/exportOptions'
 
 // This renders main tabs at the top area
-import MainTabs from '../components/mainTabs.jsx'
+import MainTabs from 'components/mainTabs'
 
 // This is a container that holds the main body. Its contents change based on the URL (due to the router in app.jsx)
 export default function(props) {

@@ -1,11 +1,11 @@
 import React from 'react'
 
-import RecordName from './editComponents/recordName.jsx'
-import RecordPrice from './editComponents/productPrice.jsx'
-import RecordDisplayPrice from './editComponents/productDisplayPrice.jsx'
-import RecordDesc from './editComponents/recordDesc.jsx'
-import RecordCategory from './editComponents/productCategory.jsx'
-import RecordPLU from './editComponents/productPLU.jsx'
+import RecordName from './editComponents/recordName'
+import RecordPrice from './editComponents/productPrice'
+import RecordDisplayPrice from './editComponents/productDisplayPrice'
+import RecordDesc from './editComponents/recordDesc'
+import RecordCategory from './editComponents/productCategory'
+import RecordPLU from './editComponents/productPLU'
 
 export default class RecordItemBodyProduct extends React.Component {
     static contextTypes = {

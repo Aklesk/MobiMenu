@@ -1,6 +1,6 @@
 import React from 'react'
 import ShortID from 'shortid'
-import { exportOptions } from '../interfaceConstants.js'
+import { exportOptions } from 'interfaceConstants'
 
 export default function() {
     const ExportList = exportOptions.map(text =>

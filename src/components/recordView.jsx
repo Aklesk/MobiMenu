@@ -1,12 +1,12 @@
 import React from 'react'
-import '../styles/recordView.less'
+import 'styles/recordView.less'
 import ShortID from 'shortid'
 
 // This is where the list of tabs are stored.
-import { mainTabs } from '../interfaceConstants.js'
+import { mainTabs } from 'interfaceConstants'
 
 // This is a single listing for the menu container
-import MenuListItem from '../components/menuListItem.jsx'
+import MenuListItem from 'components/menuListItem'
 
 export default class RecordView extends React.Component {
     static contextTypes = {

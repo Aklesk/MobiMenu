@@ -2,9 +2,9 @@ import React from 'react'
 import { findDOMNode } from 'react-dom'
 import _ from 'lodash'
 import { DragSource, DropTarget } from 'react-dnd'
-import { dragTypes } from '../../../interfaceConstants'
+import { dragTypes } from 'interfaceConstants'
 
-import { CategoryGroup, DraggableCategoryGroup } from './menuContents/categoryGroup.jsx'
+import { CategoryGroup, DraggableCategoryGroup } from './menuContents/categoryGroup'
 
 // These MUST BE UNIQUE
 const editElement = "menuContentsEdit"
