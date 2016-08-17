@@ -1,4 +1,5 @@
 import React from 'react'
+import ShortID from 'shortid'
 
 export default class ProductCategory extends React.Component {
     static contextTypes = {
@@ -7,6 +8,7 @@ export default class ProductCategory extends React.Component {
         recordDict: React.PropTypes.object,
         updateRecord: React.PropTypes.func
     }
+    editElement = ShortID.generate()
     onClick = (event) => {
         const { editing, record } = this.props
         const { dataObj, overlay, updateRecord } = this.context
@@ -28,7 +30,7 @@ export default class ProductCategory extends React.Component {
             <div className="productCategory">
                 <div
                     className="editable"
-                    onClick={this.onClick.bind(this, record.guid, "productCategoryEdit")}
+                    onClick={this.onClick.bind(this, record.guid, this.editElement)}
                 >
                     <div className="labelText">
                         Product Category:

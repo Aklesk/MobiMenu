@@ -19,7 +19,7 @@ export default class RecordItemBodyProduct extends React.Component {
             <div>
                 <div className="recordBody">
 
-                    <RecordName record={record} editing={editing} />
+                    <RecordName record={record} editing={editing}  />
 
                     <RecordPrice record={record} editing={editing} />
 

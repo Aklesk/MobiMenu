@@ -1,15 +1,13 @@
 import React from 'react'
-
-// These MUST BE UNIQUE
-const baseElement = "ProductDisplayPrice"
-const editElement = "ProductDisplayPriceEdit"
+import ShortID from 'shortid'
 
 export default class ProductDisplayPrice extends React.Component {
     componentDidUpdate() {
-        if (document.getElementById(editElement) != null) {
-            document.getElementById(editElement).focus()
+        if (document.getElementById(this.editElement) != null) {
+            document.getElementById(this.editElement).focus()
         }
     }
+    editElement = ShortID.generate()
     onClick = (rec, elem, event) => {
         const { editing, record } = this.props
         const saveFunc = () => {
@@ -21,11 +19,11 @@ export default class ProductDisplayPrice extends React.Component {
     render() {
         const { editing, record } = this.props
         return(
-            <div className={baseElement}>
+            <div className="ProductDisplayPrice">
                 {
-                    editing().elem == editElement
+                    editing().elem == this.editElement
                         ?
-                        <input id={editElement}
+                        <input id={this.editElement}
                                type="text"
                                style={{width: "400px"}}
                                defaultValue={record.disprice}
@@ -34,7 +32,7 @@ export default class ProductDisplayPrice extends React.Component {
                         :
                         <div
                             className="editable"
-                            onClick={this.onClick.bind(this, record.guid, editElement)}
+                            onClick={this.onClick.bind(this, record.guid, this.editElement)}
                         >
                             <div className="labelText">
                                 Display Price:

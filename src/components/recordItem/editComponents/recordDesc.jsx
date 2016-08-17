@@ -1,14 +1,13 @@
 import React from 'react'
-
-// These MUST BE UNIQUE
-const editElement = "recordDescEdit"
+import ShortID from 'shortid'
 
 export default class RecordName extends React.Component {
     componentDidUpdate() {
-        if (document.getElementById(editElement) != null) {
-            document.getElementById(editElement).focus()
+        if (document.getElementById(this.editElement) != null) {
+            document.getElementById(this.editElement).focus()
         }
     }
+    editElement = ShortID.generate()
     onClick = (rec, elem, event) => {
         const { editing, record } = this.props
         const saveFunc = () => {
@@ -22,9 +21,9 @@ export default class RecordName extends React.Component {
         return(
             <div className="recordDesc">
                 {
-                    editing().elem == editElement
+                    editing().elem == this.editElement
                         ?
-                        <textarea id={editElement}
+                        <textarea id={this.editElement}
                                   style={{width: "400px"}}
                                   defaultValue={record.desc}
                                   onClick={(e) => e.stopPropagation()}
@@ -32,7 +31,7 @@ export default class RecordName extends React.Component {
                         :
                         <div
                             className="editable"
-                            onClick={this.onClick.bind(this, record.guid, editElement)}
+                            onClick={this.onClick.bind(this, record.guid, this.editElement)}
                         >
                             <div className="labelText">
                                 Menu Description:

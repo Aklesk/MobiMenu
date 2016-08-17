@@ -3,16 +3,13 @@ import { findDOMNode } from 'react-dom'
 import _ from 'lodash'
 import { DragSource, DropTarget } from 'react-dnd'
 import { dragTypes } from 'interfaceConstants'
+import ShortID from 'shortid'
 
 import { CategoryGroup, DraggableCategoryGroup } from './menuContents/categoryGroup'
-
-// These MUST BE UNIQUE
-const editElement = "menuContentsEdit"
 
 export default class menuContents extends React.Component {
     constructor() {
         super()
-
         this.state = {
             dragging: ""
         }
@@ -44,6 +41,7 @@ export default class menuContents extends React.Component {
             }
         )
     }
+    editElement = ShortID.generate()
     onClick = (rec, elem, event) => {
         const { editing, record } = this.props
         editing(rec, elem, () => {return record}, event)
@@ -82,7 +80,7 @@ export default class menuContents extends React.Component {
         return(
             <div className="menuContents">
                 {
-                    editing().elem == editElement
+                    editing().elem == this.editElement
                     ?
                     <div className="editBlock">
                         {
@@ -94,7 +92,7 @@ export default class menuContents extends React.Component {
                                         return (
                                             <DraggableCategoryGroup category={key}
                                                                     editing={editing}
-                                                                    editElement={editElement}
+                                                                    editElement={this.editElement}
                                                                     index={i}
                                                                     id={`${record.guid}category${i}`}
                                                                     key={key}
@@ -121,7 +119,7 @@ export default class menuContents extends React.Component {
                     :
                     <div
                         className="editable"
-                        onClick={this.onClick.bind(this, record.guid, editElement)}
+                        onClick={this.onClick.bind(this, record.guid, this.editElement)}
                     >
                         <div className="labelText">
                             Menu Contents:
@@ -135,7 +133,7 @@ export default class menuContents extends React.Component {
                                         return (
                                             <CategoryGroup category={key}
                                                            editing={editing}
-                                                           editElement={editElement}
+                                                           editElement={this.editElement}
                                                            key={key}
                                                            products={record.products.filter(p => recordDict[p] && recordDict[p].category == key)}
                                                            record={record}

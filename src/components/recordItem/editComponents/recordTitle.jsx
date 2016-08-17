@@ -1,8 +1,5 @@
 import React from 'react'
-
-// These MUST BE UNIQUE
-const baseElement = "leftPart"
-const editElement = "intNameEdit"
+import ShortID from 'shortid'
 
 export default class RecordTitle extends React.Component {
     componentDidMount() {
@@ -10,15 +7,16 @@ export default class RecordTitle extends React.Component {
         // We need this as well because we want to edit this immediately after it is created in the case of
         // a new record creation event that also drops us into editing mode.
 
-        if (document.getElementById(editElement) != null) {
-            document.getElementById(editElement).focus()
+        if (document.getElementById(this.editElement) != null) {
+            document.getElementById(this.editElement).focus()
         }
     }
     componentDidUpdate() {
-        if (document.getElementById(editElement) != null) {
-            document.getElementById(editElement).focus()
+        if (document.getElementById(this.editElement) != null) {
+            document.getElementById(this.editElement).focus()
         }
     }
+    editElement = ShortID.generate()
     onClick = (rec, elem, event) => {
         const { editing, record } = this.props
         const saveFunc = () => {
@@ -32,10 +30,10 @@ export default class RecordTitle extends React.Component {
         return(
             <div>
                 {
-                    editing().elem == editElement
+                    editing().elem == this.editElement
                         ?
                         <div className="leftPart">
-                            <input id="intNameEdit"
+                            <input id={this.editElement}
                                    type="text"
                                    style={{width: "326px"}}
                                    defaultValue={record.intName}
@@ -44,7 +42,7 @@ export default class RecordTitle extends React.Component {
                         </div>
                         :
                         <div className="leftPart editable"
-                             onClick={this.onClick.bind(this, record.guid, "intNameEdit")}
+                             onClick={this.onClick.bind(this, record.guid, this.editElement)}
                         >
                             <div className="labelText">
                                 Internal Name:
