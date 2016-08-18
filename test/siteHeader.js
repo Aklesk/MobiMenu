@@ -1,7 +1,7 @@
 import React from 'react'
 import { expect } from 'chai'
 import { shallow } from 'enzyme'
-import Header from '/components/header.jsx'
+import Header from 'components/header.jsx'
 
 describe('Site Header', () => {
     it("contains contains primary div", function() {
