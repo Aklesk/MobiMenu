@@ -5,7 +5,7 @@
   "main": "index.jsx",
   "scripts": {
     "start": "NODE_ENV=development ./node_modules/.bin/hjs-dev-server",
-    "test": "NODE_PATH=$NODE_PATH:$PWD/src mocha --compilers js:babel-register --recursive",
+    "test": "NODE_PATH=$NODE_PATH:$PWD/src mocha --compilers js:babel-register --require null-complier.js --recursive",
     "test:watch": "npm test -- --watch"
   },
   "author": "Wolf Hatch",
@@ -30,6 +30,7 @@
     "postcss-loader": "^0.9.1",
     "react-addons-test-utils": "^15.3.0",
     "react-addons-update": "^15.2.0",
+    "require-hacker": "^2.1.4",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1"
