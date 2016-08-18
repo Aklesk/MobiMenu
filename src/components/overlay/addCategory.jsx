@@ -12,7 +12,7 @@ export default class Question extends React.Component {
                         {header}
                     </h1>
                     <div className="messageData">
-                        <table className="nostyle messageTable" cellspacing="0">
+                        <table className="nostyle messageTable" cellSpacing="0">
                             <tbody>
                                 {
                                     message.map((category) => {
