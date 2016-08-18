@@ -1,6 +1,6 @@
 import React from 'react';
-const logo01 = require('img/logo_01.svg')
-const logo02 = require('img/logo_02.svg')
+import logo01 from 'img/logo_01.svg'
+import logo02 from 'img/logo_02.svg'
 
 // This is the header at the top of the page, and nothing more.
 export default function() {
