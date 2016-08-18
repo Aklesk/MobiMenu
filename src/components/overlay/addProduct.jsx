@@ -27,7 +27,8 @@ export default class AddProduct extends React.Component {
         const productList = message.filter((p) => {
             // Filter to only match the beginnings of words, and remove excess whitespace from the search target.
             const f = RegExp(`(?=.*\\b${_.trim(this.state.filter).split(/\s+/).join('\\b)(?=.*\\b')}).*$`, 'i')
-            return f.test(p.intName.replace(/\s+/g, ' '))
+            const cat = ( recordDict[p.category] || {intName: ""} )
+            return f.test(`${p.intName.replace(/\s+/g, ' ')} ${cat.intName.replace(/\s+/g, ' ')}`)
         })
         return (
             <div onClick={function(event){event.stopPropagation()}}>
@@ -38,20 +39,24 @@ export default class AddProduct extends React.Component {
                     </h1>
                     <input id="productSearch" type="search" placeholder="Filter products" onKeyUp={this.onKeyUp}/>
                     <div className="messageData">
-                        <table className="nostyle messageTable" cellSpacing="0">
-                            <tbody>
+                        {
+                            productList.length > 0
+                            ?
+                            <table className="nostyle messageTable" cellSpacing="0">
+                                <tbody>
                                 {
                                     productList.map((product) => {
                                         return (
-                                            <tr key={`${product.guid}overlay`} onClick={okayFunc.bind(this, product.guid)}>
+                                            <tr key={`${product.guid}overlay`}
+                                                onClick={okayFunc.bind(this, product.guid)}>
                                                 <td>
                                                     <div className="leftColumn">
                                                         {
                                                             product.intName.length > 0
-                                                            ?
-                                                            product.intName
-                                                            :
-                                                            <span className="filler">-- Unnamed Product --</span>
+                                                                ?
+                                                                product.intName
+                                                                :
+                                                                <span className="filler">-- Unnamed Product --</span>
                                                         }
                                                     </div>
                                                 </td>
@@ -59,10 +64,10 @@ export default class AddProduct extends React.Component {
                                                     <div className="rightColumn">
                                                         {
                                                             recordDict[product.category] != undefined
-                                                            ?
-                                                            recordDict[product.category].intName
-                                                            :
-                                                            <span className="filler">-- No Category --</span>
+                                                                ?
+                                                                recordDict[product.category].intName
+                                                                :
+                                                                <span className="filler">-- No Category --</span>
                                                         }
                                                     </div>
                                                 </td>
@@ -70,8 +75,11 @@ export default class AddProduct extends React.Component {
                                         )
                                     })
                                 }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                            :
+                            <span className="filler">No match, or all matches already on this menu.</span>
+                        }
                     </div>
                     <div className="options">
                         <button id="cancel" onClick={cancelFunc}>

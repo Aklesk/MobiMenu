@@ -13,6 +13,7 @@
 @font-family_1: "Helvetica Neue", Helvetica, Arial, sans-serif;
 @font-family_2: inherit;
 @font-family_4: "proxima-nova", Helvetica, Arial, sans-serif;
+@placeholder: lightgrey;
 
 button {
   margin: 0;
@@ -236,6 +237,9 @@ body {
   text-align: center;
   top: 50%;
   z-index: 101;
+  .filler {
+    color: @placeholder;
+  }
   .messageData {
     height: 300px;
     margin: 10px;
