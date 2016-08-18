@@ -5,7 +5,7 @@
   "main": "index.jsx",
   "scripts": {
     "start": "NODE_ENV=development ./node_modules/.bin/hjs-dev-server",
-    "test": "mocha --compilers js:babel-register --recursive",
+    "test": "NODE_PATH=$NODE_PATH:$PWD/src mocha --compilers js:babel-register --recursive",
     "test:watch": "npm test -- --watch"
   },
   "author": "Wolf Hatch",

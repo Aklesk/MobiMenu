@@ -1,9 +1,14 @@
 import React from 'react'
 import { expect } from 'chai'
-import Header from 'components/header.jsx'
+import { shallow } from 'enzyme'
+import Header from '/components/header.jsx'
 
 describe('Site Header', () => {
-    it('works!', () => {
-    expect(true).to.be.true
-});
-});
+    it("contains contains primary div", function() {
+        expect(shallow(<Header />).contains(<div className="primary" />)).to.equal(true);
+    })
+
+it("contains contains secondary div", function() {
+    expect(shallow(<Header />).contains(<div className="secondary" />)).to.equal(true);
+})
+})
