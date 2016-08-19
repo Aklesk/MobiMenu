@@ -2,6 +2,9 @@ import React from 'react'
 import ShortID from 'shortid'
 
 export default class RecordTitle extends React.Component {
+    static contextTypes = {
+        editing: React.PropTypes.func
+    }
     componentDidMount() {
 
         // We need this as well because we want to edit this immediately after it is created in the case of
@@ -18,7 +21,8 @@ export default class RecordTitle extends React.Component {
     }
     editElement = ShortID.generate()
     onClick = (rec, elem, event) => {
-        const { editing, record } = this.props
+        const { record } = this.props
+        const { editing } = this.context
         const saveFunc = () => {
             record.intName = document.getElementById(elem).value
             return record
@@ -26,7 +30,8 @@ export default class RecordTitle extends React.Component {
         editing(rec, elem, saveFunc, event)
     }
     render() {
-        const { editing, record } = this.props
+        const { record } = this.props
+        const { editing } = this.context
         return(
             <div>
                 {

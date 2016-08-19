@@ -17,7 +17,9 @@ export default class menuContents extends React.Component {
     static contextTypes = {
         dataObj: React.PropTypes.object,
         dragging: React.PropTypes.func,
+        editing: React.PropTypes.func,
         overlay: React.PropTypes.func,
+        recordDict: React.PropTypes.object,
         updateList: React.PropTypes.func
     }
     addProduct = (event) => {
@@ -25,8 +27,8 @@ export default class menuContents extends React.Component {
         // This is called when the user selects "Add New" during editing of the category groups, and allows new
         // products to be added to the menu.
 
-        const { record, recordDict } = this.props
-        const { dataObj, overlay, updateList } = this.context
+        const { record } = this.props
+        const { dataObj, overlay, recordDict, updateList } = this.context
         event.stopPropagation()
         const validProducts = dataObj.products.filter((rec) => {
             return (record.products.find((id) => {return id == rec.guid}) == undefined)
@@ -43,15 +45,16 @@ export default class menuContents extends React.Component {
     }
     editElement = ShortID.generate()
     onClick = (rec, elem, event) => {
-        const { editing, record } = this.props
+        const { record } = this.props
+        const { editing } = this.context
         editing(rec, elem, () => {return record}, event)
     }
     updateList = (source, dest) => {
 
         // This function is used to update the order of the category groups during a click-and-drag event.
 
-        const { record, recordDict } = this.props
-        const { updateList } = this.context
+        const { record } = this.props
+        const { updateList, recordDict } = this.context
 
         // To start, get the list of categories in displayed order as GUIDs
         const categories = _.compact(_.uniq(record.products.map((r) => {
@@ -73,7 +76,8 @@ export default class menuContents extends React.Component {
         updateList(record)
     }
     render() {
-        const { editing, record, recordDict } = this.props
+        const { record } = this.props
+        const { editing, recordDict } = this.context
         const categories = _.compact(_.uniq(record.products.map((r) => {
             if (recordDict[r] != undefined) {return (recordDict[r].category)}
         })))

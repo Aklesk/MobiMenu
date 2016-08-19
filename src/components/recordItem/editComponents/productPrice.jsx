@@ -5,6 +5,9 @@ import ShortID from 'shortid'
 const editElement = "ProductPriceEdit"
 
 export default class ProductPrice extends React.Component {
+    static contextTypes = {
+        editing: React.PropTypes.func
+    }
     componentDidUpdate() {
         if (document.getElementById(this.editElement) != null) {
             document.getElementById(this.editElement).focus()
@@ -12,7 +15,8 @@ export default class ProductPrice extends React.Component {
     }
     editElement = ShortID.generate()
     onClick = (rec, elem, event) => {
-        const { editing, record } = this.props
+        const { record } = this.props
+        const { editing } = this.context
         const saveFunc = () => {
             let val = +document.getElementById(elem).value
             if (val == NaN) {val = 0}
@@ -22,7 +26,8 @@ export default class ProductPrice extends React.Component {
         editing(rec, elem, saveFunc, event)
     }
     render() {
-        const { editing, record } = this.props
+        const { record } = this.props
+        const { editing } = this.context
         return(
             <div className="ProductPrice">
                 {

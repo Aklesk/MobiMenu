@@ -8,36 +8,31 @@ import RecordCategory from './editComponents/productCategory'
 import RecordPLU from './editComponents/productPLU'
 
 export default class RecordItemBodyProduct extends React.Component {
-    static contextTypes = {
-        editing: React.PropTypes.func
-    }
     render() {
-        const { record, recordDict } = this.props
-        const { editing } = this.context
-        const category = recordDict[record.category]
+        const { record } = this.props
         return (
             <div>
                 <div className="recordBody">
 
-                    <RecordName record={record} editing={editing}  />
+                    <RecordName record={record} />
 
-                    <RecordPrice record={record} editing={editing} />
-
-                    <div className="spacer" />
-
-                    <RecordDisplayPrice record={record} editing={editing} />
+                    <RecordPrice record={record} />
 
                     <div className="spacer" />
 
-                    <RecordDesc record={record} editing={editing} />
+                    <RecordDisplayPrice record={record} />
 
                     <div className="spacer" />
 
-                    <RecordCategory record={record} editing={editing} />
+                    <RecordDesc record={record} />
 
                     <div className="spacer" />
 
-                    <RecordPLU record={record} editing={editing} />
+                    <RecordCategory record={record} />
+
+                    <div className="spacer" />
+
+                    <RecordPLU record={record} />
 
                     <div className="spacer" />
                 </div>

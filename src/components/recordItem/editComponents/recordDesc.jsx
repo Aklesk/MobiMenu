@@ -2,6 +2,9 @@ import React from 'react'
 import ShortID from 'shortid'
 
 export default class RecordName extends React.Component {
+    static contextTypes = {
+        editing: React.PropTypes.func
+    }
     componentDidUpdate() {
         if (document.getElementById(this.editElement) != null) {
             document.getElementById(this.editElement).focus()
@@ -9,7 +12,8 @@ export default class RecordName extends React.Component {
     }
     editElement = ShortID.generate()
     onClick = (rec, elem, event) => {
-        const { editing, record } = this.props
+        const { record } = this.props
+        const { editing } = this.context
         const saveFunc = () => {
             record.desc = document.getElementById(elem).value
             return record
@@ -17,7 +21,8 @@ export default class RecordName extends React.Component {
         editing(rec, elem, saveFunc, event)
     }
     render() {
-        const { editing, record } = this.props
+        const { record } = this.props
+        const { editing } = this.context
         return(
             <div className="recordDesc">
                 {

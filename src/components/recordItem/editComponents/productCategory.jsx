@@ -4,14 +4,15 @@ import ShortID from 'shortid'
 export default class ProductCategory extends React.Component {
     static contextTypes = {
         dataObj: React.PropTypes.object,
+        editing: React.PropTypes.func,
         overlay: React.PropTypes.func,
         recordDict: React.PropTypes.object,
         updateRecord: React.PropTypes.func
     }
     editElement = ShortID.generate()
     onClick = (event) => {
-        const { editing, record } = this.props
-        const { dataObj, overlay, updateRecord } = this.context
+        const { record } = this.props
+        const { dataObj, editing, overlay, updateRecord } = this.context
 
         overlay(
             "Choose Category",

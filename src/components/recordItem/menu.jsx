@@ -5,11 +5,8 @@ import RecordDesc from './editComponents/recordDesc'
 import MenuContents from './editComponents/menuContents'
 
 export default class RecordItemBodyMenu extends React.Component {
-    static contextTypes = {
-        editing: React.PropTypes.func
-    }
     render() {
-        const { record, recordDict } = this.props
+        const { record } = this.props
         const { editing } = this.context
         return (
             <div>
@@ -22,13 +19,13 @@ export default class RecordItemBodyMenu extends React.Component {
 
                 <div className="recordBody">
 
-                    <RecordName record={record} editing={editing} />
+                    <RecordName record={record} />
 
-                    <RecordDesc record={record} editing={editing} />
+                    <RecordDesc record={record} />
 
                     <div className="spacer"/>
 
-                    <MenuContents record={record} recordDict={recordDict} editing={editing} />
+                    <MenuContents record={record} />
 
                 </div>
             </div>
