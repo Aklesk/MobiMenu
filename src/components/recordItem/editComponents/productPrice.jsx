@@ -5,6 +5,9 @@ import ShortID from 'shortid'
 const editElement = "ProductPriceEdit"
 
 export default class ProductPrice extends React.Component {
+    static propTypes = {
+        record: React.PropTypes.object.isRequired
+    }
     static contextTypes = {
         editing: React.PropTypes.func
     }

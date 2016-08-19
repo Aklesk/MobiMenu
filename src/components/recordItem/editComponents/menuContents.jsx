@@ -8,6 +8,9 @@ import ShortID from 'shortid'
 import { CategoryGroup, DraggableCategoryGroup } from './menuContents/categoryGroup'
 
 export default class menuContents extends React.Component {
+    static propTypes = {
+        record: React.PropTypes.object.isRequired
+    }
     static contextTypes = {
         dataObj: React.PropTypes.object,
         dragging: React.PropTypes.func,

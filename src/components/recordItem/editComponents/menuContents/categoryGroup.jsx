@@ -78,7 +78,7 @@ function collectSource(connect, monitor) {
 }
 
 export class CategoryGroup extends React.Component {
-    static propTypes: {
+    static propTypes = {
         category: React.PropTypes.string.isRequired,
         connectDragSource: React.PropTypes.func,
         connectDropTarget: React.PropTypes.func,

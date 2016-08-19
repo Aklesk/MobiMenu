@@ -2,6 +2,9 @@ import React from 'react'
 import ShortID from 'shortid'
 
 export default class ProductCategory extends React.Component {
+    static propTypes = {
+        record: React.PropTypes.object.isRequired
+    }
     static contextTypes = {
         dataObj: React.PropTypes.object,
         editing: React.PropTypes.func,

@@ -79,7 +79,7 @@ function collectSource(connect, monitor) {
 }
 
 export class Product extends React.Component {
-    static propTypes: {
+    static propTypes = {
         connectDragSource: React.PropTypes.func,
         connectDropTarget: React.PropTypes.func,
         editElement: React.PropTypes.string.isRequired,
