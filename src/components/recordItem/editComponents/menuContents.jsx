@@ -1,5 +1,4 @@
 import React from 'react'
-import { findDOMNode } from 'react-dom'
 import _ from 'lodash'
 import { DragSource, DropTarget } from 'react-dnd'
 import { dragTypes } from 'interfaceConstants'
