@@ -2,6 +2,12 @@ import React from 'react';
 
 // This is the overlay template for a question
 export default class Question extends React.Component {
+    static propTypes = {
+        cancelFunc: React.PropTypes.func.isRequired,
+        header: React.PropTypes.string.isRequired,
+        message: React.PropTypes.array.isRequired,
+        okayFunc: React.PropTypes.func.isRequired
+    }
     render() {
         const { cancelFunc, header, message, okayFunc } = this.props
         return (

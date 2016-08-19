@@ -3,23 +3,26 @@ import _ from 'lodash'
 
 // This is the overlay template for a question
 export default class AddProduct extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            filter: ""
-        }
+    static propTypes = {
+        cancelFunc: React.PropTypes.func.isRequired,
+        header: React.PropTypes.string.isRequired,
+        message: React.PropTypes.array.isRequired,
+        okayFunc: React.PropTypes.func.isRequired
     }
     componentDidMount() {
         document.getElementById("productSearch").focus()
     }
     onKeyUp = (event) => {
-        this.setState(
-            {filter: event.target.value}
-            )
+        this.setState({
+            filter: event.target.value
+        })
         return
     }
     static contextTypes = {
         recordDict: React.PropTypes.object
+    }
+    state = {
+        filter: ""
     }
     render() {
         const { cancelFunc, header, message, okayFunc } = this.props
