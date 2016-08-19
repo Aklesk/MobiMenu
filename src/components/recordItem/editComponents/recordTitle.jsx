@@ -14,7 +14,7 @@ export default class RecordTitle extends React.Component {
         const { editing } = this.context
 
         // If this is a brand new record just created, drop the user into editing mode.
-        if (record.newRec != undefined) {
+        if (record.newRec != undefined && editing().rec == "") {
             editing(
                 record.guid,
                 this.editElement,
@@ -35,7 +35,7 @@ export default class RecordTitle extends React.Component {
         const { editing } = this.context
 
         // If this is a brand new record just created, drop the user into editing mode.
-        if (record.newRec != undefined) {
+        if (record.newRec != undefined && editing().rec == "") {
             editing(
                 record.guid,
                 this.editElement,
