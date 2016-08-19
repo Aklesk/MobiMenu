@@ -7,7 +7,7 @@ export default class MenuListItem extends React.Component {
         section: React.PropTypes.string.isRequired
     }
     render() {
-        const { index, section, rec } = this.props
+        const { section, rec } = this.props
         return (
             <Link to={`/menu/${section}/${rec.guid}`}
                   className={
