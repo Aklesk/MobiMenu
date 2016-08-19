@@ -18,16 +18,16 @@ import * as db from 'db'
 import HeaderBox from 'components/header'
 
 // This renders the main body of the page, where most of the action takes place
-import MainBody from 'components/mainBody'
+import MainBody from 'containers/mainBody'
 
 // This renders the footer at the bottom of the page.
 import FooterArea from 'components/footer'
 
 // This renders the Listing Container, a wrapper for the editing that the user does
-import RecordView from 'components/recordView'
+import RecordView from 'containers/recordView'
 
 // This is the holder for records when being edited.
-import RecordItem from 'components/recordItem'
+import RecordItem from 'containers/recordItem'
 
 // Overlay options
 import Question from 'components/overlay/question'
