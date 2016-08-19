@@ -91,14 +91,12 @@ export default class menuContents extends React.Component {
                                     categories.map((key, i) => {
                                         return (
                                             <DraggableCategoryGroup category={key}
-                                                                    editing={editing}
                                                                     editElement={this.editElement}
                                                                     index={i}
                                                                     id={`${record.guid}category${i}`}
                                                                     key={key}
                                                                     products={record.products.filter(p => recordDict[p] && recordDict[p].category == key)}
                                                                     record={record}
-                                                                    recordDict={recordDict}
                                                                     updateList={this.updateList}
                                             />
                                         )
@@ -132,12 +130,10 @@ export default class menuContents extends React.Component {
                                     categories.map((key) => {
                                         return (
                                             <CategoryGroup category={key}
-                                                           editing={editing}
                                                            editElement={this.editElement}
                                                            key={key}
                                                            products={record.products.filter(p => recordDict[p] && recordDict[p].category == key)}
                                                            record={record}
-                                                           recordDict={recordDict}
                                                            updateList={this.updateList}
                                             />
                                         )

@@ -79,6 +79,10 @@ function collectSource(connect, monitor) {
 }
 
 export class Product extends React.Component {
+    static defaultProps = {
+        connectDragSource: (a) => {return a},
+        connectDropTarget: (a) => {return a}
+    }
     static contextTypes = {
         updateList: React.PropTypes.func
     }
@@ -88,12 +92,7 @@ export class Product extends React.Component {
         context.updateList(record)
     }
     render() {
-        const { editing, editElement, isDragging, product, record } = this.props
-
-        // If we call this component without its wrapper, we need the return function to still work.
-        const connectDropTarget = (this.props.connectDropTarget || ((a) => {return a}))
-        const connectDragSource = (this.props.connectDragSource || ((a) => {return a}))
-
+        const { connectDragSource, connectDropTarget, editing, editElement, isDragging, product, record } = this.props
         return connectDropTarget(connectDragSource(
             <div className={`recordProduct ${isDragging ? "dragsource" : ""}`}>
                 {

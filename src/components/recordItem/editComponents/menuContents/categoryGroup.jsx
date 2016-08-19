@@ -78,14 +78,26 @@ function collectSource(connect, monitor) {
 }
 
 export class CategoryGroup extends React.Component {
+    propTypes: {
+        category: React.propTypes.string.isRequired,
+        connectDragSource: React.PropTypes.func,
+        connectDropTarget: React.PropTypes.func
+    }
+    static defaultProps = {
+        connectDragSource: (a) => {return a},
+        connectDropTarget: (a) => {return a}
+    }
     static contextTypes = {
-        updateList: React.PropTypes.func
+        editing: React.PropTypes.func,
+        updateList: React.PropTypes.func,
+        recordDict: React.PropTypes.object
     }
     updateList = (source, dest) => {
 
         // This function is used to update the order of the lists during a click-and-drag event.
 
-        const { category, record, recordDict } = this.props
+        const { category, record } = this.props
+        const { updateList, recordDict } = this.context
 
         // To start, get the list of categories in displayed order as GUIDs
         const categories = _.compact(_.uniq(record.products.map((r) => {
@@ -107,15 +119,11 @@ export class CategoryGroup extends React.Component {
 
         // And finally, save it.
         record.products = newList
-        this.context.updateList(record)
+        updateList(record)
     }
     render() {
-        const { category, editing, editElement, isDragging, products, record, recordDict} = this.props
-
-        // If we call this component without its wrapper, we need the return function to still work.
-        const connectDropTarget = (this.props.connectDropTarget || ((a) => {return a}))
-        const connectDragSource = (this.props.connectDragSource || ((a) => {return a}))
-
+        const { connectDragSource, connectDropTarget, category, editElement, isDragging, products, record } = this.props
+        const { editing, recordDict } = this.context
         return connectDropTarget(connectDragSource(
             <div className={`recordCategoryGroup ${isDragging ? "dragsource" : ""}`}>
                 <div className="recordCategoryHeader">
