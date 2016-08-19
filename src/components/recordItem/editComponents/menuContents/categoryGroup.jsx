@@ -83,6 +83,8 @@ export class CategoryGroup extends React.Component {
         connectDragSource: React.PropTypes.func,
         connectDropTarget: React.PropTypes.func,
         editElement: React.PropTypes.string.isRequired,
+        id: React.PropTypes.string, // Needed if calling Draggable
+        index: React.PropTypes.string, // Needed if calling Draggable
         record: React.PropTypes.object.isRequired
     }
     static defaultProps = {
@@ -161,8 +163,8 @@ export class CategoryGroup extends React.Component {
                         products.map((prod, i) => {
                             return (
                                 <DraggableProduct editElement={editElement}
-                                                  index={i}
                                                   id={`${recordDict[prod].guid}product${i}`}
+                                                  index={i}
                                                   key={recordDict[prod].guid}
                                                   product={recordDict[prod]}
                                                   record={record}
@@ -174,8 +176,6 @@ export class CategoryGroup extends React.Component {
                         products.map((prod, i) => {
                             return (
                                 <Product editElement={editElement}
-                                         index={i}
-                                         id={`${recordDict[prod].guid}product${i}`}
                                          key={recordDict[prod].guid}
                                          product={recordDict[prod]}
                                          record={record}
