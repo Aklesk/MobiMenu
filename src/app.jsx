@@ -36,10 +36,11 @@ import AddProduct from 'components/overlay/addProduct'
 import AddCategory from 'components/overlay/addCategory'
 
 // This is needed for proper styling due to the way that this project was imported from an active site.
-document.body.className = "m2g-console"
+// If statement is required for tests to run properly.
+if (typeof(document) != 'undefined'){document.body.className = "m2g-console"}
 
 // This is the main app wrapper that holds everything else.
-class App extends React.Component {
+export default class App extends React.Component {
 
     // For simplicity in this demo, generate a bunch of example data from db.js and load it all into state.
     // dataObj is the data in relational form; it contains the keys for menus, categories, and products.
@@ -274,18 +275,21 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render((
-    <Router history={browserHistory}>
-        <Redirect from="/" to="/menu/" />
-        <Redirect from="/menu/" to="/menu/menus/" />
-        <Route path="/menu/" component={DragDropContext(HTML5Backend)(App)}>
-            <Route component={MainBody}>
-                <Route path="/menu/:section" component={RecordView}>
-                    <Route path="/menu/:section/:record" component={RecordItem}/>
+// If we're running this in Mocha, document will not be defined (and we don't need to be rendering anything)
+if (typeof(document) != 'undefined') {
+    ReactDOM.render((
+            <Router history={browserHistory}>
+                <Redirect from="/" to="/menu/"/>
+                <Redirect from="/menu/" to="/menu/menus/"/>
+                <Route path="/menu/" component={DragDropContext(HTML5Backend)(App)}>
+                    <Route component={MainBody}>
+                        <Route path="/menu/:section" component={RecordView}>
+                            <Route path="/menu/:section/:record" component={RecordItem}/>
+                        </Route>
+                    </Route>
                 </Route>
-            </Route>
-        </Route>
-    </Router>
-),
-    document.querySelector('#root')
-)
+            </Router>
+        ),
+        document.querySelector('#root')
+    )
+}
