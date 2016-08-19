@@ -19,7 +19,7 @@ export default class RecordView extends React.Component {
         const { dataObj, recordDict } = this.context
         const { label, singular } = mainTabs[params.section]
         const recs = dataObj[params.section].map((rec, i) =>
-            <MenuListItem section={params.section} rec={rec} key={ShortID.generate()} />
+            <MenuListItem key={ShortID.generate()} rec={rec} section={params.section} />
             )
         return (
             <div id="recordView" className="grid_12">

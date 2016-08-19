@@ -5,9 +5,11 @@ import RecordDesc from './editComponents/recordDesc'
 import MenuContents from './editComponents/menuContents'
 
 export default class RecordItemBodyMenu extends React.Component {
+    static propTypes = {
+        record: React.PropTypes.object.isRequired
+    }
     render() {
         const { record } = this.props
-        const { editing } = this.context
         return (
             <div>
                 <div className="recordHours">

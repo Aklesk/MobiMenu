@@ -8,6 +8,9 @@ import RecordCategory from './editComponents/productCategory'
 import RecordPLU from './editComponents/productPLU'
 
 export default class RecordItemBodyProduct extends React.Component {
+    static propTypes = {
+        record: React.PropTypes.object.isRequired
+    }
     render() {
         const { record } = this.props
         return (

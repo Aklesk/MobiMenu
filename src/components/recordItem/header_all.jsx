@@ -5,9 +5,12 @@ import { mainTabs } from 'interfaceConstants'
 import RecordTitle from './editComponents/recordTitle'
 
 export default class RecordItemHeader extends React.Component {
+    static propTypes = {
+        record: React.PropTypes.object.isRequired,
+        section: React.PropTypes.string.isRequired
+    }
     static contextTypes = {
         deleteRecord: React.PropTypes.func,
-        editing: React.PropTypes.func,
         overlay: React.PropTypes.func
     }
     deleteRecord(event) {
@@ -25,7 +28,6 @@ export default class RecordItemHeader extends React.Component {
     }
     render() {
         const { record, section } = this.props
-        const { editing } = this.context
         return (
             <div>
                 <div className="recordHeader">
@@ -33,7 +35,7 @@ export default class RecordItemHeader extends React.Component {
                         <tbody>
                         <tr>
                             <td>
-                                <RecordTitle record={record} editing={editing} />
+                                <RecordTitle record={record} />
                             </td>
                             <td>
                                 <div className="rightPart">
