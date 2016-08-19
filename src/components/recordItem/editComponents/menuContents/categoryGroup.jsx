@@ -79,9 +79,11 @@ function collectSource(connect, monitor) {
 
 export class CategoryGroup extends React.Component {
     propTypes: {
-        category: React.propTypes.string.isRequired,
+        category: React.PropTypes.string.isRequired,
         connectDragSource: React.PropTypes.func,
-        connectDropTarget: React.PropTypes.func
+        connectDropTarget: React.PropTypes.func,
+        editElement: React.PropTypes.string.isRequired,
+        record: React.PropTypes.object.isRequired
     }
     static defaultProps = {
         connectDragSource: (a) => {return a},
@@ -122,8 +124,9 @@ export class CategoryGroup extends React.Component {
         updateList(record)
     }
     render() {
-        const { connectDragSource, connectDropTarget, category, editElement, isDragging, products, record } = this.props
+        const { connectDragSource, connectDropTarget, category, editElement, isDragging, record } = this.props
         const { editing, recordDict } = this.context
+        const products = record.products.filter(p => recordDict[p] && recordDict[p].category == category)
         return connectDropTarget(connectDragSource(
             <div className={`recordCategoryGroup ${isDragging ? "dragsource" : ""}`}>
                 <div className="recordCategoryHeader">
@@ -157,9 +160,7 @@ export class CategoryGroup extends React.Component {
                         ?
                         products.map((prod, i) => {
                             return (
-                                <DraggableProduct category={category}
-                                                  editing={editing}
-                                                  editElement={editElement}
+                                <DraggableProduct editElement={editElement}
                                                   index={i}
                                                   id={`${recordDict[prod].guid}product${i}`}
                                                   key={recordDict[prod].guid}
@@ -172,9 +173,7 @@ export class CategoryGroup extends React.Component {
                         :
                         products.map((prod, i) => {
                             return (
-                                <Product category={category}
-                                         editing={editing}
-                                         editElement={editElement}
+                                <Product editElement={editElement}
                                          index={i}
                                          id={`${recordDict[prod].guid}product${i}`}
                                          key={recordDict[prod].guid}

@@ -79,20 +79,31 @@ function collectSource(connect, monitor) {
 }
 
 export class Product extends React.Component {
+    propTypes: {
+        connectDragSource: React.PropTypes.func,
+        connectDropTarget: React.PropTypes.func,
+        editElement: React.PropTypes.string.isRequired,
+        product: React.PropTypes.object.isRequired,
+        record: React.PropTypes.object.isRequired
+    }
     static defaultProps = {
         connectDragSource: (a) => {return a},
         connectDropTarget: (a) => {return a}
     }
     static contextTypes = {
+        editing: React.PropTypes.func,
         updateList: React.PropTypes.func
     }
     removeProduct = (event) => {
+        const { product, record } = this.props
+        const { updateList } = this.context
         event.stopPropagation()
         record.products.splice(record.products.indexOf(product.guid), 1)
-        context.updateList(record)
+        updateList(record)
     }
     render() {
-        const { connectDragSource, connectDropTarget, editing, editElement, isDragging, product, record } = this.props
+        const { connectDragSource, connectDropTarget, editElement, isDragging, product, record } = this.props
+        const { editing } = this.context
         return connectDropTarget(connectDragSource(
             <div className={`recordProduct ${isDragging ? "dragsource" : ""}`}>
                 {

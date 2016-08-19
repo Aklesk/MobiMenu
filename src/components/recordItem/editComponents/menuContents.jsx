@@ -95,7 +95,6 @@ export default class menuContents extends React.Component {
                                                                     index={i}
                                                                     id={`${record.guid}category${i}`}
                                                                     key={key}
-                                                                    products={record.products.filter(p => recordDict[p] && recordDict[p].category == key)}
                                                                     record={record}
                                                                     updateList={this.updateList}
                                             />
@@ -132,7 +131,6 @@ export default class menuContents extends React.Component {
                                             <CategoryGroup category={key}
                                                            editElement={this.editElement}
                                                            key={key}
-                                                           products={record.products.filter(p => recordDict[p] && recordDict[p].category == key)}
                                                            record={record}
                                                            updateList={this.updateList}
                                             />
