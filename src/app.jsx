@@ -55,6 +55,10 @@ class App extends React.Component {
     // This will add a new record of the specified type. Accepts arguments as a lowercase string.
     addRecord = (recType, event) => {
 
+        // Event hasn't had time to fire yet, so before we do anything else go ahead and trigger onClick.
+        event.stopPropagation()
+        this.onClick(event)
+
         // dataObj must be updated, which requires us to convert the recType (a singular lowercase
         // string) to the dataObj category key (a plural lowercase string). We can parse the tab
         // definition in interfaceConstants to achieve this, but it's ugly.
