@@ -84,7 +84,7 @@ export class Product extends React.Component {
         connectDropTarget: React.PropTypes.func,
         editElement: React.PropTypes.string.isRequired,
         id: React.PropTypes.string, // Needed if calling Draggable
-        index: React.PropTypes.string, // Needed if calling Draggable
+        index: React.PropTypes.number, // Needed if calling Draggable
         product: React.PropTypes.object.isRequired,
         record: React.PropTypes.object.isRequired
     }

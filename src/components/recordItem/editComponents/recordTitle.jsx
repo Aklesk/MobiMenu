@@ -8,16 +8,44 @@ export default class RecordTitle extends React.Component {
     static contextTypes = {
         editing: React.PropTypes.func
     }
+    // ComponentDidMount will fire if we create a new record from the 404 page or with no record selected
     componentDidMount() {
+        const { record } = this.props
+        const { editing } = this.context
 
-        // We need this as well because we want to edit this immediately after it is created in the case of
-        // a new record creation event that also drops us into editing mode.
+        // If this is a brand new record just created, drop the user into editing mode.
+        if (record.newRec != undefined) {
+            editing(
+                record.guid,
+                this.editElement,
+                () => {
+                    record.intName = document.getElementById(this.editElement).value
+                    return record
+                }
+            )
+        }
 
         if (document.getElementById(this.editElement) != null) {
             document.getElementById(this.editElement).focus()
         }
     }
+    // ComponentDidMount will fire if we create a new record from any other record
     componentDidUpdate() {
+        const { record } = this.props
+        const { editing } = this.context
+
+        // If this is a brand new record just created, drop the user into editing mode.
+        if (record.newRec != undefined) {
+            editing(
+                record.guid,
+                this.editElement,
+                () => {
+                    record.intName = document.getElementById(this.editElement).value
+                    return record
+                }
+            )
+        }
+
         if (document.getElementById(this.editElement) != null) {
             document.getElementById(this.editElement).focus()
         }

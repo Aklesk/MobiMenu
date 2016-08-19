@@ -84,7 +84,7 @@ export class CategoryGroup extends React.Component {
         connectDropTarget: React.PropTypes.func,
         editElement: React.PropTypes.string.isRequired,
         id: React.PropTypes.string, // Needed if calling Draggable
-        index: React.PropTypes.string, // Needed if calling Draggable
+        index: React.PropTypes.number, // Needed if calling Draggable
         record: React.PropTypes.object.isRequired
     }
     static defaultProps = {

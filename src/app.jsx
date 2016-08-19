@@ -12,7 +12,7 @@ import { DragDropContext } from 'react-dnd'
 import { mainTabs } from 'interfaceConstants'
 
 // We need some base data for this example. This acts as a sort of pre-loaded resetting database.
-import { exampleData, menu, category, product } from 'db'
+import * as db from 'db'
 
 // This is the header at the top of the page.
 import HeaderBox from 'components/header'
@@ -40,81 +40,58 @@ document.body.className = "m2g-console"
 
 // This is the main app wrapper that holds everything else.
 class App extends React.Component {
-    constructor() {
-        super()
 
-        // Create a new database using the example data (for demo purposes)
-        const DataObj = exampleData()
-
-        // First pack all records into a master dictionary for fast and easy lookup later. We'll maintain this as we go.
-        const recordDict = {}
-        for (const key in DataObj) {
-            DataObj[key].forEach(
-                rec => recordDict[rec.guid] = rec
-            )
-        }
-
-        // We're not dealing with asynchronus loading, or indeed any loading - so we can load the whole database into state.
-        // dataObj exists to provide a relational database structure (it has a list of all category objects, for
-        // instance), while recordDict is very much non-relational; it's just a dictionary of *all* record items
-        // keyed to record guid.
-        this.state = {
-            dataObj: DataObj,
-            editing: {rec: "", elem: "", saveFunc: null},
-            recordDict: recordDict,
-            overlay: {header: "", message: "", type: "", okayFunc: null}
-        }
+    // For simplicity in this demo, generate a bunch of example data from db.js and load it all into state.
+    // dataObj is the data in relational form; it contains the keys for menus, categories, and products.
+    // recordDict is the same data in non-relational form; an object of the data keyed by guid.
+    exampleData = db.exampleData()
+    state = {
+        dataObj: this.exampleData,
+        editing: {rec: "", elem: "", saveFunc: null},
+        recordDict: _.keyBy(_.flatten(_.values(this.exampleData)), (r) => {return r.guid}),
+        overlay: {header: "", message: "", type: "", okayFunc: null}
     }
 
     // This will add a new record of the specified type. Accepts arguments as a lowercase string.
     addRecord = (recType, event) => {
 
         // dataObj must be updated, which requires us to convert the recType (a singular lowercase
-        // string) to the dataObj category key (a plural lowercase string). We can just parse the tab
-        // definition in interfaceConstants to achieve this, though in a bit of a messy way.
-        let rec = {}
+        // string) to the dataObj category key (a plural lowercase string). We can parse the tab
+        // definition in interfaceConstants to achieve this, but it's ugly.
         const key = Object.keys(mainTabs).map((k) => {
             return [k, mainTabs[k].singular.toLowerCase()]
         }).find((tuple) => {
             return (tuple[1] == recType)
         })[0]
 
-        // Still no way to refer to the local scope without a namespace, so just use if statements for now.
-        if (recType == "menu") {rec = menu()}
-        if (recType == "category") {rec = category()}
-        if (recType == "product") {rec = product()}
-
+        // Modifiers and modifier groups are not yet implemented - head those calls off here with some user feedback.
         if (recType == "modifier" || recType == "modifier group") {
             this.overlay(
                 "Not Implemented",
                 "Modifiers and Modifier Groups are outside scope of this tech demo site.",
                 "alert",
-                () => {
-                    this.overlay("", "", "", null)
-                }
+                () => { this.overlay("", "", "", null) }
             )
             return
         }
 
+        // db is imported up above
+        const newRec = db[recType]()
+
+        // For convenience we want to drop the user into automatically viewing the record and editing recordTitle.
+        // To achieve this, add a flag to the new record. This will be stripped off again on first save.
+        newRec.newRec = true
+
         const dataObj = update(this.state.dataObj, {
-            [key]: {$push: [rec]}
+            [key]: {$push: [newRec]}
         })
         const recordDict = update(this.state.recordDict, {
-            [rec.guid]: {$set: rec}
+            [newRec.guid]: {$set: newRec}
         })
         this.setState({ dataObj, recordDict })
 
-        // For convenience, drop the user into automatically viewing the record and editing the header.
-        browserHistory.push(`/menu/${key}/${rec.guid}`)
-        this.editing(
-            rec.guid,
-            "intNameEdit",
-            () => {
-                rec.intName = document.getElementById("intNameEdit").value
-                return rec
-            },
-            event
-        )
+        // Navigate to the new record.
+        browserHistory.push(`/menu/${key}/${newRec.guid}`)
     }
 
     // This completely deletes the record with the specified GUID.
@@ -204,12 +181,16 @@ class App extends React.Component {
     // This takes a full record (that has a GUID) as an input and updates state with it. In a more full version
     // of this code, it might also send an update to a server, but at the moment it just updates state.
     updateRecord = (rec) => {
+        // If this is a new record that has not yet been saved, just strip off the newRec flag.
+        if (rec.newRec) {delete(rec.newRec)}
+
         let newRec = update(this.state.recordDict, {
             [rec.guid]: {$set: rec}
         })
         this.setState({
             recordDict: newRec
         })
+
         console.log("Record updated:")
         console.log(rec)
     }
