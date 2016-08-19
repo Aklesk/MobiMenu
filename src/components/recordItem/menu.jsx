@@ -3,6 +3,7 @@ import React from 'react'
 import RecordName from './editComponents/recordName'
 import RecordDesc from './editComponents/recordDesc'
 import MenuContents from './editComponents/menuContents'
+import MenuTimes from './editComponents/menuTimes'
 
 export default class RecordItemBodyMenu extends React.Component {
     static propTypes = {
@@ -12,10 +13,7 @@ export default class RecordItemBodyMenu extends React.Component {
         const { record } = this.props
         return (
             <div>
-                <div className="recordHours">
-                    <div className="labelText">Hours Active:</div>
-                    <div className="labelText">Days Active:</div>
-                </div>
+                <MenuTimes />
 
                 <hr />
 
