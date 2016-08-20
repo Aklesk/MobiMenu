@@ -54,10 +54,10 @@ export default class App extends React.Component {
     }
 
     // This will add a new record of the specified type. Accepts arguments as a lowercase string.
-    addRecord = (recType, event) => {
+    addRecord = (recType, recData, event) => {
 
         // Event hasn't had time to fire yet, so before we do anything else go ahead and trigger onClick.
-        event.stopPropagation()
+        if(typeof(event) != 'undefined'){event.stopPropagation()}
         this.onClick(event)
 
         // dataObj must be updated, which requires us to convert the recType (a singular lowercase
@@ -81,7 +81,7 @@ export default class App extends React.Component {
         }
 
         // db is imported up above
-        const newRec = db[recType]()
+        const newRec = db[recType](recData)
 
         // For convenience we want to drop the user into automatically viewing the record and editing recordTitle.
         // To achieve this, add a flag to the new record. This will be stripped off again on first save.
@@ -95,14 +95,14 @@ export default class App extends React.Component {
         })
         this.setState({ dataObj, recordDict })
 
-        // Navigate to the new record.
-        browserHistory.push(`/menu/${key}/${newRec.guid}`)
+        // Navigate to the new record if possible
+        if(typeof(browserHistory) != 'undefined'){browserHistory.push(`/menu/${key}/${newRec.guid}`)}
     }
 
     // This completely deletes the record with the specified GUID.
     // Eventually this will be part of a versioning system and will simply set a deleted flag, but right now it deletes.
     deleteRecord = (guid) => {
-
+        
         // Because we're reassigning a key to undefined, rather than changing an object, it must be updated
         // in both recordDict and the dataObj that gives us our section lists.
         // This data is needed to update dataObj
@@ -274,6 +274,8 @@ export default class App extends React.Component {
         )
     }
 }
+
+console.log(App.deleteRecord)
 
 // If we're running this in Mocha, document will not be defined (and we don't need to be rendering anything)
 if (typeof(document) != 'undefined') {

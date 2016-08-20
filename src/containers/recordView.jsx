@@ -33,7 +33,7 @@ export default class RecordView extends React.Component {
                                             {label}
                                         </h1>
                                         <button className="addNewButton"
-                                                onClick={this.context.addRecord.bind(this, singular.toLowerCase())}
+                                                onClick={this.context.addRecord.bind(this, singular.toLowerCase(), {})}
                                         >
                                             {`New ${singular}`}
                                         </button>
