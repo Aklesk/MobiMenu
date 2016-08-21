@@ -17,16 +17,18 @@ export default class ProductPrice extends React.Component {
         }
     }
     editElement = ShortID.generate()
-    onClick = (rec, elem, event) => {
-        const { record } = this.props
-        const { editing } = this.context
-        const saveFunc = () => {
-            let val = +document.getElementById(elem).value
-            if (val == NaN) {val = 0}
-            record.price = val
-            return record
-        }
-        editing(rec, elem, saveFunc, event)
+    onClick = (guid, elem, event) => {
+        this.context.editing(
+            guid,
+            elem,
+            (r) => {
+                let val = +document.getElementById(elem).value
+                if (val == NaN) {val = 0}
+                r.price = val
+                return r
+            },
+            event
+        )
     }
     render() {
         const { record } = this.props

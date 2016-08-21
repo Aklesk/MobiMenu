@@ -102,7 +102,7 @@ export default class App extends React.Component {
     // This completely deletes the record with the specified GUID.
     // Eventually this will be part of a versioning system and will simply set a deleted flag, but right now it deletes.
     deleteRecord = (guid) => {
-        
+
         // Because we're reassigning a key to undefined, rather than changing an object, it must be updated
         // in both recordDict and the dataObj that gives us our section lists.
         // This data is needed to update dataObj
@@ -136,6 +136,7 @@ export default class App extends React.Component {
             return this.state.editing
         }
         else {
+            if(this.state.editing.rec != ""){this.onClick()}
             this.setState({editing: {rec, elem, saveFunc}})
         }
     }
@@ -171,9 +172,14 @@ export default class App extends React.Component {
     // This is run on every click anywhere in the app that is not explicitly prevented from doing anything. This
     // ends edit mode, and also is used to save records. For simplicity, each component with an edit mode bundles
     // in a function which will return a complete updated record, which is what saveFunc is.
-    onClick = (event) => {
+    onClick = () => {
         if (this.editing().saveFunc != null) {
-            this.updateRecord(this.state.editing.saveFunc())
+            // If we can't find the record we're editing, log an error and return
+            if(typeof(this.state.recordDict[this.editing().rec]) == 'undefined') {
+                console.log("Save failed: record not found.")
+                return
+            }
+            this.updateRecord(this.state.editing.saveFunc(this.state.recordDict[this.editing().rec]))
         }
         this.setState({editing: {rec: "", elem: "", saveFunc: null}})
     }
@@ -195,9 +201,6 @@ export default class App extends React.Component {
         this.setState({
             recordDict: newRec
         })
-
-        console.log("Record updated:")
-        console.log(rec)
     }
 
     // This is used when re-ordering records during a click and drag operation. It's functionally the same as

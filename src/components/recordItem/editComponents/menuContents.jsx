@@ -33,17 +33,21 @@ export default class menuContents extends React.Component {
             "Add Product",
             validProducts,
             "addProduct",
-            (guid) => {
+            (guid, event) => {
+                event.stopPropagation()
                 record.products.push(guid)
                 updateList(record)
             }
         )
     }
     editElement = ShortID.generate()
-    onClick = (rec, elem, event) => {
-        const { record } = this.props
-        const { editing } = this.context
-        editing(rec, elem, () => {return record}, event)
+    onClick = (guid, elem, event) => {
+        this.context.editing(
+            guid,
+            elem,
+            (r) => {return r},
+            event
+        )
     }
     updateList = (source, dest) => {
 

@@ -13,7 +13,7 @@ export default class ProductCategory extends React.Component {
         updateRecord: React.PropTypes.func
     }
     editElement = ShortID.generate()
-    onClick = (event) => {
+    onClick = () => {
         const { record } = this.props
         const { dataObj, editing, overlay, updateRecord } = this.context
 
@@ -21,7 +21,8 @@ export default class ProductCategory extends React.Component {
             "Choose Category",
             dataObj.categories,
             "addCategory",
-            (guid) => {
+            (guid, event) => {
+                event.stopPropagation()
                 record.category = guid
                 updateRecord(record)
             }

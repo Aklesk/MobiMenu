@@ -5,7 +5,7 @@ export default class MenuTimes extends React.Component {
     static contextTypes = {
         overlay: React.PropTypes.func
     }
-    onClick = (rec, elem, event) => {
+    onClick = (rec, elem) => {
         const { overlay } = this.context
         overlay(
             "Not Implemented",

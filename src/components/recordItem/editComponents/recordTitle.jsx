@@ -51,14 +51,16 @@ export default class RecordTitle extends React.Component {
         }
     }
     editElement = ShortID.generate()
-    onClick = (rec, elem, event) => {
-        const { record } = this.props
-        const { editing } = this.context
-        const saveFunc = () => {
-            record.intName = document.getElementById(elem).value
-            return record
-        }
-        editing(rec, elem, saveFunc, event)
+    onClick = (guid, elem, event) => {
+        this.context.editing(
+            guid,
+            elem,
+            (r) => {
+                r.intName = document.getElementById(elem).value
+                return r
+            },
+            event
+        )
     }
     render() {
         const { record } = this.props

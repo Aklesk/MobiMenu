@@ -25,14 +25,11 @@ describe('Main App', () => {
     // ===================
 
     it("successfully runs addRecord on menu records", function() {
-        expect((() => {
-            loaded.addRecord('menu', {guid: "menutest"})
-            return true
-        })()).to.equal(true)
+        expect(loaded.addRecord('menu', {guid: "menutest"})).to.equal(undefined)
     })
 
     it("succeeded in adding the newly created menu record to recordDict state", function() {
-        expect(typeof(loaded.state.recordDict["menutest"]) != 'undefined').to.equal(true)
+        expect(typeof(loaded.state.recordDict["menutest"])).to.not.equal('undefined')
     })
 
     it("succeeded in adding the newly created menu record to datObj state", function() {
@@ -40,10 +37,7 @@ describe('Main App', () => {
     })
 
     it("successfully runs addRecord on category records", function() {
-        expect((() => {
-            loaded.addRecord('category', {guid: "categorytest"})
-            return true
-        })()).to.equal(true)
+        expect(loaded.addRecord('category', {guid: "categorytest"})).to.equal(undefined)
     })
 
     it("succeeded in adding the newly created category record to datObj state", function() {
@@ -51,18 +45,15 @@ describe('Main App', () => {
     })
 
     it("succeeded in adding the newly created category record to recordDict state", function() {
-        expect(typeof(loaded.state.recordDict["categorytest"]) != 'undefined').to.equal(true)
+        expect(typeof(loaded.state.recordDict["categorytest"])).to.not.equal('undefined')
     })
 
     it("successfully runs addRecord on product records", function() {
-        expect((() => {
-            loaded.addRecord('product', {guid: "producttest"})
-            return true
-        })()).to.equal(true)
+        expect(loaded.addRecord('product', {guid: "producttest"})).to.equal(undefined)
     })
 
     it("succeeded in adding the newly created product record to recordDict state", function() {
-        expect(typeof(loaded.state.recordDict["producttest"]) != 'undefined').to.equal(true)
+        expect(typeof(loaded.state.recordDict["producttest"])).to.not.equal('undefined')
     })
 
     it("succeeded in adding the newly created product record to datObj state", function() {
@@ -77,51 +68,76 @@ describe('Main App', () => {
     // ===================
 
     it("ran a delete operation on previously created menu record successfully", function() {
-        expect((() => {
-            loaded.deleteRecord("menutest")
-            return true
-        })()).to.equal(true)
+        expect(loaded.deleteRecord("menutest")).to.equal(undefined)
     })
 
     it("successfully removed the menu record from recordDict state", function() {
-        expect(typeof(loaded.state.recordDict["menutest"]) == 'undefined').to.equal(true)
+        expect(typeof(loaded.state.recordDict["menutest"])).to.equal('undefined')
     })
 
     it("successfully removed the menu record from dataObj state", function() {
-        expect(loaded.state.dataObj.menus.filter((m) => {return m.guid == "menutest"})).to.have.length(0)
+        expect(loaded.state.dataObj.menus.filter((m) => {return m.guid == "menutest"})).to.be.empty
     })
 
     it("ran a delete operation on previously created category record successfully", function() {
-        expect((() => {
-            loaded.deleteRecord("categorytest")
-            return true
-        })()).to.equal(true)
+        expect(loaded.deleteRecord("categorytest")).to.equal(undefined)
     })
 
     it("successfully removed the category record from recordDict state", function() {
-        expect(typeof(loaded.state.recordDict["categorytest"]) == 'undefined').to.equal(true)
+        expect(typeof(loaded.state.recordDict["categorytest"])).to.equal('undefined')
     })
 
     it("successfully removed the category record from dataObj state", function() {
-        expect(loaded.state.dataObj.categories.filter((m) => {return m.guid == "categorytest"})).to.have.length(0)
+        expect(loaded.state.dataObj.categories.filter((m) => {return m.guid == "categorytest"})).to.be.empty
     })
 
     it("ran a delete operation on previously created product record successfully", function() {
-        expect((() => {
-            loaded.deleteRecord("producttest")
-            return true
-        })()).to.equal(true)
+        expect(loaded.deleteRecord("producttest")).to.equal(undefined)
     })
 
     it("successfully removed the product record from recordDict state", function() {
-        expect(typeof(loaded.state.recordDict["producttest"]) == 'undefined').to.equal(true)
+        expect(typeof(loaded.state.recordDict["producttest"])).to.equal('undefined')
     })
 
     it("successfully removed the product record from dataObj state", function() {
-        expect(loaded.state.dataObj.products.filter((m) => {return m.guid == "producttest"})).to.have.length(0)
+        expect(loaded.state.dataObj.products.filter((m) => {return m.guid == "producttest"})).to.be.empty
     })
 
 
+
+
+    // ===================
+    // editing state tests
+    // ===================
+
+    loaded.addRecord("menu", {guid: "testRecord", intName: "initial"})
+
+    it("successfully queried blank editing state", function() {
+        expect(loaded.editing()).to.deep.equal({rec: "", elem: "", saveFunc: null})
+    })
+
+    it("successfully completed a set edit state operation", function() {
+        expect(loaded.editing(
+            "testRecord",
+            "element",
+            (r) => {
+                r.intName = "changed"
+                return r
+            }
+        )).to.equal(undefined)
+    })
+
+    it("successfully completed an onClick function during editing", function() {
+        expect(loaded.onClick()).to.equal(undefined)
+    })
+
+    it("successfully reset editing state after onClick", function() {
+        expect(loaded.editing()).to.deep.equal({rec: "", elem: "", saveFunc: null})
+    })
+
+    it("successfully saved edited record after onClick", function() {
+        expect(loaded.state.recordDict["testRecord"].intName).to.equal("changed")
+    })
 
 
 })
