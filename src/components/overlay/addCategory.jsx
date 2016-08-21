@@ -1,7 +1,6 @@
 import React from 'react';
 
-// This is the overlay template for a question
-export default class Question extends React.Component {
+export default class AddCategory extends React.Component {
     static propTypes = {
         cancelFunc: React.PropTypes.func.isRequired,
         header: React.PropTypes.string.isRequired,

@@ -232,7 +232,7 @@ export default class App extends React.Component {
                                       okayFunc={this.okayFunc}
                             />
                             :
-                            <div/>
+                            null
                         }
                         {
                             this.state.overlay.type == "alert"
@@ -242,7 +242,7 @@ export default class App extends React.Component {
                                    okayFunc={this.okayFunc}
                             />
                             :
-                            <div/>
+                            null
                         }
                         {
                             this.state.overlay.type == "addProduct"
@@ -253,7 +253,7 @@ export default class App extends React.Component {
                                         okayFunc={this.okayFunc}
                             />
                             :
-                            <div/>
+                            null
                         }
                         {
                             this.state.overlay.type == "addCategory"
@@ -264,11 +264,11 @@ export default class App extends React.Component {
                                          okayFunc={this.okayFunc}
                             />
                             :
-                            <div/>
+                            null
                         }
                     </div>
                     :
-                    <div/>
+                    null
                 }
                 <HeaderBox />
                 {this.props.children}
@@ -277,8 +277,6 @@ export default class App extends React.Component {
         )
     }
 }
-
-console.log(App.deleteRecord)
 
 // If we're running this in Mocha, document will not be defined (and we don't need to be rendering anything)
 if (typeof(document) != 'undefined') {
