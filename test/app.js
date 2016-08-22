@@ -12,7 +12,7 @@ import AddCategory from 'components/overlay/addCategory.jsx'
 
 describe('Main App', () => {
     const wrapper = shallow(<App />)
-    const loaded = wrapper.instance()
+    const app = wrapper.instance()
 
     it("contains header element", function() {
         expect(wrapper.containsMatchingElement(<Header />)).to.equal(true)
@@ -30,18 +30,24 @@ describe('Main App', () => {
     // ===================
 
     it("ran addRecord on menu, category, and product records", function() {
-        expect(loaded.addRecord('menu', {guid: "menutest"})).to.equal(undefined)
-        expect(loaded.addRecord('category', {guid: "categorytest"})).to.equal(undefined)
-        expect(loaded.addRecord('product', {guid: "producttest"})).to.equal(undefined)
+        expect(app.addRecord('menu', {guid: "menutest"})).to.equal(undefined)
+        expect(app.addRecord('category', {guid: "categorytest"})).to.equal(undefined)
+        expect(app.addRecord('product', {guid: "producttest"})).to.equal(undefined)
     })
 
     it("added the newly created record to recordDict and dataObj state", function() {
-        expect(typeof(loaded.state.recordDict["menutest"])).to.not.equal('undefined')
-        expect(loaded.state.dataObj.menus.filter((m) => {return m.guid == "menutest"})).to.have.length(1)
-        expect(typeof(loaded.state.recordDict["categorytest"])).to.not.equal('undefined')
-        expect(loaded.state.dataObj.categories.filter((m) => {return m.guid == "categorytest"})).to.have.length(1)
-        expect(typeof(loaded.state.recordDict["producttest"])).to.not.equal('undefined')
-        expect(loaded.state.dataObj.products.filter((m) => {return m.guid == "producttest"})).to.have.length(1)
+        expect(typeof(app.state.recordDict["menutest"])).to.not.equal('undefined')
+        expect(app.state.dataObj.menus.filter((m) => {return m.guid == "menutest"})).to.have.length(1)
+        expect(typeof(app.state.recordDict["categorytest"])).to.not.equal('undefined')
+        expect(app.state.dataObj.categories.filter((m) => {return m.guid == "categorytest"})).to.have.length(1)
+        expect(typeof(app.state.recordDict["producttest"])).to.not.equal('undefined')
+        expect(app.state.dataObj.products.filter((m) => {return m.guid == "producttest"})).to.have.length(1)
+    })
+
+    it("added newRec flag to all newly created records", function() {
+        expect(app.state.recordDict["menutest"].newRec).to.equal(true)
+        expect(app.state.recordDict["categorytest"].newRec).to.equal(true)
+        expect(app.state.recordDict["producttest"].newRec).to.equal(true)
     })
 
 
@@ -52,18 +58,18 @@ describe('Main App', () => {
     // ===================
 
     it("ran a delete operation on all previously created records", function() {
-        expect(loaded.deleteRecord("menutest")).to.equal(undefined)
-        expect(loaded.deleteRecord("categorytest")).to.equal(undefined)
-        expect(loaded.deleteRecord("producttest")).to.equal(undefined)
+        expect(app.deleteRecord("menutest")).to.equal(undefined)
+        expect(app.deleteRecord("categorytest")).to.equal(undefined)
+        expect(app.deleteRecord("producttest")).to.equal(undefined)
     })
 
     it("properly removed the records from recordDict and dataObj state", function() {
-        expect(typeof(loaded.state.recordDict["menutest"])).to.equal('undefined')
-        expect(loaded.state.dataObj.menus.filter((m) => {return m.guid == "menutest"})).to.be.empty
-        expect(typeof(loaded.state.recordDict["categorytest"])).to.equal('undefined')
-        expect(loaded.state.dataObj.categories.filter((m) => {return m.guid == "categorytest"})).to.be.empty
-        expect(typeof(loaded.state.recordDict["producttest"])).to.equal('undefined')
-        expect(loaded.state.dataObj.products.filter((m) => {return m.guid == "producttest"})).to.be.empty
+        expect(typeof(app.state.recordDict["menutest"])).to.equal('undefined')
+        expect(app.state.dataObj.menus.filter((m) => {return m.guid == "menutest"})).to.be.empty
+        expect(typeof(app.state.recordDict["categorytest"])).to.equal('undefined')
+        expect(app.state.dataObj.categories.filter((m) => {return m.guid == "categorytest"})).to.be.empty
+        expect(typeof(app.state.recordDict["producttest"])).to.equal('undefined')
+        expect(app.state.dataObj.products.filter((m) => {return m.guid == "producttest"})).to.be.empty
     })
 
 
@@ -73,32 +79,35 @@ describe('Main App', () => {
     // editing state tests
     // ===================
 
+    const saveFunc = (r) => {
+        r.intName = "changed"
+        return r
+    }
+    const editSpy = sinon.spy(saveFunc)
+
     it("returned correct blank editing state", function() {
-        expect(loaded.editing()).to.deep.equal({rec: "", elem: "", saveFunc: null})
+        expect(app.editing()).to.deep.equal({rec: "", elem: "", saveFunc: null})
     })
 
     it("set an edit state", function() {
-        const saveFunc = (r) => {
-            r.intName = "changed"
-            return r
-        }
-        expect(loaded.addRecord("menu", {guid: "testRecord", intName: "initial"})).to.equal(undefined)
-        expect(loaded.editing(
+        expect(app.addRecord("menu", {guid: "testRecord", intName: "initial"})).to.equal(undefined)
+        expect(app.editing(
             "testRecord",
             "element",
-            saveFunc
+            editSpy
         )).to.equal(undefined)
-        expect(loaded.state.editing).to.deep.equal({
+        expect(app.state.editing).to.deep.equal({
             rec: "testRecord",
             elem: "element",
-            saveFunc: saveFunc
+            saveFunc: editSpy
         })
     })
 
     it("changed edit state via editing function, saving previous edit in the process", function() {
-        expect(loaded.editing("","",null)).to.equal(undefined)
-        expect(loaded.state.recordDict["testRecord"].intName).to.equal("changed")
-        expect(loaded.state.editing).to.deep.equal({rec: "", elem: "", saveFunc: null})
+        expect(app.editing("","",null)).to.equal(undefined)
+        expect(app.state.recordDict["testRecord"].intName).to.equal("changed")
+        expect(editSpy.calledOnce).to.equal(true)
+        expect(app.state.editing).to.deep.equal({rec: "", elem: "", saveFunc: null})
     })
 
 
@@ -109,28 +118,28 @@ describe('Main App', () => {
     // ===================
 
     it("completed an onClick function with no edit state", function() {
-        expect(loaded.state.editing).to.deep.equal({rec: "", elem: "", saveFunc: null})
-        expect(loaded.onClick()).to.equal(undefined)
+        expect(app.state.editing).to.deep.equal({rec: "", elem: "", saveFunc: null})
+        expect(app.onClick()).to.equal(undefined)
     })
 
     it("completed an onClick function with an active edit state", function() {
-        expect(loaded.editing(
+        expect(app.editing(
             "testRecord",
             "element",
             (r) => {
-                r.intName = "onClick"
-                return r
-            }
+            r.intName = "onClick"
+        return r
+    }
         )).to.equal(undefined)
-        expect(loaded.onClick()).to.equal(undefined)
+        expect(app.onClick()).to.equal(undefined)
     })
 
     it("reset editing state after onClick", function() {
-        expect(loaded.editing()).to.deep.equal({rec: "", elem: "", saveFunc: null})
+        expect(app.editing()).to.deep.equal({rec: "", elem: "", saveFunc: null})
     })
 
     it("saved edited record to state after onClick was run", function() {
-        expect(loaded.state.recordDict["testRecord"].intName).to.equal("onClick")
+        expect(app.state.recordDict["testRecord"].intName).to.equal("onClick")
     })
 
 
@@ -150,11 +159,11 @@ describe('Main App', () => {
 
 
     it("set and displayed an Alert overlay", function() {
-        expect(loaded.overlay(
-            "header",
-            "message",
-            "alert",
-            () => {return}
+        expect(app.overlay(
+                "header",
+                "message",
+                "alert",
+                () => {return}
         )).to.equal(undefined)
         wrapper.update()
         expect(wrapper.containsMatchingElement(<Alert />)).to.equal(true)
@@ -164,25 +173,25 @@ describe('Main App', () => {
     })
 
     it("set and displayed a Question overlay", function() {
-        expect(loaded.overlay(
-            "header?",
-            "message?",
-            "question",
-            () => {return}
+        expect(app.overlay(
+                "header?",
+                "message?",
+                "question",
+                () => {return}
         )).to.equal(undefined)
-         wrapper.update()
-         expect(wrapper.containsMatchingElement(<Alert />)).to.equal(false)
-         expect(wrapper.containsMatchingElement(<Question />)).to.equal(true)
-         expect(wrapper.containsMatchingElement(<AddProduct />)).to.equal(false)
-         expect(wrapper.containsMatchingElement(<AddCategory />)).to.equal(false)
+        wrapper.update()
+        expect(wrapper.containsMatchingElement(<Alert />)).to.equal(false)
+        expect(wrapper.containsMatchingElement(<Question />)).to.equal(true)
+        expect(wrapper.containsMatchingElement(<AddProduct />)).to.equal(false)
+        expect(wrapper.containsMatchingElement(<AddCategory />)).to.equal(false)
     })
 
     it("set and displayed an Add Product overlay", function() {
-        expect(loaded.overlay(
-            "header",
-            "message",
-            "addProduct",
-            () => {return}
+        expect(app.overlay(
+                "header",
+                "message",
+                "addProduct",
+                () => {return}
         )).to.equal(undefined)
         wrapper.update()
         expect(wrapper.containsMatchingElement(<Alert />)).to.equal(false)
@@ -192,11 +201,11 @@ describe('Main App', () => {
     })
 
     it("set and displayed an Add Category overlay", function() {
-        expect(loaded.overlay(
-            "header",
-            "message",
-            "addCategory",
-            () => {return}
+        expect(app.overlay(
+                "header",
+                "message",
+                "addCategory",
+                () => {return}
         )).to.equal(undefined)
         wrapper.update()
         expect(wrapper.containsMatchingElement(<Alert />)).to.equal(false)
@@ -207,19 +216,52 @@ describe('Main App', () => {
 
     it("cleared overlay state with okayFunc, calling overlay saveFunc once in the process", function() {
         const spy = sinon.spy(() => {return})
-        expect(loaded.overlay(
-                "header",
-                "message",
-                "addCategory",
-                spy
+        expect(app.overlay(
+            "header",
+            "message",
+            "addCategory",
+            spy
         )).to.equal(undefined)
-        loaded.okayFunc()
+        app.okayFunc()
         wrapper.update()
         expect(wrapper.containsMatchingElement(<Alert />)).to.equal(false)
         expect(wrapper.containsMatchingElement(<Question />)).to.equal(false)
         expect(wrapper.containsMatchingElement(<AddProduct />)).to.equal(false)
         expect(wrapper.containsMatchingElement(<AddCategory />)).to.equal(false)
         expect(spy.calledOnce).to.equal(true)
+    })
+
+
+
+
+    // ===================
+    // record tests
+    // ===================
+
+    it("correctly threw out updateRecord input which did not already exist in state", function() {
+        expect(app.updateRecord({guid: "recTest", intName: "initial"})).to.equal(undefined)
+        expect(app.state.recordDict["recTest"]).to.equal(undefined)
+    })
+
+    it("Sent an existant record update to state with updateRecord function", function() {
+        expect(app.addRecord("menu", {guid: "recTest", intName: "initial"}))
+        expect(app.updateRecord({guid: "recTest", intName: "update1"})).to.equal(undefined)
+        expect(app.state.recordDict["recTest"]).to.deep.equal({guid: "recTest", intName: "update1"})
+    })
+
+    it("stripped off the newRec key during record update with updateRecord", function() {
+        expect(app.updateRecord({guid: "recTest", intName: "initial", newRec: true})).to.equal(undefined)
+        expect(app.state.recordDict["recTest"]).to.deep.equal({guid: "recTest", intName: "initial"})
+    })
+
+    it("correctly threw out updateList input which did not already exist in state", function() {
+        expect(app.updateList({guid: "blargh", intName: "blargh"})).to.equal(undefined)
+        expect(app.state.recordDict["blargh"]).to.equal(undefined)
+    })
+
+    it("updated existant record with updateList command", function() {
+        expect(app.updateList({guid: "recTest", intName: "update2"})).to.equal(undefined)
+        expect(app.state.recordDict["recTest"]).to.deep.equal({guid: "recTest", intName: "update2"})
     })
 
 })

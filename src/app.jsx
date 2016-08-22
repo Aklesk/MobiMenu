@@ -191,27 +191,37 @@ export default class App extends React.Component {
 
     // This takes a full record (that has a GUID) as an input and updates state with it. In a more full version
     // of this code, it might also send an update to a server, but at the moment it just updates state.
+    // Note that this function is not intended to create new records in the client; use addRecord for that.
     updateRecord = (rec) => {
-        // If this is a new record that has not yet been saved, just strip off the newRec flag.
-        if (rec.newRec) {delete(rec.newRec)}
 
-        let newRec = update(this.state.recordDict, {
-            [rec.guid]: {$set: rec}
-        })
-        this.setState({
-            recordDict: newRec
-        })
+        // If this is a new record that has not yet been saved, we'd need to post this to the server if we had one,
+        // but we don't, so just just strip off the newRec flag.
+        if (typeof(rec.newRec) != 'undefined') {
+            delete(rec.newRec)
+        }
+
+        if (typeof(this.state.recordDict[rec.guid]) != 'undefined') {
+
+            let newRec = update(this.state.recordDict, {
+                [rec.guid]: {$set: rec}
+            })
+            this.setState({
+                recordDict: newRec
+            })
+        }
     }
 
     // This is used when re-ordering records during a click and drag operation. It's functionally the same as
     // updateRecord, but if we were doing this with a proper database, it would not result in a save event.
     updateList = (rec) => {
-        let newRec = update(this.state.recordDict, {
-            [rec.guid]: {$set: rec}
-        })
-        this.setState({
-            recordDict: newRec
-        })
+        if (typeof(this.state.recordDict[rec.guid]) != 'undefined') {
+            let newRec = update(this.state.recordDict, {
+                [rec.guid]: {$set: rec}
+            })
+            this.setState({
+                recordDict: newRec
+            })
+        }
     }
 
     render() {
@@ -221,54 +231,54 @@ export default class App extends React.Component {
             >
                 {
                     this.state.overlay.message != ""
-                    ?
-                    <div>
-                        {
-                            this.state.overlay.type == "question"
-                            ?
-                            <Question cancelFunc={(event) => this.overlay("", "", "", null, event)}
-                                      header={this.state.overlay.header}
-                                      message={this.state.overlay.message}
-                                      okayFunc={this.okayFunc}
-                            />
-                            :
-                            null
-                        }
-                        {
-                            this.state.overlay.type == "alert"
-                            ?
-                            <Alert header={this.state.overlay.header}
-                                   message={this.state.overlay.message}
-                                   okayFunc={this.okayFunc}
-                            />
-                            :
-                            null
-                        }
-                        {
-                            this.state.overlay.type == "addProduct"
-                            ?
-                            <AddProduct cancelFunc={(event) => this.overlay("", "", "", null, event)}
-                                        header={this.state.overlay.header}
-                                        message={this.state.overlay.message}
-                                        okayFunc={this.okayFunc}
-                            />
-                            :
-                            null
-                        }
-                        {
-                            this.state.overlay.type == "addCategory"
-                            ?
-                            <AddCategory cancelFunc={(event) => this.overlay("", "", "", null, event)}
-                                         header={this.state.overlay.header}
-                                         message={this.state.overlay.message}
-                                         okayFunc={this.okayFunc}
-                            />
-                            :
-                            null
-                        }
-                    </div>
-                    :
-                    null
+                        ?
+                        <div>
+                            {
+                                this.state.overlay.type == "question"
+                                    ?
+                                    <Question cancelFunc={(event) => this.overlay("", "", "", null, event)}
+                                              header={this.state.overlay.header}
+                                              message={this.state.overlay.message}
+                                              okayFunc={this.okayFunc}
+                                    />
+                                    :
+                                    null
+                            }
+                            {
+                                this.state.overlay.type == "alert"
+                                    ?
+                                    <Alert header={this.state.overlay.header}
+                                           message={this.state.overlay.message}
+                                           okayFunc={this.okayFunc}
+                                    />
+                                    :
+                                    null
+                            }
+                            {
+                                this.state.overlay.type == "addProduct"
+                                    ?
+                                    <AddProduct cancelFunc={(event) => this.overlay("", "", "", null, event)}
+                                                header={this.state.overlay.header}
+                                                message={this.state.overlay.message}
+                                                okayFunc={this.okayFunc}
+                                    />
+                                    :
+                                    null
+                            }
+                            {
+                                this.state.overlay.type == "addCategory"
+                                    ?
+                                    <AddCategory cancelFunc={(event) => this.overlay("", "", "", null, event)}
+                                                 header={this.state.overlay.header}
+                                                 message={this.state.overlay.message}
+                                                 okayFunc={this.okayFunc}
+                                    />
+                                    :
+                                    null
+                            }
+                        </div>
+                        :
+                        null
                 }
                 <HeaderBox />
                 {this.props.children}
