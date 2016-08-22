@@ -6,7 +6,9 @@
   "scripts": {
     "start": "NODE_ENV=development ./node_modules/.bin/hjs-dev-server",
     "test": "NODE_ENV=production NODE_PATH=$NODE_PATH:$PWD/src mocha --compilers js:babel-core/register --require null-complier.js --recursive",
-    "test:watch": "npm test -- --watch"
+    "test:watch": "npm test -- --watch",
+    "build": "webpack",
+    "deploy": "NODE_ENV=production npm run build"
   },
   "author": "Wolf Hatch",
   "license": "ISC",
