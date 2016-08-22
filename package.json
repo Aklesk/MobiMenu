@@ -31,6 +31,7 @@
     "react-addons-test-utils": "^15.3.0",
     "react-addons-update": "^15.2.0",
     "require-hacker": "^2.1.4",
+    "sinon": "^1.17.5",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1"

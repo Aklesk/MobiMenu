@@ -1,6 +1,7 @@
 import React from 'react'
 import { expect } from 'chai'
 import { render, shallow } from 'enzyme'
+import sinon from 'sinon'
 import App from 'app.jsx'
 import Header from 'components/header.jsx'
 import Footer from 'components/footer.jsx'
@@ -204,13 +205,21 @@ describe('Main App', () => {
         expect(wrapper.containsMatchingElement(<AddCategory />)).to.equal(true)
     })
 
-    it("cleared overlay state with okayFunc", function() {
+    it("cleared overlay state with okayFunc, calling overlay saveFunc once in the process", function() {
+        const spy = sinon.spy(() => {return})
+        expect(loaded.overlay(
+                "header",
+                "message",
+                "addCategory",
+                spy
+        )).to.equal(undefined)
         loaded.okayFunc()
         wrapper.update()
         expect(wrapper.containsMatchingElement(<Alert />)).to.equal(false)
         expect(wrapper.containsMatchingElement(<Question />)).to.equal(false)
         expect(wrapper.containsMatchingElement(<AddProduct />)).to.equal(false)
         expect(wrapper.containsMatchingElement(<AddCategory />)).to.equal(false)
+        expect(spy.calledOnce).to.equal(true)
     })
 
 })
