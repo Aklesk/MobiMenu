@@ -75,7 +75,7 @@ export default class App extends React.Component {
                 "Not Implemented",
                 "Modifiers and Modifier Groups are outside scope of this tech demo site.",
                 "alert",
-                () => { this.overlay("", "", "", null) }
+                () => {return}
             )
             return
         }
@@ -164,7 +164,7 @@ export default class App extends React.Component {
     }
 
     okayFunc = (data, event) => {
-        event.stopPropagation()
+        if(event != undefined){event.stopPropagation()}
         this.state.overlay.okayFunc(data, event)
         this.overlay("", "", "", null)
     }

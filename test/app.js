@@ -139,7 +139,6 @@ describe('Main App', () => {
     // overlay tests
     // ===================
 
-
     it("does not contain an any active overlay elements", function() {
         wrapper.update()
         expect(wrapper.containsMatchingElement(<Alert />)).to.equal(false)
@@ -154,9 +153,7 @@ describe('Main App', () => {
             "header",
             "message",
             "alert",
-            () => {
-                loaded.overlay("","","",null)
-            }
+            () => {return}
         )).to.equal(undefined)
         wrapper.update()
         expect(wrapper.containsMatchingElement(<Alert />)).to.equal(true)
@@ -170,9 +167,7 @@ describe('Main App', () => {
             "header?",
             "message?",
             "question",
-            () => {
-                loaded.overlay("","","",null)
-            }
+            () => {return}
         )).to.equal(undefined)
          wrapper.update()
          expect(wrapper.containsMatchingElement(<Alert />)).to.equal(false)
@@ -186,9 +181,7 @@ describe('Main App', () => {
             "header",
             "message",
             "addProduct",
-            () => {
-                loaded.overlay("","","",null)
-            }
+            () => {return}
         )).to.equal(undefined)
         wrapper.update()
         expect(wrapper.containsMatchingElement(<Alert />)).to.equal(false)
@@ -202,15 +195,22 @@ describe('Main App', () => {
             "header",
             "message",
             "addCategory",
-            () => {
-                loaded.overlay("","","",null)
-            }
+            () => {return}
         )).to.equal(undefined)
         wrapper.update()
         expect(wrapper.containsMatchingElement(<Alert />)).to.equal(false)
         expect(wrapper.containsMatchingElement(<Question />)).to.equal(false)
         expect(wrapper.containsMatchingElement(<AddProduct />)).to.equal(false)
         expect(wrapper.containsMatchingElement(<AddCategory />)).to.equal(true)
+    })
+
+    it("cleared overlay state with okayFunc", function() {
+        loaded.okayFunc()
+        wrapper.update()
+        expect(wrapper.containsMatchingElement(<Alert />)).to.equal(false)
+        expect(wrapper.containsMatchingElement(<Question />)).to.equal(false)
+        expect(wrapper.containsMatchingElement(<AddProduct />)).to.equal(false)
+        expect(wrapper.containsMatchingElement(<AddCategory />)).to.equal(false)
     })
 
 })
