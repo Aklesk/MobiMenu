@@ -293,7 +293,7 @@ if (typeof(document) != 'undefined') {
     ReactDOM.render((
             <Router history={browserHistory}>
                 <Redirect from="/" to="/menu/"/>
-                <Redirect from="/menu/" to="/menu/menus/"/>
+                <Redirect from="/menu" to="/menu/menus/"/>
                 <Route path="/menu/" component={DragDropContext(HTML5Backend)(App)}>
                     <Route component={MainBody}>
                         <Route path="/menu/:section" component={RecordView}>
