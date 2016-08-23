@@ -48,7 +48,7 @@ const drop = {
         }
 
         // We need to check to make sure that we stay within scope (we shouldn't be able to drag between categories).
-        if (component.currentType == "categoryProduct" && monitor.getItem().category != component.props.category) {
+        if (monitor.getItem().category != component.props.category) {
             return
         }
 
@@ -80,6 +80,7 @@ function collectSource(connect, monitor) {
 
 export class Product extends React.Component {
     static propTypes = {
+        category: React.PropTypes.string, // Needed if calling Draggable
         connectDragSource: React.PropTypes.func,
         connectDropTarget: React.PropTypes.func,
         editElement: React.PropTypes.string.isRequired,

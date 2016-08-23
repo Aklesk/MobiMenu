@@ -162,7 +162,8 @@ export class CategoryGroup extends React.Component {
                         ?
                         products.map((prod, i) => {
                             return (
-                                <DraggableProduct editElement={editElement}
+                                <DraggableProduct category={category}
+                                                  editElement={editElement}
                                                   id={`${recordDict[prod].guid}product${i}`}
                                                   index={i}
                                                   key={recordDict[prod].guid}
