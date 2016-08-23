@@ -38,8 +38,10 @@
         padding-left: 10px;
         position: relative;
         .lineText{
+          overflow: hidden;
           padding: 5px 0;
           text-transform: uppercase;
+          width: 436px;
         }
         .lineDivider{
           background-color: @mobiGreen;
@@ -139,6 +141,8 @@
           }
           .recordDesc {
             font-style: normal;
+            overflow: hidden;
+            width: 430px;
           }
           .recordName {
             .recordNameText {
@@ -147,8 +151,13 @@
               font-size: 1.5em;
               font-weight: 500;
               margin-bottom: 20px;
-              text-transform: uppercase;
+              overflow: hidden;
+              width: 430px;
             }
+          }
+          .menuContents, .productCategory, .ProductDisplayPrice, .recordPLU {
+            overflow: hidden;
+            width: 430px;
           }
         }
         .recordHeader {
@@ -192,6 +201,7 @@
                   display: block;
                   font-size: 1.5em;
                   font-weight: 500;
+                  overflow: hidden;
                   text-transform: uppercase;
                 }
               }

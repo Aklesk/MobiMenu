@@ -20,6 +20,7 @@ export default class ProductDisplayPrice extends React.Component {
             elem,
             (r) => {
                 r.disprice = document.getElementById(elem).value
+                if (r.disprice.length > 1024) {r.disprice = r.disprice.substring(0, 1024)}
                 return r
             },
             event

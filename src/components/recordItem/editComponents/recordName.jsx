@@ -20,6 +20,7 @@ export default class RecordName extends React.Component {
             elem,
             (r) => {
                 r.name = document.getElementById(elem).value
+                if (r.name.length > 1024) {r.name = r.name.substring(0, 1024)}
                 return r
             },
             event
@@ -50,10 +51,10 @@ export default class RecordName extends React.Component {
                             <div className="recordNameText">
                                 {
                                     record.name.length > 0
-                                        ?
-                                        record.name
-                                        :
-                                        <span className="filler">-- PUBLIC NAME --</span>
+                                    ?
+                                    record.name
+                                    :
+                                    <span className="filler">-- Public Name --</span>
                                 }
                             </div>
                         </div>

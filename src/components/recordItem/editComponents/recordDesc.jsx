@@ -20,6 +20,7 @@ export default class RecordName extends React.Component {
             elem,
             (r) => {
                 r.desc = document.getElementById(elem).value
+                if (r.desc.length > 1024) {r.desc = r.desc.substring(0, 1024)}
                 return r
             },
             event

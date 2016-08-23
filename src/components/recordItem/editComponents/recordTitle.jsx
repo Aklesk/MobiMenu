@@ -18,9 +18,10 @@ export default class RecordTitle extends React.Component {
             editing(
                 record.guid,
                 this.editElement,
-                () => {
-                    record.intName = document.getElementById(this.editElement).value
-                    return record
+                (r) => {
+                    r.intName = document.getElementById(this.editElement).value
+                    if (r.intName.length > 1024) {r.intName = r.intName.substring(0, 1024)}
+                    return r
                 }
             )
         }
@@ -39,9 +40,10 @@ export default class RecordTitle extends React.Component {
             editing(
                 record.guid,
                 this.editElement,
-                () => {
-                    record.intName = document.getElementById(this.editElement).value
-                    return record
+                (r) => {
+                    r.intName = document.getElementById(this.editElement).value
+                    if (r.intName.length > 1024) {r.intName = r.intName.substring(0, 1024)}
+                    return r
                 }
             )
         }
@@ -57,6 +59,7 @@ export default class RecordTitle extends React.Component {
             elem,
             (r) => {
                 r.intName = document.getElementById(elem).value
+                if (r.intName.length > 1024) {r.intName = r.intName.substring(0, 1024)}
                 return r
             },
             event

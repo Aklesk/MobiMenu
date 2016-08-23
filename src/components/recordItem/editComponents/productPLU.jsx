@@ -20,6 +20,7 @@ export default class RecordPLU extends React.Component {
             elem,
             (r) => {
                 r.plu = document.getElementById(elem).value
+                if (r.plu.length > 1024) {r.plu = r.plu.substring(0, 1024)}
                 return r
             },
             event
